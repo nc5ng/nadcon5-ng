@@ -1,0 +1,12 @@
+Region       Grid North   Grid South    Grid West    Grid East 
+aaaaaaaaaa   xxxxxxxxxx   xxxxxxxxxx   xxxxxxxxxx   xxxxxxxxxx
+conus                50           24          235          294
+alaska               73           50          172          232 
+hawaii               23           18          199          206 
+prvi                 19           17          291          296 
+as                  -13          -16          188          193
+guamcnmi             22           12          143          147
+stpaul             57.4         56.9        189.3        190.4 
+stgeorge           56.8         56.3        190.0        190.8
+stlawrence         64.0         62.7        187.5        192.0
+stmatthew          61.0         60.0        186.0        188.5

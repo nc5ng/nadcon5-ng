@@ -1,0 +1,77 @@
+>>> README for directory /20160901release/RunNADCON5 <<
+
+This directory contains all the code necessary to generate
+NADCON 5.0 transformations, start to finish. The directory 
+is structured so that a user can copy the full directory tree 
+to a local UNIX machine, compile the code using the provided 
+helper script, then run the code to generate NADCON 5.0 results. 
+
+The directory is structured as follows:
+
+/RunNADCON5
+/RunNADCON5/Boundaries		boundaries of continents, islands, and states,
+				  used for drawing maps
+/RunNADCON5/Code		all code needed to generate transformations
+/RunNADCON5/Control		files which group realizations into 
+				  regional grids
+/RunNADCON5/Data		supporting grid and boundary files
+/RunNADCON5/InFiles		fundamental data files (lat/lon/eht of points)
+/RunNADCON5/Masks		code and mask explicitly used when building the HARN to
+                                  FBN transformation in CONUS, due to that transformation
+                                  being non-zero in only 19 states.
+/RunNADCON5/Work/workedits	list of points marked for exclusion (outliers)
+
+The base directory contains this README, as well as the "doit" and "undoit" 
+scripts necessary to generate a NADCON 5.0 build (see below).
+
+Note that the base directory also contains a hidden file: 
+".gmtdefaults" (with leading period).
+By using this file, the resulting plots will use the same plotting
+conventions as graphics in the NADCON 5.0 report and digital archive. 
+If the .gmtdefaults file is hidden, the file "gmtdefaults" should be 
+renamed to ".gmtdefaults" to insure proper plotting.
+
+
+========= Generating NADCON 5.0 Products =================
+
+To generate NADCON 5.0 products from scratch, follow this procedure
+in sequence:
+
+SETUP:
+- Create a working directory on your local machine
+  where you want to run NADCON 5.0. For the remainder of this list, 
+  this directory will be referred to as [LOCAL].
+- Install Generic Mapping Tools and add it to your UNIX path
+        http://gmt.soest.hawaii.edu/projects/gmt/wiki/Download
+        http://gmt.soest.hawaii.edu/projects/gmt/wiki/Installing
+- Copy the full contents of the /RunNADCON5 directory
+  to [LOCAL]. Be sure to copy recursively as there are many
+  subdirectories.
+- Verify that [LOCAL]/.gmtdefaults exists (note the leading period in
+  the filename). If this file does not exist, rename "gmtdefaults"
+  to ".gmtdefaults".
+- Set up shell variables as specified in /RunNADCON5/Code/README
+- Change directory to [LOCAL]/Code 
+- Execute 'compileCode' to generate executable programs;
+  if you do not have the "f95" compiler on your machine and in
+  your UNIX path, you will need to install "f95" or change the
+  compiler used by 'compileCode'
+
+EXECUTION:
+- Change directory [LOCAL]
+- For each transformation you wish to generate, run the "doit"
+  commands in sequence (doit.bat, doit2.bat, doit3.bat, doit4.bat), waiting for
+  each one to execute before proceeding to the next. Additional
+  detail on the syntax options for each "doit" command and
+  the grid sizes used to generate specific NADCON 5.0 products
+  are given in the NADCON 5.0 Report.
+
+HOW the Mask is applied:
+- The directory /Masks, contains all of the information needed to create a 
+  special mask grid (mask.harnfbn.30.b) which is used exclusively in the 
+  creation of the transformation from NAD 83(HARN) to NAD 83(FBN) in CONUS.  
+  It is applied *automatically* by the "doit" routines whenever they are 
+  invoked with od/nd/rg = "nad83_harn"/"nad83_fbn"/"conus".  The user need
+  not do anything special to invoke the use of this mask.  Details about
+  its use can be found in sections 4.3.1 and especially 6.1.4 of the
+  NADCON 5.0 report.  

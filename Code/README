@@ -1,0 +1,20 @@
+
+In order for all programs to execute properly, the following lines 
+must be added to the shell's startup configuration file; 
+note that the programs will run in either CSH or BASH:
+
+---------   .cshrc  -----------------
+# Increase thread stack size to 100MB
+setenv STACKSIZE 102400
+# Increase main stack size to 2048 MB
+limit stacksize 2097148
+# - Ask for 4 CPU's to be used by parallel programs
+setenv PARALLEL 4
+
+---------   .bashrc  -----------------
+# Increase thread stack size to 100MB
+export STACKSIZE=102400
+# Increase main stack size to 2048 MB
+ulimit -s 2097148
+# - Ask for 4 CPU's to be used by parallel programs
+export PARALLEL=4

@@ -1,0 +1,9 @@
+# GMT common arguments shelf
+-B/:0.00001arcseconds:
+-JM6.0i
+-R145.0000000/146.0000000/14.0000000/16.0000000
+-jM6.0i
+EOF
+.0000000
+-jM6.0i
+EOF

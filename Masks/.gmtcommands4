@@ -1,0 +1,6 @@
+# GMT common arguments shelf
+-B5/5:.HARN/FBN Mask:
+-JM9.5i
+-R235.00000/294.00000/24.00000/50.00000
+-jM9.5i
+EOF

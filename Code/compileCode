@@ -1,0 +1,47 @@
+#!/bin/csh
+#
+# Changing the contents of this file 
+# may result in unexpected or incorrect performance.
+#   National Geodetic Survey
+#   1315 East-West Highway
+#   Suite 9113
+#   Silver Spring, MD 20910-1402
+#   USA
+#   dru.smith@noaa.gov
+
+# compiler
+set CC = f95
+
+# compiler flags used by Dru Smith for FinalRuns.20160901 production and release
+set CFLAGS = "-O5 -libmil -fsimple=0 -dalign -xlibmopt -ftrap=%none -xvector=yes -xprefetch=yes -parallel -reduction -xloopinfo -s -stackvar -m32 -xarch=sparcvis -xchip=ultra3i -xcache=64/32/4:1024/64/4 -xlic_lib=sunperf"
+
+# -----------------------
+# compile main programs in Fortran
+set progs =( checkgrid makeplotfiles01 makeplotfiles02 makeplotfiles03 makework mymedian5 myrms )
+
+foreach pgm ($progs)
+ echo ... building $pgm
+ $CC ${pgm}.f -o ../${pgm}
+ #$CC $CFLAGS ${pgm}.f -o ../${pgm}
+end
+
+# -----------------------
+# compile helper programs in BinSource
+set progs = ( xyz2b subtrc gabs gscale b2xyz gsqr gsqrt addem regrd2 convlv decimate )
+
+foreach pgm ($progs)
+ echo ... building $pgm
+ $CC BinSource/${pgm}.f -o ../${pgm}
+ #$CC $CFLAGS BinSource/${pgm}.f -o ../${pgm}
+end
+
+# -----------------------
+# compile the HARN to FBN mask
+set progs = ( makeharnfbnmask )
+
+foreach pgm ($progs)
+ echo ... building $pgm
+ cd ../Masks
+ $CC ${pgm}.f -o ${pgm}
+end
+
