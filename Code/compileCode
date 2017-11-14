@@ -9,11 +9,16 @@
 #   USA
 #   dru.smith@noaa.gov
 
+# Modifications By Andrey K Shmakov
+# https://github.com/akshmakov
+
 # compiler
-set CC = f95
+# Use Oracle Studio
+set ORACLE_STUDIO_BIN=../../OracleDeveloperStudio12.6-linux-x86-bin/developerstudio12.6/bin
+set CC = $ORACLE_STUDIO_BIN/f95
 
 # compiler flags used by Dru Smith for FinalRuns.20160901 production and release
-set CFLAGS = "-O5 -libmil -fsimple=0 -dalign -xlibmopt -ftrap=%none -xvector=yes -xprefetch=yes -parallel -reduction -xloopinfo -s -stackvar -m32 -xarch=sparcvis -xchip=ultra3i -xcache=64/32/4:1024/64/4 -xlic_lib=sunperf"
+set CFLAGS = "-O5 -libmil -fsimple=0 -dalign -xlibmopt -ftrap=%none -xvector=yes -xprefetch=yes -parallel -reduction -xloopinfo -s -stackvar -m64"
 
 # -----------------------
 # compile main programs in Fortran
