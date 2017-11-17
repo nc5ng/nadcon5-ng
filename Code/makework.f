@@ -159,7 +159,7 @@ c - no matter what the datums themselves ARE.
 
       character*200 suffix1
 
-      character*256 progname, pthbin, pthcntrl, pthout, pthdat, pthin
+      character*256 pthbin, pthcntrl, pthout, pthdat, pthin, pthwork
 
       logical badlat,badlon,badeht
 
@@ -172,8 +172,6 @@ c ------------------------------------------------------------------
 c - BEGIN PROGRAM
 c ------------------------------------------------------------------
       write(6,1001)
-      call getarg(0, progname)
-      progname=trim(progname)
  1001 format('BEGIN program makework.f')
 
 c ------------------------------------------------------------------
@@ -197,6 +195,9 @@ c     read(5,'(a)')region
 
       call getenv("NADCON_DAT_DIR", pthdat)
       pthdat=trim(pthdat)
+
+      call getenv("NADCON_WORK_DIR", pthwork)
+      pthwork=trim(pthwork)
 
       call getenv("NADCON_IN_DIR", pthin)
       pthin=trim(pthin)
@@ -226,7 +227,7 @@ c ------------------------------------------------------------------
 c ------------------------------------------------------------------
 c - Open the "manual edits" file 
 c ------------------------------------------------------------------
-      efname=trim(pthdat)//'workedits'
+      efname=trim(pthwork)//'workedits'
       open(20,file=efname,status='old',form='formatted')
       write(6,1006)trim(efname)
  1006 format(6x, 'makework.f: Accessing workedits file ',a)

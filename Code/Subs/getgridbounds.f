@@ -22,12 +22,19 @@ c                   created for this region
       character*10 region
       real*8    xn,xs,xw,xe
       character*80 card
+      character*256 pthdat
+      character*324 gridfilename
+
+      call getenv("NADCON_DAT_DIR", pthdat)
+      pthdat=trim(pthdat)
+      gridfilename=trim(pthdat)//'grid.parameters'
+      write(6,1004)trim(gridfilename)
+ 1004 format(6x, 'fidfile.f: Accessing control file ',a)
+
 
       ifile = 3
-
-      open(ifile,
-     *file='Data/grid.parameters',
-     *status='old',form='formatted')
+      
+      open(ifile,file=trim(gridfilename),status='old',form='formatted')
 
 c - Read 2 header lines
       read(ifile,'(a)')card

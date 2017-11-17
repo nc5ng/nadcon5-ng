@@ -95,6 +95,9 @@ c - Output GMT-batch file:
       character*1 mapflag
       character*200 suffix1,suffix4
 
+      character*256 progname, pthbin, pthcntrl, pthout, pthdat, pthin
+
+      
 c ------------------------------------------------------------------
 c - BEGIN PROGRAM
 c ------------------------------------------------------------------
@@ -123,10 +126,30 @@ c--------------------------------------------
 c--------------------------------------------
 c - User-supplied input
 c--------------------------------------------
-      read(5,'(a)')olddtm
-      read(5,'(a)')newdtm
-      read(5,'(a)')region
-      read(5,'(a)')mapflag
+
+c     read(5,'(a)')olddtm
+      call getarg(1, olddtm)
+
+c     read(5,'(a)')newdtm
+      call getarg(2,newdtm)
+
+c     read(5,'(a)')region
+      call getarg(3,region)
+
+c     read(5,'(a)')mapflag
+      call getarg(4,mapflag)
+      
+      call getenv("NADCON_CONTROL_DIR", pthcntrl)
+      pthcntrl=trim(pthcntrl)
+
+      call getenv("NADCON_OUT_DIR", pthout)
+      pthout=trim(pthout)
+
+      call getenv("NADCON_DAT_DIR", pthdat)
+      pthdat=trim(pthdat)
+
+      call getenv("NADCON_IN_DIR", pthin)
+      pthin=trim(pthin)
 
 c ------------------------------------------------------------------
 c - Generate the suffixes used in all our files
@@ -137,15 +160,15 @@ c ------------------------------------------------------------------
 c ------------------------------------------------------------------
 c - Create and open the work file 
 c ------------------------------------------------------------------
-      wfname='work.'//trim(suffix1)
-      open(1,file='Work/'//wfname,status='old',form='formatted')
+      wfname=trim(pthout)//'work.'//trim(suffix1)
+      open(1,file=wfname,status='old',form='formatted')
       write(6,1004)trim(wfname)
  1004 format(6x,'makeplotfiles01.f: Opening work file ',a)
 
 c ------------------------------------------------------------------
 c - Open the GMT batch file for plotting
 c ------------------------------------------------------------------
-      gmtfile = 'gmtbat01.'//trim(suffix4)
+      gmtfile = trim(pthout)//'gmtbat01.'//trim(suffix4)
       open(99,file=gmtfile,status='new',form='formatted')
       write(6,1011)trim(gmtfile)
  1011 format(6x,'makeplotfiles01.f: Creating GMT batch file ',a)
@@ -156,45 +179,45 @@ c ------------------------------------------------------------------
 c ------------------------------------------------------------------
 c - Open the output GMT-ready files
 c ------------------------------------------------------------------
-      gfncvacdlat = 'cvacdlat.'//trim(suffix1)
+      gfncvacdlat = trim(pthout)//'cvacdlat.'//trim(suffix1)
       open(11,file=gfncvacdlat,status='new',form='formatted')
       write(6,1010)trim(gfncvacdlat)
 
-      gfncvacdlon = 'cvacdlon.'//trim(suffix1)
+      gfncvacdlon = trim(pthout)//'cvacdlon.'//trim(suffix1)
       open(12,file=gfncvacdlon,status='new',form='formatted')
       write(6,1010)trim(gfncvacdlon)
 
-      gfncvacdeht = 'cvacdeht.'//trim(suffix1)
+      gfncvacdeht = trim(pthout)//'cvacdeht.'//trim(suffix1)
       open(13,file=gfncvacdeht,status='new',form='formatted')
       write(6,1010)trim(gfncvacdeht)
 
 c - Vectors, Meters, All, Coordinate Differences
-      gfnvmacdlat = 'vmacdlat.'//trim(suffix1)
+      gfnvmacdlat = trim(pthout)//'vmacdlat.'//trim(suffix1)
       open(21,file=gfnvmacdlat,status='new',form='formatted')
       write(6,1010)trim(gfnvmacdlat)
 
-      gfnvmacdlon = 'vmacdlon.'//trim(suffix1)
+      gfnvmacdlon = trim(pthout)//'vmacdlon.'//trim(suffix1)
       open(22,file=gfnvmacdlon,status='new',form='formatted')
       write(6,1010)trim(gfnvmacdlon)
 
-      gfnvmacdeht = 'vmacdeht.'//trim(suffix1)
+      gfnvmacdeht = trim(pthout)//'vmacdeht.'//trim(suffix1)
       open(23,file=gfnvmacdeht,status='new',form='formatted')
       write(6,1010)trim(gfnvmacdeht)
 
-      gfnvmacdhor = 'vmacdhor.'//trim(suffix1)
+      gfnvmacdhor = trim(pthout)//'vmacdhor.'//trim(suffix1)
       open(24,file=gfnvmacdhor,status='new',form='formatted')
       write(6,1010)trim(gfnvmacdhor)
 
 c - Vectors, ArcSeconds, All, Coordinate Differences
-      gfnvsacdlat = 'vsacdlat.'//trim(suffix1)
+      gfnvsacdlat = trim(pthout)//'vsacdlat.'//trim(suffix1)
       open(31,file=gfnvsacdlat,status='new',form='formatted')
       write(6,1010)trim(gfnvsacdlat)
 
-      gfnvsacdlon = 'vsacdlon.'//trim(suffix1)
+      gfnvsacdlon = trim(pthout)//'vsacdlon.'//trim(suffix1)
       open(32,file=gfnvsacdlon,status='new',form='formatted')
       write(6,1010)trim(gfnvsacdlon)
 
-      gfnvsacdhor = 'vsacdhor.'//trim(suffix1)
+      gfnvsacdhor = trim(pthout)//'vsacdhor.'//trim(suffix1)
       open(34,file=gfnvsacdhor,status='new',form='formatted')
       write(6,1010)trim(gfnvsacdhor)
 
