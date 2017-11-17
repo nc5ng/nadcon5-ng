@@ -159,6 +159,8 @@ c - no matter what the datums themselves ARE.
 
       character*200 suffix1
 
+      character*256 progname, pthbin, pthcntrl, pthout, pthdat, pthin
+
       logical badlat,badlon,badeht
 
 c - 2016 09 13 - To track the use of each so-called "relevant" edit,
@@ -170,14 +172,35 @@ c ------------------------------------------------------------------
 c - BEGIN PROGRAM
 c ------------------------------------------------------------------
       write(6,1001)
+      call getarg(0, progname)
+      progname=trim(progname)
  1001 format('BEGIN program makework.f')
 
 c ------------------------------------------------------------------
 c - User-supplied input
-c ------------------------------------------------------------------
-      read(5,'(a)')olddtm
-      read(5,'(a)')newdtm
-      read(5,'(a)')region
+c     ------------------------------------------------------------------
+
+c     read(5,'(a)')olddtm
+      call getarg(1, olddtm)
+
+c     read(5,'(a)')newdtm
+      call getarg(2,newdtm)
+
+c     read(5,'(a)')region
+      call getarg(3,region)
+
+      call getenv("NADCON_CONTROL_DIR", pthcntrl)
+      pthcntrl=trim(pthcntrl)
+
+      call getenv("NADCON_OUT_DIR", pthout)
+      pthout=trim(pthout)
+
+      call getenv("NADCON_DAT_DIR", pthdat)
+      pthdat=trim(pthdat)
+
+      call getenv("NADCON_IN_DIR", pthin)
+      pthin=trim(pthin)
+
 
 c ------------------------------------------------------------------
 c - 2016 09 14 : Get the official grid bounds for this region,
@@ -195,28 +218,28 @@ c ------------------------------------------------------------------
 c ------------------------------------------------------------------
 c - Open the control file 
 c ------------------------------------------------------------------
-      cfname='Control/control.'//trim(suffix1)
+      cfname=trim(pthcntrl)//'control.'//trim(suffix1)
       open(1,file=cfname,status='old',form='formatted')
       write(6,1004)trim(cfname)
- 1004 format(6x,'makework.f: Accessing control file ',a)
+ 1004 format(6x, 'makework.f: Accessing control file ',a)
 
 c ------------------------------------------------------------------
 c - Open the "manual edits" file 
 c ------------------------------------------------------------------
-      efname='Work/workedits'
+      efname=trim(pthdat)//'workedits'
       open(20,file=efname,status='old',form='formatted')
       write(6,1006)trim(efname)
- 1006 format(6x,'makework.f: Accessing workedits file ',a)
+ 1006 format(6x, 'makework.f: Accessing workedits file ',a)
 
 c ------------------------------------------------------------------
 c - Create and open the work file 
 c ------------------------------------------------------------------
 c -  The location of the "work*" file
-      wfname = 'Work/work.'//trim(suffix1)
+      wfname = trim(pthout)//'work.'//trim(suffix1)
       open(2,file=wfname,status='new',form='formatted')
 
       write(6,1002)trim(wfname)
- 1002 format(6x,'makework.f: Creating work file ',a)
+ 1002 format(6x, 'makework.f: Creating work file ',a)
 
 c ------------------------------------------------------------------
 c - Some necessary constants.
@@ -384,7 +407,7 @@ c    *       6x,'         Relevant Manual Edits Found: ',i6)
 
   703 write(6,704)neditsTotal,neditsRelevant,
      *neditsRelevantLat,neditsRelevantLon,neditsRelevantEht
-  704 format(6x,'makework.f: Total Manual Edits Found: ',i6,/,
+  704 format(6x, 'makework.f: Total Manual Edits Found: ',i6,/,
      *       6x,' Initial Relevant Manual Edits Found: ',i6,/,
      *       6x,'             ...of these, # in LAT  : ',i6,/,
      *       6x,'                          # in LON  : ',i6,/,
@@ -394,9 +417,9 @@ c - Loop over all *.in files, compute stuff, populate work file.
 
       do 1 i=1,nfiles
         read(1,'(a)')fname0
-        fname='InFiles/'//trim(fname0)
+        fname=trim(pthin)//trim(fname0)
         write(6,999)trim(fname)
-  999   format(6x,'makework.f: Processing file: ',a)
+  999   format(6x, 'makework.f: Processing file: ',a)
         open(10,file=fname,status='old',form='formatted')
 
         read(10,100)nameh,namef
@@ -565,7 +588,7 @@ c - flag it as bad in lat/lon/eht.
               write(6,2003)pid,xlath,xlonh
           endif
  2003       format(
-     *      6x,'program makework.f: InFile point found',
+     *      6x,'program makework.f InFile point found',
      *      ' and flagged with 444 which is outside ',
      *      ' the grid boundaries:',a6,1x,f14.10,1x,f14.10)
 
@@ -708,7 +731,7 @@ c         pause
             endif
             write(6,731)EditPID(irel)
   731       format(
-     *      6x,'program makework.f: So-called Relevant Edit not used',
+     *      6x,'program makework.f So-called Relevant Edit not used',
      *      ' since PID is not in the incoming data:',a6)
   740     continue   
 
@@ -719,7 +742,7 @@ c         pause
 
           write(6,732)neditsRelevantUsed,neditsRelevantUsedLat,
      *    neditsRelevantUsedLon,neditsRelevantUsedEht
-  732     format(6x,'makework.f: ',/,
+  732     format(6x, 'makework.f: ',/,
      *       6x,'   Final Relevant Manual Edits Found: ',i6,/,
      *       6x,'             ...of these, # in LAT  : ',i6,/,
      *       6x,'                          # in LON  : ',i6,/,
@@ -729,24 +752,24 @@ c         pause
 
       write(6,1005)xlatmin,xlatmax,xlonmin,xlonmax
  1005 format(
-     *6x,'program makework.f: Minimum latitude: ',f14.10,/,
-     *6x,'program makework.f: Maximum latitude: ',f14.10,/,
-     *6x,'program makework.f: Minimum longitude: ',f14.10,/,
-     *6x,'program makework.f: Maximum longitude: ',f14.10)
+     *6x,'program ', 'makework.f: Minimum latitude: ',f14.10,/,
+     *6x,'program ', 'makework.f: Maximum latitude: ',f14.10,/,
+     *6x,'program ', 'makework.f: Minimum longitude: ',f14.10,/,
+     *6x,'program ', 'makework.f: Maximum longitude: ',f14.10)
 
 
 c - 2016 09 13
       write(6,1010)npts,nptsLat,nptsLon,nptsEht
  1010 format(
-     *6x,'program makework.f: Total records in work file: ',i9,/,
-     *6x,'program makework.f:   With a usable LAT diff  : ',i9,/,
-     *6x,'program makework.f:   With a usable LON diff  : ',i9,/,
-     *6x,'program makework.f:   With a usable EHT diff  : ',i9)
+     *6x,'program ', 'makework.f: Total records in work file: ',i9,/,
+     *6x,'program ', 'makework.f:   With a usable LAT diff  : ',i9,/,
+     *6x,'program ', 'makework.f:   With a usable LON diff  : ',i9,/,
+     *6x,'program ', 'makework.f:   With a usable EHT diff  : ',i9)
 
 
 
    99 write(6,1003)
- 1003 format('END program makework.f')
+ 1003 format('END program makework.f' )
 
   
         
@@ -754,7 +777,7 @@ c - 2016 09 13
   100 format(27x,a15,26x,a15)
   101 format(a6,1x,a2,5x,a13,1x,a14,1x,a9,3x,a13,1x,a14,1x,a9)
   102 format(f15.9,1x,f14.9,1x,f5.1)
-  103 format(6x,'makework.f: Done with file : ',a)
+  103 format(6x, 'makework.f: Done with file : ',a)
 
 
       end
