@@ -1061,7 +1061,7 @@ c    *'surface ',a,' -R',f9.5,'/',f9.5,'/',sp,f9.5,'/',f9.5,s,
 c    *' -I',f0.2,'m -G',a,' -T0.4 -A',s,f6.4,' -C0.01 -V')
 
   502 format(
-     *'grd2xyz ',a,' -bos > ',a)
+     *'grd2xyz ',a,' -bo3f > ',a)
   503 format(
      *'xyz2b << !',/,
      *a,/,a,/,'!')
@@ -1077,7 +1077,7 @@ c    *' -I',f0.2,'m -G',a,' -T0.4 -A',s,f6.4,' -C0.01 -V')
   507 format(
      *'b2xyz << !',/,a,/,'!',/,
      *'xyz2grd temp.xyz -R',f9.5,'/',f9.5,'/',sp,f9.5,'/',f9.5,s,
-     *' -I',f0.2,'m -bis -G',a,/,
+     *' -I',f0.2,'m -bi3f -G',a,/,
      *'rm -f temp.xyz')
 
 c - New, as of 10/27/2015:
