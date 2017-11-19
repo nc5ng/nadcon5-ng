@@ -190,9 +190,13 @@ $(OUT_FILE_7): $(MAKEPLOT3_BIN) $(OUT_FILE_6) $(CPY_TARGETS) | $(OUT_DIR)
 ### Phony (Virtual) Targets
 src:
 	$(MAKE) -C $(CODE_DIR) all
-all: build-info src doit
+all: build-info src doit4
 
-doit: $(OUT_FILE_7) 
+
+doit: $(OUT_FILE_1)
+doit2: $(OUT_FILE_3)
+doit3: $(OUT_FILE_5)
+doit4: $(OUT_FILE_7)
 
 arch: $(OUT_FILE_7)
 	( cd $(BUILD_DIR) ;\
@@ -214,7 +218,7 @@ gmtbat06: $(OUT_FILE_6)
 
 gmtbat07: $(OUT_FILE_7)
 
-.PHONY: src all doit gmtbat01 gmtbat02 gmtbat03 gmtbat04 gmtbat05 gmtbat06 gmtbat07 arch
+.PHONY: src all doit doit2 doit3 doit4 gmtbat01 gmtbat02 gmtbat03 gmtbat04 gmtbat05 gmtbat06 gmtbat07 arch
 
 
 ## Clean Up
