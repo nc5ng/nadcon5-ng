@@ -747,10 +747,10 @@ c     lorvoghordds = MultiplierLorvog*qqhordds*nint(baseddhors/qqhordds)
       write(6,2504)
  2504 format
      *(6x,'myrms.f: Populating RMS dd horizontal vector files')
-      iflats = 42
-      iflons = 43
-      iflats = 46
-      iflons = 47
+      iflats = 41
+      iflons = 42
+      iflatm = 46
+      iflonm = 47
       ifhors = 44
       ifhorm = 45
       rewind(iflats)
@@ -875,7 +875,7 @@ c 501 format(
 c    *'surface ',a,' -R',f9.5,'/',f9.5,'/',sp,f9.5,'/',f9.5,s,
 c    *' -I',f0.2,'m -G',a,' -T0.4 -A',s,f6.4,' -C0.01 -V')
   502 format(
-     *'grd2xyz ',a,' -bos > ',a)
+     *'grd2xyz ',a,' -bo3f > ',a)
   503 format(
      *'xyz2b << !',/,
      *a,/,a,/,'!')
@@ -1170,7 +1170,7 @@ c --------------------------------------------------------------
   507 format(
      *'b2xyz << !',/,a,/,'!',/,
      *'xyz2grd temp.xyz -R',f9.5,'/',f9.5,'/',sp,f9.5,'/',f9.5,s,
-     *' -I',f0.2,'m -bis -G',a,/,
+     *' -I',f0.2,'m -bi3f -G',a,/,
      *'rm -f temp.xyz')
 
 
