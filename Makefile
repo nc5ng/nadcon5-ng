@@ -1,8 +1,17 @@
+## Driving Parameters 
+OLD_DATUM = ussd
+NEW_DATUM = nad27
+REGION = conus
+MAPLEVEL = 0
+GRIDSPACING = 900
+BASE_OUT_NAME = $(OLD_DATUM).$(NEW_DATUM).$(REGION).$(GRIDSPACING).$(MAPLEVEL)
+
 _TOP_DIR := ./
 TOP_DIR   = $(shell cd $(_TOP_DIR); pwd)
 BUILD_DIR = $(TOP_DIR)/build
 BIN_DIR = $(BUILD_DIR)/bin
-OUT_DIR = $(BUILD_DIR)/out
+OUT_DIR = $(BUILD_DIR)/out.$(BASE_OUT_NAME)
+
 CODE_DIR = $(TOP_DIR)/Code
 export PATH := $(PATH):$(BIN_DIR)
 
@@ -31,13 +40,10 @@ MKDIR=mkdir
 RM=rm
 ECHO=echo
 CP=cp
+CD=cd
+DATE=date
 
-## Driving Parameters 
-OLD_DATUM = ussd
-NEW_DATUM = nad27
-REGION = conus
-MAPLEVEL = 0
-GRIDSPACING = 900
+TIMESTAMP := $(shell $(DATE) +"%Y%m%d-%H%M%S")
 
 ## Target Files
 MAKEWORK_BIN = $(BIN_DIR)/makework
@@ -63,6 +69,8 @@ OUT_FILE_5 = $(OUT_DIR)/gmtbat04.$(OLD_DATUM).$(NEW_DATUM).$(REGION).$(GRIDSPACI
 OUT_FILE_6 = $(OUT_DIR)/gmtbat05.$(OLD_DATUM).$(NEW_DATUM).$(REGION).$(GRIDSPACING)
 
 OUT_FILE_7 = $(OUT_DIR)/gmtbat06.$(OLD_DATUM).$(NEW_DATUM).$(REGION).$(GRIDSPACING).$(MAPLEVEL)
+
+OUT_FILES = $(OUT_FILE_1) $(OUT_FILE_2) $(OUT_FILE_3) $(OUT_FILE_4) $(OUT_FILE_5) $(OUT_FILE_6) $(OUT_FILE_7) 
 
 ## Targets
 
@@ -123,6 +131,7 @@ $(OUT_FILE_2): $(MAKEPLOT1_BIN) $(OUT_FILE_1) $(CPY_TARGETS) | $(OUT_DIR)
 	( cd $(OUT_DIR) ; \
 	  echo "$$DOIT2_IN" | $(MAKEPLOT1_BIN); \
 	  chmod 777 $@; \
+	  $@ ;\
 	)
 define DOIT3_IN
 $(OLD_DATUM)
@@ -133,9 +142,9 @@ endef
 export DOIT3_IN
 $(OUT_FILE_3): $(MYMEDIAN_BIN) $(OUT_FILE_2) $(CPY_TARGETS) | $(OUT_DIR)
 	( cd $(OUT_DIR) ; \
-	  $(OUT_FILE_2) ; \
 	  echo "$$DOIT3_IN" | $(MYMEDIAN_BIN); \
 	  chmod 777 $@  ;\
+	  $@ ;\
         )
 
 
@@ -151,30 +160,30 @@ endef
 export DOIT4_IN
 $(OUT_FILE_4): $(MAKEPLOT2_BIN) $(OUT_FILE_3) $(CPY_TARGETS) | $(OUT_DIR)
 	( cd $(OUT_DIR) ; \
-	  $(OUT_FILE_3) ; \
 	  echo "$$DOIT4_IN" | $(MAKEPLOT2_BIN); \
 	  chmod 777 $@\
+	  $@ ;\
         )
 
 $(OUT_FILE_5): $(CHECKGRID_BIN) $(OUT_FILE_4) $(CPY_TARGETS) | $(OUT_DIR)
 	( cd $(OUT_DIR) ; \
-	  $(OUT_FILE_4) ; \
 	  echo "$$DOIT4_IN" | $(CHECKGRID_BIN); \
 	  chmod 777 $@  ;\
+	  $@ ;\
         )
 
 $(OUT_FILE_6): $(MYRMS_BIN) $(OUT_FILE_5) $(CPY_TARGETS) | $(OUT_DIR)
 	( cd $(OUT_DIR) ; \
-	  $(OUT_FILE_5) ; \
 	  echo "$$DOIT3_IN" | $(MYRMS_BIN); \
 	  chmod 777 $@  ;\
+	  $@ ;\
         )
 
 $(OUT_FILE_7): $(MAKEPLOT3_BIN) $(OUT_FILE_6) $(CPY_TARGETS) | $(OUT_DIR)
 	( cd $(OUT_DIR) ; \
-	  $(OUT_FILE_6) ; \
 	  echo "$$DOIT4_IN" | $(MAKEPLOT3_BIN); \
 	  chmod 777 $@  ;\
+	  $@ ;\
         )
 
 
@@ -184,9 +193,12 @@ src:
 all: build-info src doit
 
 doit: $(OUT_FILE_7) 
-	( cd $(OUT_DIR) ; \
-	  $(OUT_FILE_7) ; \
+
+arch: $(OUT_FILE_7)
+	( cd $(BUILD_DIR) ;\
+	  tar -czvf nadcon5-$(TIMESTAMP).$(BASE_OUT_NAME).tgz out.$(BASE_OUT_NAME) ;\
 	)
+
 
 gmtbat01: $(OUT_FILE_1)
 
@@ -202,7 +214,7 @@ gmtbat06: $(OUT_FILE_6)
 
 gmtbat07: $(OUT_FILE_7)
 
-.PHONY: src all doit gmtbat01 gmtbat02 gmtbat03 gmtbat04 gmtbat05 gmtbat06 gmtbat07
+.PHONY: src all doit gmtbat01 gmtbat02 gmtbat03 gmtbat04 gmtbat05 gmtbat06 gmtbat07 arch
 
 
 ## Clean Up
