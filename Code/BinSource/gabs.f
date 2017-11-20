@@ -1,3 +1,28 @@
+c> \ingroup core 
+c> Part of the NADCON5 \ref core , Convert values in a `*.b` grid to absolute value
+c>     
+c> Belongs to the suite of ".b" file manipulators
+c>     
+c> This program will convert every value in a ".b" grid
+c> to its absolute value.
+c>     
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> When run from the command line, the program prints a prompt for each argument    
+c>     
+c> They are enumerated here
+c> \param infile  Input File Name 
+c> \param outfile Output File Name 
+c>      
+c> ### Program Inputs:
+c> 
+c> - `lin` Input File  (`*.b` grid)
+c> 
+c> ### Program Outputs:
+c> 
+c> - `lout` Output File (`*.b` grid)
+c>
       program gabs
 
 c - Belongs to the suite of ".b" file manipulators.

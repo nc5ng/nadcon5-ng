@@ -1,3 +1,27 @@
+c> \ingroup core 
+c> Part of the NADCON5 \ref core , regrid data 
+c>     
+c> Regrid gridded data using biquadratic interpolation     
+c>     
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> When run from the command line, the program prints a prompt for each argument    
+c>     
+c> They are enumerated here
+c> \param infile  Input Master Grid File Name 
+c> \param outfile Output Regrid File Name 
+c> \param nrow    Number of rows in new Grid (Lat)
+c> \param ncol    Number of cols in new Grid (Lon)
+c>      
+c> ### Program Inputs:
+c> 
+c> - `lin` Input File 
+c> 
+c> ### Program Outputs:
+c> 
+c> - `lout` Output File
+c>
       program regrd2
 
 *** regrid gridded data using biquadratic interpolation 

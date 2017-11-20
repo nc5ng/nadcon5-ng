@@ -1,12 +1,30 @@
+c> \ingroup core 
+c> Part of the NADCON5 \ref core , converts `*.b` grid to `xyz`
+c>     
+c> Program to convert standard "*.b" grid
+c> formatted data to a binary xyz (lon, lat, value)
+c> list, which can then be used by GMT for
+c> various things (like running the GMT
+c> routine "xyz2grd", to get a "*.grd" 
+c> file, which is useful for plotting, etc)
+c>     
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> When run from the command line, the program prints a prompt for each argument    
+c>     
+c> They are enumerated here
+c> \param infile Input File Name
+c>      
+c> ### Program Inputs:
+c> 
+c> -  Input File defined by `infile`
+c>
+c> ### Program Outputs:
+c> 
+c> - `temp.xyz`
+c>
       program b2xyz
-
-c - Program to convert standard "*.b" grid
-c - formatted data to a binary xyz (lon, lat, value)
-c - list, which can then be used by GMT for
-c - various things (like running the GMT
-c - routine "xyz2grd", to get a "*.grd" 
-c - file, which is useful for plotting, etc)
-
       implicit real*8(a-h,o-z)
       character*200 fnamein,fnameout,prefix
       real*4 data(100000)

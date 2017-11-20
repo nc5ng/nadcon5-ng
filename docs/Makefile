@@ -34,7 +34,7 @@ DOXY_PROJECT_BRIEF := "NADCON5 Next Generation"
 DOXY_EXTRACT_ALL := NO
 
 ### DOXY_INPUT - space seperate list of source to process for documentation 
-DOXY_INPUT := ../Code
+DOXY_INPUT := ../Code 
 
 ### DOXY_ENABLE_SOURCE - append source to documentation
 DOXY_ENABLE_SOURCE := NO

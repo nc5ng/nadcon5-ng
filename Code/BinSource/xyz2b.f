@@ -1,3 +1,27 @@
+c> \ingroup core 
+c> Part of the NADCON5 \ref core , Converts GMT `*.grd` to a `*.b` NADCON style grid file
+c>     
+c> Turn gmt/netcdf grd dump into my grid file  (real number version)
+c> assumes grd dump is longitude/latitude/real (binary s.p.)
+c>     
+c>     
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> When run from the command line, the program prints a prompt for each argument    
+c>     
+c> They are enumerated here
+c> \param infile  Input File Name 
+c> \param outfile Output File Name 
+c>      
+c> ### Program Inputs:
+c> 
+c> - `lin` Input File  (`*.grd`)
+c> 
+c> ### Program Outputs:
+c> 
+c> - `lout` Output File (`*.b`)
+c>
       program xyz2b
 
 *** turn gmt/netcdf grd dump into my grid file  (real number version)

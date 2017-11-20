@@ -1,3 +1,25 @@
+c> \ingroup core 
+c> Part of the NADCON5 \ref core , Scales a grid by a factor
+c>     
+c>     
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> When run from the command line, the program prints a prompt for each argument    
+c>     
+c> They are enumerated here
+c> \param infile  Input File Name 
+c> \param factor  Scaling Factor
+c> \param outfile Output File Name 
+c>      
+c> ### Program Inputs:
+c> 
+c> - `lin1` Input File
+c> 
+c> ### Program Outputs:
+c> 
+c> - `lout` Output File
+c>
       program gscale
 
 *** scale grid by a factor

@@ -1,3 +1,22 @@
+c> \ingroup core 
+c> Part of the NADCON5 \ref core , adds one grid to another
+c>     
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> When run from the command line, the program prints a prompt for each argument    
+c>     
+c> They are enumerated here
+c> \param infileA First Input File Name
+c> \param infileB Second Input File Name
+c> \param outfile Output File Name of A+B
+c>      
+c> ### Program Inputs:
+c> 
+c> - `lin1` Input File A  
+c> - `lin2` Input File B
+c> - `lout` Output File to Write A+B
+c>
       program addem
 
 *** add one grid to another

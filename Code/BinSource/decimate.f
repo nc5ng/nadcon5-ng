@@ -1,3 +1,27 @@
+c> \ingroup core 
+c> Part of the NADCON5 \ref core , Extract a reduced (1 of n) dataset
+c>     
+c> Decimate - Extract `1` of every `n` points
+c>     
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> When run from the command line, the program prints a prompt for each argument    
+c>     
+c> They are enumerated here
+c> \param infile  Input File Name
+c> \param outfile Output File Name
+c> \param ny   Latitude Decimation Ratio `1:ny`
+c> \param nx   Longitude Decimation Ratio `1:nx`
+c>      
+c> ### Program Inputs:
+c> 
+c> - `lin` Input File A  
+c> 
+c> ### Program Outputs:
+c> 
+c> - `lout` Output File to Write Decimated File
+c>
       program decimate
 
 *** extract every 1 of "n" points
