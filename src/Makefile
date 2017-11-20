@@ -38,7 +38,7 @@ FFLAGS = "-O5 -libmil -fsimple=0 -dalign -xlibmopt -ftrap=%none -xvector=yes -xp
 ##### Input and Output Files  ##########
 ########################################
 
-VPATH += BinSource ../Masks
+VPATH += BinSource ../data/Masks 
 
 #MAIN_SRC = $(basename $(notdir $(wildcard *.f)))
 MAIN_SRC = checkgrid makeplotfiles01 makeplotfiles02 makeplotfiles03 makework mymedian5 myrms

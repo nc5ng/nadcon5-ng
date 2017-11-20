@@ -1,14 +1,37 @@
 # NADCON5-ng
 
-Tweaks and Updates to US National Geodetic Survey `NADCON5` Tool. Used to convert Geodetic Data between various US Datums, including: US Standard Datum (`USSD`) used  prior to `NAD27`, North American Datum of 1927 (`NAD27`(, and various realizations of the North American Datum of 1983 `NAD83` 
+Tweaks and Updates to US National Geodetic Survey `NADCON5` Tool. Used to convert Geodetic Data between various US Datums, including: US Standard Datum (`USSD`) used  prior to `NAD27`, North American Datum of 1927 (`NAD27`(, and various realizations of the North American Datum of 1983 `NAD83`
 
-The intent of this project is to adapt the existing tool to be accessible to more users,  useable as a command line utility, and eventually an element in a Continuous Data Integration Pipeline using Docker or other container environment. 
+[Link To Doxygen Documentation Website](http://nadcon5-ng.akshmakov.com)
+
+The intent of this project is to adapt the existing tool to be accessible to more users,  useable as a command line utility, hopefully parallelizable,  and eventually an element in a Continuous Data Integration Pipeline using Docker or other container environment. 
 
 > **NOTE**: This project is a personal project that is not in any way affiliated with the US Government, NOAA, or the National Geodetic Survey
 
 **Derivative Work:** Additions and Modifications to this software are released explicitly under Public Domain. 
 
 As a product of the United States Government NADCON5 is considered a work under public domain.
+
+## Project Status
+
+This project is new, feature requests and development will be driven through issues filed in github.
+
+At the time of this README was update, the following was true
+
+1. The existing processing pipeline has been offloaded to GNU Make to eliminate in-source builds
+2. Doxygen was strapped on top of the project to create documentation , source files were modified, superficially, to export documentation in doxygen 
+3. Documentation and website live, via `github-pages`, url: http://nadcon5-ng.akshmakov.com
+
+On the Immediate Roadmap
+
+1. Remove dependence on proprietary Oracle Fortran `f95`
+ - Requires mapping build options to `gfortran` and correcting where necessary
+ - Biggest issue is compiler specific handling of I/O and certain convenience extensions, not the math
+2. Take over the "batch generator" programs (e.g. makework() , makeplotfiles01 , etc.) so that individual conversions can be done as needed, through Make or otherwise
+3. Create an `install` target - install existing fortran programs onto system as a distribution
+ - Some tweaks to programs to make this doable (path dependencies) 
+ - Pruning of applications to core install package
+
 
 ## What is NADCON5?
 
