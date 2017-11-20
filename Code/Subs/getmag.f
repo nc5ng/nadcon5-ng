@@ -1,3 +1,10 @@
+c> \ingroup core
+c> Subroutine to return the magnitude of a double precision
+c> value.
+c> 
+c> \param[out] x result, magnitude of ix
+c> \param[in] ix input douple precision 
+c> 
       subroutine getmag(x,ix)
 c - Subroutine to return the magnitude of a double precision
 c - value.

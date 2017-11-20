@@ -1,3 +1,19 @@
+c> \ingroup core
+c> Function to select an element of a partially filled, but packed multi dimensional array, `integer*2` 
+c> 
+c> Finds the "kth" element of an array, "arr", which
+c> is dimensioned to be "nmax" values long, but which
+c> only has data in the first "n" cells.
+c>
+c> ## Changelog
+c>
+c> ### 1/14/2016: 
+c>
+c> Like "select2" but modified by D. Smith 
+c> to allow an "nmax" array given, but which only
+c> has values in elements 1-n, and to have "arr"
+c> be Integer*2
+c>
       FUNCTION iselect2(k,n,arr,nmax)
 
 c - Like "select2" but modified by D. Smith on 1/14/2016

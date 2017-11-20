@@ -1,3 +1,21 @@
+c> \ingroup core
+c> Subroutine to perform ?? indexing on floating point data (double precision)
+c> 
+c> \param[in] n number of iterations (rows?)
+c> \param[in] nd  array and index dimensions
+c> \param[in] arr input data array
+c> \param[out] indx index out
+c>
+c> ## Changelog
+c>
+c> ### 1/8/2004: 
+c> Modified to allow `indx` and `arr` to
+c> be DIMENSIONED differently than the number of good
+c> values they contain
+c>
+c> ### 11/7/2003
+c> Modified to REAL*8 by D. Smith, 
+c>
       SUBROUTINE indexxd(n,nd,arr,indx)
 c - Modified to REAL*8 by D. Smith, 11/7/2003
 c - Further modified 1/8/2004 to allow indx and arr to

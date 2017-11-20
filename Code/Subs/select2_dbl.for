@@ -1,5 +1,19 @@
 c copied from /home/dru/NumRec/Double/select2.for
-
+c> \ingroup core
+c> Function to select an element of a partially filled, but packed multi dimensional array, double precision
+c> 
+c> Finds the "kth" element of an array, "arr", which
+c> is dimensioned to be "nmax" values long, but which
+c> only has data in the first "n" cells.
+c>
+c> ## Changelog
+c>
+c> ### 7/17/2008: 
+c> Like "select2" but modified by D. Smith 
+c> to allow an "nmax" array given, but which only
+c> has values in elements 1-n, and to have "arr"
+c> be Integer*2
+c>
       FUNCTION select2(k,n,arr,nmax)
 
 c - Like "select" but modified by D. Smith on 7/17/2008

@@ -1,35 +1,39 @@
+c> \ingroup core
+c> Subroutine to perform a 2-D cubic ("bicubic") interpolation
+c> 
+c> Performs interpolation at location "xla,xlo" off of grid "z", whose
+c> header information is the standard ".b" header
+c> information with additional inputs
+c> 
+c> \param[in] z      Input Grid
+c> \param[in] glamn  minimum latitude   (real*8 decimal degrees)
+c> \param[in] glomn  minimum longitude  (real*8 decimal degrees)
+c> \param[in] dla    latitude spacing   (real*8 decimal degrees)
+c> \param[in] dlo    longitude spacing  (real*8 decimal degrees)
+c> \param[in] nla    number of lat rows (integer*4)
+c> \param[in] nlo    number of lon cols (integer*4)
+c> \param[in] maxla  actual dimensioned size of "z" in rows
+c> \param[in] maxlo  actual dimensioned size of "z" in cols
+c> \param[in] xla    lat of pt for interpolation (real*8 dec. deg)
+c> \param[in] xlo    lon of pt for interpolation (real*8 dec. deg)
+c> \param[out] val    interpolated value (real*8)
+c> 
+c> ### Method:
+c>   Fit a 4x4 window over the random point. Unless the point
+c>   is less than one grid spacing from the edge of the grid,
+c>   it will fall in the inner 2x2 cell, and the 4x4 cell will
+c>   be centered upon that.
+c> 
+c>   Thus, if our point of interest is the asterisk, the window 
+c>   will look like this:
+c> 
+c>              .  .  .  .
+c>              .  .  .  .
+c>              .  .* .  . 
+c>              .  .  .  .
+c> 
       subroutine bicubic(z,glamn,glomn,dla,dlo,
      *nla,nlo,maxla,maxlo,xla,xlo,val)
-
-c - Subroutine to perform a 2-D cubic ("bicubic")
-c - interpolation at location "xla,xlo" off of grid "z", whose
-c - header information is the standard ".b" header
-c - information of
-c -    glamn = minimum latitude   (real*8 decimal degrees)
-c -    glomn = minimum longitude  (real*8 decimal degrees)
-c -    dla   = latitude spacing   (real*8 decimal degrees)
-c -    dlo   = longitude spacing  (real*8 decimal degrees)
-c -    nla   = number of lat rows (integer*4)
-c -    nlo   = number of lon cols (integer*4)
-c -    maxla = actual dimensioned size of "z" in rows
-c -    maxlo = actual dimensioned size of "z" in cols
-c - Further input: 
-c -    xla   = lat of pt for interpolation (real*8 dec. deg)
-c -    xlo   = lon of pt for interpolation (real*8 dec. deg)
-c - Output:
-c -    val   = interpolated value (real*8)
-c - 
-c - Method:
-c -   Fit a 4x4 window over the random point. Unless the point
-c -   is less than one grid spacing from the edge of the grid,
-c -   it will fall in the inner 2x2 cell, and the 4x4 cell will
-c -   be centered upon that.
-c -   Thus, if our point of interest is the asterisk, the window 
-c -   will look like this:
-c -              .  .  .  .
-c -              .  .  .  .
-c -              .  .* .  . 
-c -              .  .  .  .
 
 c - Data is assumed real*4
       implicit real*8 (a-h,o-z)

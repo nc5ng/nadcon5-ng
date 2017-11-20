@@ -11,15 +11,19 @@ DOC_DIR  := $(BUILD_TOP)/docs
 
 
 
-DOXY := doxygen
-DOXY_FLAGS := 
-DOXY_FILE := Doxyfile
+DOXY = doxygen
+DOXY_FLAGS ?= 
+DOXY_FILE = Doxyfile
 
 
 
 ### Our Doxyfile is structured such that we can export options from makefile
 ###
-### Options for doxyfile are environment variables that we can set 
+### Options for doxyfile are environment variables that we can set
+
+### DOXY_PROJECT_NAME - the name of the project
+DOXY_PROJECT_NAME= "NADCON5-ng"
+
 ### DOXY_PROJECT_NUMBER  - the version or revision default "UNVERSIONED"
 DOXY_PROJECT_NUMBER := DEVELOPMENT
 
@@ -34,7 +38,7 @@ DOXY_PROJECT_BRIEF := "NADCON5 Next Generation"
 DOXY_EXTRACT_ALL := NO
 
 ### DOXY_INPUT - space seperate list of source to process for documentation 
-DOXY_INPUT := ../Code 
+DOXY_INPUT := "modules ../Code pages  ../README.md ../LICENSE.md"
 
 ### DOXY_ENABLE_SOURCE - append source to documentation
 DOXY_ENABLE_SOURCE := NO
@@ -45,32 +49,64 @@ DOXY_ENABLE_CLASS_GRAPHS := NO
 ### DOXY_ENABLE_UML - Enable UML Graph Creation
 DOXY_ENABLE_UML := YES
 
-### DOXY_ENABLE_CALL_GRAPHS - Enable Class Graph Creation
+### DOXY_ENABLE_CALL_GRAPHS - Enable Call Graph Creation
 DOXY_ENABLE_CALL_GRAPHS := NO
 
 ### DOXY_CREATE_HTML - create html output
 DOXY_CREATE_HTML := YES
 
+### DOXY_CREATE_LATEX - Generate LATEX 
 DOXY_CREATE_LATEX := NO
 
+### DOXY_DISABLE_CACHE Disable Caching - Default off because Caching in CI/CD isn't useful
 DOXY_DISABLE_CACHE := YES
 
+### DOXY_LAYOUT_FILE - Doxygen Menu Layout (XML), none = Doxygen Default
+DOXY_LAYOUT_FILE := 
 
-publish_docs: full_docs
-.PHONY: publish_docs
+### DOXY_HTML_HEADER_FILE - Doxygen HTML Header File, none = Doxygen Default
+DOXY_HTML_HEADER_FILE :=
+
+### DOXY_HTML_FOOTER_FILE - Doxygen HTML Footer FIle, none = Doxygen Default 
+DOXY_HTML_FOOTER_FILE :=
+
+### DOXY_EXTRA_CSS_FILE - Doxygen CSS Overrider 
+DOXY_EXTRA_CSS_FILE :=
+
+### DOXY_BASE_CSS_FILE - Doxygen Root CSS (Not Recommended)
+DOXY_BASE_CSS_FILE :=
+
+### DOXY_MD_MAINPAGE - Markdown Mainpage (Common README)
+DOXY_MD_MAINPAGE := ../README.md
+
+
+.PHONY: publish_docs full_docs doxy_docs clean
+
+
+publish_docs: DOXY_LAYOUT_FILE=layout/default_layout.xml
+publish_docs: DOXY_HTML_HEADER_FILE=layout/default_header.html
+publish_docs: DOXY_HTML_FOOTER_FILE=layout/default_footer.html
+publish_docs: DOXY_HTML_CSS_EXTRA_FILE=layout/default_style_overrides.css
+publish_docs: DOXY_ENABLE_CALL_GRAPHS=YES
+publish_docs: DOXY_EXTRACT_ALL=YES
+publish_docs: DOXY_ENABLE_SOURCE=YES
+publish_docs: DOXY_DISABLE_CACHE=NO
+publish_docs: DOXY_CREATE_LATEX=YES
+publish_docs: doxy_docs
 
 full_docs: DOXY_ENABLE_CALL_GRAPHS=YES
 full_docs: DOXY_EXTRACT_ALL=YES
 full_docs: DOXY_ENABLE_SOURCE=YES
 full_docs: DOXY_DISABLE_CACHE=NO
-full_docs: doxy_docs	
+full_docs: DOXY_ENABLE_CLASS_GRAPHS=YES
+full_docs: DOXY_CREATE_LATEX=YES
+full_docs: publish_docs
 
-thin_docs: DOXY_DISABLE_CACHE=NO
-thin_docs: doxy_docs
-
+#workkhorse, all other targets simply set variables
 doxy_docs:
 	mkdir -p $(DOC_DIR)
 	@echo "Starting Documentation Build"
+	DOXY_PROJECT_NAME=$(DOXY_PROJECT_NAME) \
 	DOXY_PROJECT_NUMBER=$(DOXY_PROJECT_NUMBER) \
 	DOXY_OUTPUT_DIR=$(DOXY_OUTPUT_DIR) \
 	DOXY_PROJECT_BRIEF=$(DOXY_PROJECT_BRIEF) \
@@ -82,6 +118,12 @@ doxy_docs:
 	DOXY_ENABLE_CALL_GRAPHS=$(DOXY_ENABLE_CALL_GRAPHS) \
 	DOXY_CREATE_HTML=$(DOXY_CREATE_HTML) \
 	DOXY_CREATE_LATEX=$(DOXY_CREATE_LATEX) \
+	DOXY_LAYOUT_FILE=$(DOXY_LAYOUT_FILE) \
+	DOXY_HTML_HEADER_FILE=$(DOXY_HTML_HEADER_FILE) \
+	DOXY_HTML_FOOTER_FILE=$(DOXY_HTML_FOOTER_FILE) \
+	DOXY_EXTRA_CSS_FILE=$(DOXY_EXTRA_CSS_FILE) \
+	DOXY_BASE_CSS_FILE=$(DOXY_BASE_CSS_FILE) \
+	DOXY_MD_MAINPAGE=$(DOXY_MD_MAINPAGE)\
 		$(DOXY) $(DOXY_FLAGS) $(DOXY_FILE) 
 #export DOC_DIR
 #export FULL_PROJECT_VERSION
@@ -94,3 +136,6 @@ doxy_docs:
 
 clean:
 	rm -rf $(DOC_DIR)
+
+
+

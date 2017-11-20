@@ -1,3 +1,30 @@
+c> \ingroup core
+c> Function to round a digit to one significant figure (one non zero digit), single precision
+c>
+c> Function "onzd" stands for "One Non Zero Digit"  
+c>
+c> It takes a Real*4 number as input, and rounds that 
+c> number to the closest number containing only 1 non-zero digit.
+c> The list of such numbers is infifinite, but contain
+c> these, in order:
+c>
+c>     0.7 , 0.8 , 0.9 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9, 10 , 20 , 30 , etc etc
+c> 
+c> \param[in] x input value
+c> \return `real*4` rounded value of x to one non zero digit 
+c> 
+c> Examples of input/output are:
+c>
+c>        0.000019      =>    0.000020
+c>        0.007432      =>    0.007000
+c>        1.7           =>    2.000000
+c>        9.143         =>    9.000000
+c>       17.4           =>   20.000000
+c>      947.3           =>  900.000000
+c>      987.432         => 1000.000000
+c>     1014.8           => 1000.000000
+c>     1502.7           => 2000.000000
+c>
       function onzd(x)
       implicit none
       real*4 onzd,x,y

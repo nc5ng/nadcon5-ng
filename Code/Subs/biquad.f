@@ -1,3 +1,29 @@
+c> \ingroup core
+c> Subroutine to perform a 2-D quadratic ("biquadratic") interpolation
+c> 
+c> Performs a biquadratic interpolation at location 
+c> `xla,xlo` off of grid `z`, whose
+c> header information is the standard ".b" header
+c> information
+c> 
+c> \param[in] z      Input Grid
+c> \param[in] glamn  minimum latitude   (real*8 decimal degrees)
+c> \param[in] glomn  minimum longitude  (real*8 decimal degrees)
+c> \param[in] dla    latitude spacing   (real*8 decimal degrees)
+c> \param[in] dlo    longitude spacing  (real*8 decimal degrees)
+c> \param[in] nla    number of lat rows (integer*4)
+c> \param[in] nlo    number of lon cols (integer*4)
+c> \param[in] maxla  actual dimensioned size of "z" in rows
+c> \param[in] maxlo  actual dimensioned size of "z" in cols
+c> \param[in] xla    lat of pt for interpolation (real*8 dec. deg)
+c> \param[in] xlo    lon of pt for interpolation (real*8 dec. deg)
+c> \param[out] val    interpolated value (real*8)
+c> 
+c> ### Method:
+c>   Fit a 3x3 window over the random point.  The closest
+c>   2x2 points will surround the point.  But based on which
+c>   quadrant of that 2x2 cell in which the point falls, the
+c>   3x3 window could extend NW, NE, SW or SE from the 2x2 cell.
       subroutine biquad(z,glamn,glomn,dla,dlo,
      *nla,nlo,maxla,maxlo,xla,xlo,val)
 

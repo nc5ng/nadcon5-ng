@@ -1,3 +1,67 @@
+c> \ingroup core
+c> Subroutine to make GMT calls to do a color raster rendering
+c> of gridded data, with coverage overlaid.
+c> 
+c> ## Changelog
+c> 
+c> ### 2016 09 08:
+c> Had to up the D_FORMAT default to %.3G because tight scalebar ranges
+c> with the newly allowed "more free" average values were showing
+c> repeating values when only 2 digits could be shown.
+c> 
+c> ### 2016 09 07:
+c> Had to add lines pre/post "makecpt" to change the D_FORMAT.  This is because
+c> I *had* been forcing the "scave" in cpt.f to be ONZD.  But that yielded
+c> bad values sometimes, so I switched it.  With that switch, the scave could
+c> have lots of digits.  Well, that means the newly adopted "D_FORMAT" of %.2G
+c> was insufficient for the CPT table.  Who knew that D_FORMAT affected that!
+c> Anyway, so change "D_FORMAT" pre/post all makecpt calls.
+c> 
+c> ### 2016 08 30:  
+c> See item #39 in Google ToDo list
+c>  Changed "grdcontour" to have a blank "-R" call so it'll mimic whatever
+c>  decimal places are in the "grdimage" call that came before it.
+c> 
+c> ### 2016 08 29:
+c>  Updated the initial -R and -B calls to 6 decimal places
+c> 
+c> ### 2016 08 25:
+c>  - .gmtdefaults4 has been changed so X_ORIGIN is equal to 0.0
+c>  - Center the plot with "-Xc" at grdimage
+c>  - Center the scalebar by setting its Xcoordinate, which runs in "plot frame"
+c>    coordinates (0/0 at lower left) , to be equal to "jm/2"
+c>  - Force the scale bar to be exactly 4 inches wide, always
+c>  - Change the format for "makecpt" from 0.6 to 0.10
+c> 
+c> ### 2016 07 29: 
+c> - Update to put more data into comment/echo      
+c> - Forced grdcontour with -Ctemp.cpt to align contours with color palette
+c> 
+c> ### 2016 07 28:
+c> - For d3 plots, to drop all contours
+c> - For d3 plots to only use "coverage" part *only* if "ij" is not "1"
+c> - Same for "09" and "ete" grids
+c> 
+c> ### 2016 07 21:
+c> - Set the "JM" code in "grdcontour" to just be "-JM" and let it therefore 
+c>  run with whatever JM size is used in "grdimage"
+c> - Set the "A" code in "grdcontour" to be "-A-" which should turn off 
+c>  the labels on all contours
+c> - Fixed the size of the scale bar
+c> 
+c> ### 2016 03 01:
+c> 1. Changed to a continuous color plot
+c>   - Get rid of "-Z" in "makecpt"
+c> 2. Changed to an 8 color, from 6 color, plot (without changing the RANGE yet...see DRU-12, p. 19)
+c>   - Change varible that comes in from "cptin" to "cptin6"
+c>   - Compute cptin = cptin6 * 0.75d0 immediately
+c> 
+c> ### 2016 02 29:
+c> 1. Removed all shading from color plots 
+c>   - Get rid of "grdgradient" call
+c>   - Remove from "grdimage" the "-Itempi.grd" part
+c>   - Remove the "rm -f tempi.grd" line
+c>  
       subroutine coplotwcv(ele,fname,bw,be,bs,bn,jm,b1,b2,maxplots,
      *olddtm,newdtm,region,elecap,ij,cptlo,cpthi,cptin6,suffixused,
      *igridsec,fn,cvfname)

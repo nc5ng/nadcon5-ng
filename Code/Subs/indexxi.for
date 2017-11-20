@@ -1,11 +1,29 @@
+c> \ingroup core
+c> Subroutine to perform ?? indexing on integer data
+c> 
+c> \param[in] n number of iterations (rows?)
+c> \param[in] nd  array and index dimensions
+c> \param[in] arr input data array
+c> \param[out] indx index out
+c>
+c> ## Changelog
+c>
+c> ### 2/5/2013: 
+c> Modified by D. Smith.  Arr has been
+c> changed to integer*4.  And like other versions
+c> of "indexx" which I've modified, 
+c> I allow indx and arr to
+c> be DIMENSIONED differently than the number of good
+c> values they contain
+c>
       SUBROUTINE indexxi(n,nd,arr,indx)
 
-c - Modified by D. Smith, 2/5/2013 .  Arr has been
-c - changed to integer*4.  And like other versions
-c - of "indexx" which I've modified, 
-c - I allow indx and arr to
-c - be DIMENSIONED differently than the number of good
-c - values they contain
+c> Modified by D. Smith, 2/5/2013 .  Arr has been
+c> changed to integer*4.  And like other versions
+c> of "indexx" which I've modified, 
+c> I allow indx and arr to
+c> be DIMENSIONED differently than the number of good
+c> values they contain
 
       integer nd
       INTEGER n,indx(nd),M,NSTACK

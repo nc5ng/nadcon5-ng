@@ -1,3 +1,27 @@
+c> \ingroup core
+c> Subroutine to collect up the GRID boundaries
+c> for use in creating NADCON 5
+c>
+c> This CAN BE different than the MAP boundaries
+c> as such:
+c>
+c> GRID boundaries will be just four values (n/s/w/e) for any region
+c>
+c> MAP boundaries will allow multiple maps to be made and may or may
+c> not align with the GRID boundaries.  Used to allow for more 
+c> "close up" maps and such, without the need to screw up the
+c> MAP boundaries.
+c>
+c> \param[in] region Region Name
+c> \param[out] xn north boundary for this region
+c> \param[out] xs south boundary for this region
+c> \param[out] xw west boundary for this region
+c> \param[out] xe east boundary for this region
+c>
+c> ### Subroutine Input Files:
+c>
+c> - `Data/grid.parameters
+c>
       subroutine getgridbounds(region,xn,xs,xw,xe)
 c
 c - Subroutine to collect up the GRID boundaries

@@ -1,3 +1,72 @@
+c> \ingroup core
+c> Subroutine to collect up the MAP boundaries
+c> for use in creating NADCON 5
+c>
+c> This CAN BE different than the GRID boundaries
+c> as such:
+c>
+c> GRID boundaries will be just four values (n/s/w/e) for any region
+c>
+c> MAP boundaries will allow multiple maps to be made and may or may
+c> not align with the GRID boundaries.  Used to allow for more 
+c> "close up" maps and such, without the need to screw up the
+c> MAP boundaries.
+c>
+c> \param[in] mapflag Map Generation Flag
+c> \param[in] maxplots 
+c> \param[in] region region to get map bounds
+c> \param[out] nplots number of plots generated
+c> \param[in] olddtm source datum
+c> \param[in] newdtm target datum
+c> \param[out] bw western bound of plot (Array of length `maxplots`)
+c> \param[out] be eastern bound of plot (Array of length `maxplots`) 
+c> \param[out] bs southern bound of plot (Array of length `maxplots`)
+c> \param[out] bn northern bound of plot (Array of length `maxplots`)
+c> \param[out] jm (Array of length `maxplots`)
+c> \param[out] b1 (Array of length `maxplots`)
+c> \param[out] b2 (Array of length `maxplots`)
+c> \param[out] fn (Array of length `maxplots`)
+c> \param[out] lrv (Array of length `maxplots`)
+c> \param[out] rv0x (Array of length `maxplots`)
+c> \param[out] rv0y (Array of length `maxplots`)
+c> \param[out] rl0y (Array of length `maxplots`)
+c>
+c> Version for NADCON 5
+c> Built upon the original version used in GEOCON v2.0
+c> Do not use with GEOCON v2.0
+c>
+c> Broken down into sub-subroutines to make it easier
+c> to swap out when I make different choices.
+c>
+c>
+c> ## Changelog
+c>
+c>
+c> ### 2016 08 29:  
+c> Taking in olddtm and newdtm now, and adding
+c> code to use that to filter out "Saint" regions in Alaska
+c> when plotting transformations not supported in those regions.
+c>
+c> ### 2016 08 26:  
+c> Used actual mercator projection math to compute
+c> the exact reference vector and label locations 1/2 inch and
+c> 3/4 inch respectively below the S/W corner of the plot.
+c>
+c> ### 2016 07 21:  
+c> Two new columns added to "map.parameters", which 
+c> have the location of the reference vector.  Return a logical "lrv"
+c> as true if there is an optional special location for the reverence vector.
+c> Return as false if not.  If true, return lon/lat coords of ref vector
+c> origin in rv0x/rv0y.  If false, return zeros in those fields.
+c> 
+c> Also, compute "jm" on the fly, ignoring what is in the table.  All plots
+c> will now be forced PORTRAIT and forced no wider than 6" and no taller
+c> than 8", while maintaining proper X/Y ratios in a Mercator projection.
+c> That means, make the biggest plot possible, with the right ratio, that
+c> is neither wider than 6" nor taller than 8" and then, whatever the width
+c> of that largest plot is -- return that width in the "jm" field.
+c>
+
       subroutine getmapbounds(mapflag,maxplots,region,nplots,
      *olddtm,newdtm,
      *bw,be,bs,bn,jm,b1,b2,fn,lrv,rv0x,rv0y,rl0y)

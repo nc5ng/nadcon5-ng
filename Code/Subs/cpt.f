@@ -1,3 +1,29 @@
+c> \ingroup core
+c> This subroutine generates the color pallette variables
+c> for a GMT color plot
+c> 
+c> \param[in] ave  Average of the gridded data
+c> \param[in] std  Standard deviation of the gridded data
+c> \param[in] csm  Color Sigma Multiplier (how many sigmas on each
+c>       side of the average do you want the colors to range?)
+c> \param[out] xlo  Low value
+c> \param[out] xhi  High value
+c> \param[out] xin  Interval
+c> 
+c> ## Changelog
+c> 
+c> ### 2016 09 06:
+c> Modified because the forcing of "scave" to be one non zero
+c> digit was throwing off the scalebar so far in Guam that
+c> the data in Guam wasn't even plotting.  Change to make
+c> the interval still be one non zero digit, but then a 
+c> simpler formula for the scaled average was put in.
+c> 
+c> ### 2016 07 29:
+c> Modified from original version to reflect "new math" invented
+c> this week that helps shrink the color bar and/or widen the
+c> color bar (see issues 14 and 15 in DRU-12, p. 48)
+c> 
       subroutine cpt(ave,std,csm,xlo,xhi,xin)
 
 c - 2016 09 06

@@ -1,3 +1,41 @@
+c> \ingroup core
+c> Subroutine to write GMT-based commands to create a shoreline
+c> Write GMT-based commands to create a shoreline
+c> based on region.
+c> 
+c> Use GMT-default coastline for:
+c> - `conus`
+c> - `alaska`
+c> 
+c> Use Dru's custome coastline for:
+c> - hawaii
+c> - prvi
+c> - as
+c> - guamcnmi
+c> - stlawrence
+c> - stmatthew 
+c> - stgeorge  
+c> - stpaul    
+c> 
+c> \param[in] region The Region to create coastline for 
+c> \param[in] ifnum the file descriptor of the output file to write `GMT` commands to
+c> 
+c>
+c> ## Changelog
+c>
+c> ### 2016 01 07:
+c> Forced the Alaska region to plot the
+c> islands of St. George, St. Matthew and St. Paul
+c> (St. Lawrence is already plotted), as well
+c> as 35 missing Aleutian Islands
+c>
+c> ### 2015 09 23:  
+c> Added four new regions:
+c> - St. Lawrence Island, Alaska
+c> - St. Matthew Island, Alaska
+c> - St. George Island, Alaska
+c> - St. Paul Island, Alaska
+c>
       subroutine plotcoast(region,ifnum)
 
 c - 2016 01 07

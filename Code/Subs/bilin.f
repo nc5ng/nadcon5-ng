@@ -1,3 +1,23 @@
+c> \ingroup core
+c> Subroutine to perform bilinear interpolation
+c> 
+c> Performs a bilinear interpolation
+c> at location `xla,xlo` off of grid `data`, whose
+c> header information is the standard `.b` header
+c> information
+c> 
+c> \param[in] data Input Data assumed to be real*4
+c> \param[in] glamn  minimum latitude   (real*8 decimal degrees) `*.b`
+c> \param[in] glomn  minimum longitude  (real*8 decimal degrees) `*.b`
+c> \param[in] dla   latitude spacing   (real*8 decimal degrees) `*.b`
+c> \param[in] dlo   longitude spacing  (real*8 decimal degrees) `*.b`
+c> \param[in] nla   number of lat rows (integer*4) `*.b`
+c> \param[in] nlo   number of lon cols (integer*4) `*.b`
+c> \param[in] maxla actual dimensioned size of "data" in rows `*.b`
+c> \param[in] maxlo actual dimensioned size of "data" in cols `*.b`
+c> \param[in] xla   lat of pt for interpolation (real*8 dec. def)
+c> \param[in] xlo   lon of pt for interpolation (real*8 dec. def)
+c> \param[out] val  interpolated value (real*8)
       subroutine bilin(data,glamn,glomn,dla,dlo,
      *nla,nlo,maxla,maxlo,xla,xlo,val)
 c - Subroutine to perform a bilinear interpolation

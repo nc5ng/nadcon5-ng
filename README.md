@@ -6,7 +6,7 @@ The intent of this project is to adapt the existing tool to be accessible to mor
 
 > **NOTE**: This project is a personal project that is not in any way affiliated with the US Government, NOAA, or the National Geodetic Survey
 
-Additions and Modifications to this software are released under a [Public Domain License (Unlicense)](LICENSE). 
+**Derivative Work:** Additions and Modifications to this software are released explicitly under Public Domain. 
 
 As a product of the United States Government NADCON5 is considered a work under public domain.
 

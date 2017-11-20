@@ -1,3 +1,11 @@
+c> \ingroup core
+c> Subroutine to print grid statistics to stdout
+c> 
+c> \param[in] fname name of grid stat file 
+c> \param[out] ave average  
+c> \param[out] std standard deviatio
+c> \param[out] median
+c> 
       subroutine gridstats(fname,ave,std,med)
       implicit real*8(a-h,o-z)
       parameter(nmax = 1561*3541)

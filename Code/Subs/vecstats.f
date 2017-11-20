@@ -1,3 +1,9 @@
+c> \ingroup core
+c> Subroutine to tell us how many thinned vectors were
+c> used to make a grid
+c> 
+c> \param[in] fname vector filename to read 
+c> \param[out] n number of thinned vectors 
       subroutine vecstats(fname,n)
 c - Subroutine to tell us how many thinned vectors were
 c - used to make a grid

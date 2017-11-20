@@ -1,3 +1,26 @@
+c> \ingroup core
+c> Subroutine to make GMT calls to do a B/W coverage plot
+c> 
+c> ## Changelog
+c> 
+c> ### 2016 08 29:
+c> Updated the `-R` and `-B` initial calls to 6 decimal places      
+c> 
+c> ### 2016 08 25:
+c> `.gmtdefaults4` has been changed so X_ORIGIN is equal to 0.0
+c> Center the plot with "-Xc" at first "psxy" call
+c> Remove all "-JM**i+" references, and just use the actual
+c> width (jm) that came out of the "getmapbounds" routine and
+c> was sent here.
+c> 
+c> ### 2016 07 21:
+c> Modified use of JM command based on new forced sizes.  
+c> 
+c> ### 2015 02 15:
+c> Updated  to allow this subroutine to work
+c> earlier (in makeplotfiles01()), before `igridsec` was defined.
+c> See DRU-11, p. 139
+c> 
       subroutine bwplotcv(ele,fname,bw,be,bs,bn,jm,b1,b2,maxplots,
      *olddtm,newdtm,region,elecap,ij,igridsec,fn)
 
