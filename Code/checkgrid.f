@@ -1,69 +1,99 @@
+c> \ingroup doers    
+c> Part of the NADCON5 build process, generates `gmtbat04`
+c> 
+c> Creates a batch file called 
+c>       
+c>       gmtbat04.(olddtm).(newdtm).(region).(igridsec)
+c>       
+c> This Program:
+c>       
+c> 1) Compare grids of dlat, dlon and deht
+c>    to vectors of dlat, dlon and deht.
+c> 2) Spit out interpolated (from grid) vectors
+c> 3) Spit out differential (interpolated minus original) vectors.
+c> 4) Create a GMT batch file to plot said vectors.
+c>       
+c> The input vectors:
+c>       
+c>     Represent *all* (outlier removed)
+c>     vectors of dlat/dlon/deht for the
+c>     olddatum/newdatum/region combination
+c>       
+c> However, for the sake of understanding, the
+c> vectors will be read in from their "thinned"
+c> and "dropped" files, so that we can generate
+c> statistics of:
+c>       
+c>   thinned-versus-gridded
+c>   dropped-versus-gridded
+c>   all-versus-gridded
+c>       
+c> This is important, since ONLY the thinned
+c> vectors went into the grid and it seems
+c> that their statistics should be better against
+c> the grid than the dropped vectors.  Additionally,
+c> one might argue that the only independent check
+c> on the grid is the dropped agreement.  We'll see.
+c>       
+c> The input grids:
+c>       
+c>     dlat/dlon/deht grids based on thinning
+c>     all of the vectors (see above) using
+c>     a median thinning at some block spacing
+c>     in arcseconds, and gridding to that same
+c>     block spacing.
+c>     
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> They are enumerated here
+c> \param oldtm Source Datum
+c> \param newdtm Target Datum,region
+c> \param region Conversion Region 
+c> \param agridsec Grid Spacing in arcsec
+c>     
+c> Example:
+c>     
+c>     olddatum = 'ussd'
+c>     newdatum = 'nad27'
+c>     region = 'conus'
+c>     agridsec = '900'    
+c>      
+c> ### Program Inputs:
+c> 
+c> ## Changelog
+c> 
+c> ### 2016 08 26: 
+c> Changed "getmapbounds" to bring in a better way 
+c> of computing the reference vector location and added a new
+c> variable for its label
+c> 
+c> Also changing the call to "getmapbounds" to give it "olddatum" and "newdatum"
+c> to aide in filtering out things like the Saint regions in Alaska
+c> for unsupported transformations.
+c> 
+c> ### 2016 07 29:  
+c> Scrapped personal placement of vectors and just let them
+c> sit outside/below the map
+c> 
+c> ### 2016 07 21:
+c> Added code to allow for optional placement of reference vectors, coming from
+c> "map.parameters" as read in subroutine "getmapbounds"
+c> 
+c> ### 2015 10 08:
+c> Added HOR output in M and S for Lat/Lon to both "gi" and "dd" vector output.
+c> 
+c> Combined: v(m/s)(a/t/d)(gi/dd)lat...
+c>           v(m/s)(a/t/d)(gi/dd)lon...
+c>    into : v(m/s)(a/t/d)(gi/dd)hor...
+c>
+c>
+c> ### 2015 9 10:
+c> Initial Release 
+c> For use in creating NADCON5
+c> Built by Dru Smith
+c>
       program checkgrid
-
-c - 2016 08 26:  Changed "getmapbounds" to bring in a better way 
-c      of computing the reference vector location and added a new
-c      variable for its label
-c - Also changing the call to "getmapbounds" to give it "olddatum" and "newdatum"
-c - to aide in filtering out things like the Saint regions in Alaska
-c - for unsupported transformations.
-
-c - 2016 07 29:  Scrapped personal placement of vectors and just let them
-c - sit outside/below the map
-
-c - 2016 07 21:
-c    - Added code to allow for optional placement of reference vectors, coming from
-c      "map.parameters" as read in subroutine "getmapbounds"
-
-
-c - 2015 10 08 - Added HOR output in M and S for Lat/Lon to both "gi" and "dd" vector output.
-c - Combined: v(m/s)(a/t/d)(gi/dd)lat...
-c -           v(m/s)(a/t/d)(gi/dd)lon...
-c -    into : v(m/s)(a/t/d)(gi/dd)hor...
-c
-c
-c
-c - Program begun 9/10/2015
-c - For use in creating NADCON5
-c - Built by Dru Smith
-
-c - 1) Compare grids of dlat, dlon and deht
-c -    to vectors of dlat, dlon and deht.
-c - 2) Spit out interpolated (from grid) vectors
-c - 3) Spit out differential (interpolated minus original) vectors.
-c - 4) Create a GMT batch file to plot said vectors.
-
-c - The input vectors:
-c -   Represent *all* (outlier removed)
-c -   vectors of dlat/dlon/deht for the
-c -   olddatum/newdatum/region combination
-
-c - However, for the sake of understanding, the
-c - vectors will be read in from their "thinned"
-c - and "dropped" files, so that we can generate
-c - statistics of:
-c -   thinned-versus-gridded
-c -   dropped-versus-gridded
-c -   all-versus-gridded
-c - This is important, since ONLY the thinned
-c - vectors went into the grid and it seems
-c - that their statistics should be better against
-c - the grid than the dropped vectors.  Additionally,
-c - one might argue that the only independent check
-c - on the grid is the dropped agreement.  We'll see.
-
-c - The input grids:
-c -    dlat/dlon/deht grids based on thinning
-c -    all of the vectors (see above) using
-c -    a median thinning at some block spacing
-c -    in arcseconds, and gridding to that same
-c -    block spacing.
-
-c - Input to this program:
-c -   olddtm    
-c -   newdtm
-c -   region
-c -   agridsec
-
       implicit real*8(a-h,o-z)
       parameter(maxlat=5000,maxlon=5000,maxpts=300000)
       parameter(maxplots=60)

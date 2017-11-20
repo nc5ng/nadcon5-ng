@@ -1,115 +1,149 @@
+c> \ingroup doers
+c> **Program** to create a *work* file which will
+c> serve as the primary information needed to
+c> analyze and create NADCON v5.0 grids.
+c>       
+c> 
+c> This program is based on previous programs that
+c> were created by Dru Smith during the GEOCON v2.0
+c> process.  It has been modified specifically to be a tool
+c> for NADCON v5.0.
+c> 
+c> Rather than have multiple programs (1, 2, 3, 4 as
+c> was the case for GEOCON v2.0), It was decided
+c> make ONE working "makework.f" program (this one)
+c> and have it feed off of an input file which 
+c> can be modified. 
+c>      
+c> The input file will reflect all that is necessary
+c> to create a work file.
+c>     
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> They are enumerated here
+c> \param oldtm Source Datum
+c> \param newdtm Target Datum,region
+c> \param region Conversion Region 
+c>      
+c> ### Program Inputs:
+c> 
+c>- A *control file* in directory `Control/`, the name is generated from
+c>  input arguments     
+c> 
+c> Known control file names are:
+c> 
+c>     cfname = control.ussd.nad27.conus
+c>     cfname = control.nad27.nad83_1986.conus
+c>
+c>- A *manual edits* file, called `workedits` in
+c> directory `Work/`
+c>     
+c> ## By way of example...
+c>      
+c> **If** the input file controlling the creation of the work file is:
+c>      
+c>     Control/control.ussd.nad27.conus
+c>      
+c> then the output data file is:
+c>      
+c>     Work/work.ussd.nad27.conus
+c>      
+c> The work file has the following format:
+c>      
+c>     Cols  Format Description
+c>       1-  6   a6    PID
+c>           7   1x    - blank -
+c>       8-  9   a2    State
+c>          10   a1    Reject code for missing latitude pair (blank for good)
+c>          11   a1    Reject code for missing longitude pair (blank for good)
+c>          12   a1    Reject code for missing ellip ht pair (blank for good)
+c>          13   1x    - blank -
+c>      14- 27 f14.10  Latitude (Old Datum), decimal degrees (-90 to +90)
+c>          28   1x    - blank -
+c>      29- 42 f14.10  Lonitude (Old Datum), decimal degrees (0 to 360)
+c>          43   1x    - blank -
+c>      44- 51   f8.3  Ellipsoid Height (Old datum), meters
+c>          52   1x    - blank -
+c>      53- 61   f9.5  Delta Lat (New Datum minus Old Datum), arcseconds
+c>          62   1x    - blank -
+c>      63- 71   f9.5  Delta Lon (New Datum minus Old Datum), arcseconds
+c>          72   1x    - blank -
+c>      73- 81   f9.3  Delta Ell Ht (New Datum minus Old Datum), meters
+c>          82   1x    - blank - 
+c>      83- 91   f9.3  Delta Horizontal (absolute value), arcseconds
+c>          92   1x    - blank -
+c>      93-101   f9.5  Azimuth of Delta Horizontal (0-360), degrees
+c>         102   1x    - blank - 
+c>     103-111   f9.3  Delta Lat (New Datum minus Old Datum), meters
+c>         112   1x    - blank -
+c>     113-121   f9.3  Delta Lon (New Datum minus Old Datum), meters
+c>         122   1x    - blank -
+c>     123-131   f9.3  Delta Horizontal (absolute value), meters
+c>         132   1x    - blank -
+c>     133-142   a10   Old Datum Name
+c>         143   1x    - blank - 
+c>     144-153   a10   New Datum Name
+c>         format(a6,1x,a2,a1,a1,a1,1x,f14.10,1x,f14.10,1x,f8.3,1x,
+c>        *f9.5,1x,f9.5,1x,f9.3,1x,f9.3,1x,f9.5,1x,f9.3,1x,f9.3,1x,f9.3,
+c>         1x,a10,1x,a10)
+c>      
+c> 
+c>  This differs from Dennis's GEOCON v1.0 in that:
+c>   - 3 reject codes
+c>   - 10 decimal places in latitude (See DRU-10, p. 123)
+c>   - 10 decimal places in longitude (See DRU-10, p. 123)
+c>   - Lat, Lon and Horizontal in both arcseconds and meters each
+c>   - Azimuth of Horizontal 
+c>   - Identification of which datums are transformed
+c>     
+c>  ##References
+c>  ### NADCON5:
+c>      
+c>  See:
+c>    - DRU-11, p. 124
+c>  
+c>  ### GEOCON v2.0:
+c>  
+c>  See:    
+c>    - DRU-10, p. 143
+c>    - DRU-11, p. 10
+c>    - DRU-11, p. 26
+c>    - DRU-11, p. 56
+c>
+c>  ## Changelog    
+c>      
+c>  ### 2017 11 19 (**NG**)
+c>  Formated Comments to be compatible with Doxygen     
+c>  Due to deprecation of various arguments for GMT tools, invocation of `xyz2grd`
+c>  and `grd2xyz` have arguments options changed in generated files
+c>   - `-bos` ->  `-bo3f` with equivalent meaning of a 3 column single precision output
+c>   - `-bis` ->  `-bi3f` with equivalent meaning of a 3 column single precision input     
+c>      
+c>  ### 2016 09 14:
+c>  Due to some complications in mymedian5.f which happen if
+c>  data is in the *work* file that is not to be sorted and used, I've decided
+c>  to put the *out of grid* point removal code here, so that such points
+c>  will go into the *work* file but will all get a `111` set of reject codes
+c>  so they don't go forward in the processing.
+c>  
+c>  ### 2016 09 13:
+c>  Fixed a bug that sends an incoming `0` reject flag as a **zero**.  All
+c>  later programs expect a BLANK for a "good" reject code.  The incoming `0` is
+c>  from the `workedits` file and is fine to come in, but must go OUT as a BLANK.
+c>  
+c>  Also, put in code to correct situations where an entry is in `workedits`, but 
+c>  the PID for that entry isn't actually in the incoming data.  This relies
+c>  on a new vector `EditTracker`
+c>
+c>  ### 2016 02 26:
+c>  Change (see: DRU-12, p. 18) to reflect the decision that "manual edits" should ONLY
+c>  edit data OUT and **not** add data back in.
+c>
+c>  ### 2016 01 07:
+c>  Changed to split "Relevant Edits" into
+c>  three counts:  lat, lon and eht   
       program makework
-
-c - 2016 09 14:  Due to some complications in "mymedian5" which happen if
-c - data is in the "work" file that is not to be sorted and used, I've decided
-c - to put the "out of grid" point removal code here, so that such points
-c - will go into the "work" file but will all get a "111" set of reject codes
-c - so they don't go forward in the processing.
-
-c - 2016 09 13:  Fixed a bug that sends an incoming "0" reject flag as a zero.  All
-c - later programs expect a BLANK for a "good" reject code.  The incoming "0" is
-c - from the "workedits" file and is fine to come in, but must go OUT as a BLANK.
-
-c - Also, put in code to correct situations where an entry is in workedits, but 
-c - the PID for that entry isn't actually in the incoming data.  This relies
-c - on a new vector "EditTracker"
-
-c - 2016 02 26 
-c - Change (see DRU-12, p. 18) to reflect the decision that "manual edits" should ONLY
-c - edit data OUT and *not* add data back in.
-
-c - 2016 01 07
-c - Changed to split "Relevant Edits" into
-c - three counts:  lat, lon and eht
-
-c - Program presumes, as input, the "control file name"
-c - in directory "Control"
-c - Known control file names are:
-c     cfname = 'control.ussd.nad27.conus'
-c     cfname = 'control.nad27.nad83_1986.conus'
-
-c - Further presumes, as input, the existence of a 
-c - "manual edits" file, called "workedits" in
-c - directory "Work" 
-
-c - 2015 08 25 , Dru Smith
-c - Program to create a "work" file which will
-c - serve as the primary information needed to
-c - analyze and create NADCON v5.0 grids.
-
-c - This program is based on previous programs that
-c - were created by Dru Smith during the GEOCON v2.0
-c - process.  It has been modified specifically to be a tool
-c - for NADCON v5.0.
-c - 
-c - Rather than have multiple programs (1, 2, 3, 4 as
-c - was the case for GEOCON v2.0), I have decided
-c - make ONE working "makework.f" program (this one)
-c - and have it feed off of an input file which 
-c - can be modified. 
-c - The input file will reflect all that is necessary
-c - to create a work file.
-c - 
-c - By way of example...
-c - If the input file controlling the creation of the work file is:
-c -    Control/control.ussd.nad27.conus
-c - then the output data file is:
-c -    Work/work.ussd.nad27.conus
-
-c - The work file has the following format:
-c   Cols  Format Description
-c   1-  6   a6    PID
-c       7   1x    - blank -
-c   8-  9   a2    State
-c      10   a1    Reject code for missing latitude pair (blank for good)
-c      11   a1    Reject code for missing longitude pair (blank for good)
-c      12   a1    Reject code for missing ellip ht pair (blank for good)
-c      13   1x    - blank -
-c  14- 27 f14.10  Latitude (Old Datum), decimal degrees (-90 to +90)
-c      28   1x    - blank -
-c  29- 42 f14.10  Lonitude (Old Datum), decimal degrees (0 to 360)
-c      43   1x    - blank -
-c  44- 51   f8.3  Ellipsoid Height (Old datum), meters
-c      52   1x    - blank -
-c  53- 61   f9.5  Delta Lat (New Datum minus Old Datum), arcseconds
-c      62   1x    - blank -
-c  63- 71   f9.5  Delta Lon (New Datum minus Old Datum), arcseconds
-c      72   1x    - blank -
-c  73- 81   f9.3  Delta Ell Ht (New Datum minus Old Datum), meters
-c      82   1x    - blank - 
-c  83- 91   f9.3  Delta Horizontal (absolute value), arcseconds
-c      92   1x    - blank -
-c  93-101   f9.5  Azimuth of Delta Horizontal (0-360), degrees
-c     102   1x    - blank - 
-c 103-111   f9.3  Delta Lat (New Datum minus Old Datum), meters
-c     112   1x    - blank -
-c 113-121   f9.3  Delta Lon (New Datum minus Old Datum), meters
-c     122   1x    - blank -
-c 123-131   f9.3  Delta Horizontal (absolute value), meters
-c     132   1x    - blank -
-c 133-142   a10   Old Datum Name
-c     143   1x    - blank - 
-c 144-153   a10   New Datum Name
-c     format(a6,1x,a2,a1,a1,a1,1x,f14.10,1x,f14.10,1x,f8.3,1x,
-c    *f9.5,1x,f9.5,1x,f9.3,1x,f9.3,1x,f9.5,1x,f9.3,1x,f9.3,1x,f9.3,
-c     1x,a10,1x,a10)
-
-c - This differs from Dennis's GEOCON v1.0 in that:
-c    - 3 reject codes
-c    - 10 decimal places in latitude (See DRU-10, p. 123)
-c    - 10 decimal places in longitude (See DRU-10, p. 123)
-c    - Lat, Lon and Horizontal in both arcseconds and meters each
-c    - Azimuth of Horizontal 
-c    - Identification of which datums are transformed
-
-c - NADCON5:
-c - See DRU-11, p. 124
-
-c - GEOCON v2.0:
-c - See DRU-10, p. 143
-c - See DRU-11, p. 10
-c - See DRU-11, p. 26
-c - See DRU-11, p. 56
 
       implicit double precision(a-h,o-z)
       parameter(maxedits = 10000)

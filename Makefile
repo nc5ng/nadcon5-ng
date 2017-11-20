@@ -232,7 +232,12 @@ mrclean:
 
 .PHONY: clean mrclean
 
+## Docs
 
+docs:
+	$(MAKE) -C docs publish_docs
+
+.PHONY: docs
 
 
 ## Logging/Info

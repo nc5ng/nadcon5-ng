@@ -1,64 +1,77 @@
-c - Program "makeplotfiles02"
-
-c - 2016 08 26
-c - Added new code to do reference vectors consistently
-c - See DRU-12, p. 56-57
-c - Also fixed a typo in reference vector length for "vmtcdeht" plots
-c - Also changing the call to "getmapbounds" to give it "olddatum" and "newdatum"
-c - to aide in filtering out things like the Saint regions in Alaska
-c - for unsupported transformations.
-
-
-c - 2016 07 29:
-c  Scrapped code about personalized reference vectors.  Just put all
-c  reference vectors outside/below plot
-c - Also moved "gridstats" and "vecstats" out into the /Subs directory
-c - to be used by other programs (like "makeplotfiles03.f")
-
-
-c - 2016 07 28: 
-c      Changed code to build the color palette of the "d3" grids 
-c      around the median, and not ave or std.
-c      See DRU-12, p. 48
-
-c - 2016 07 21:
-c    - Added code to allow for optional placement of reference vectors, coming from
-c      "map.parameters" as read in subroutine "getmapbounds"
-
-
-c - Updated 01/21/2016 to get the CPT values fixed in d3 grids, so that
-c - (cpthi - cptlo) is exactly divisible by cptin at (2 x csm)
-
-c - Updated 10/27/2015 to work with the new naming scheme (see DRU-11, p. 150)
-c - Updated 10/05/2015 to work with the new naming scheme (see DRU-11, p. 139)
-c
-c - Part of the NADCON5 process
-c
-c - Program presumes, as input
-c - the "old datum", "new datum" , "region" and "gridsec"
-c - arguments fed into "doit3.bat"
-c - Examples:
-c     olddatum = 'ussd'
-c     newdatum = 'nad27'
-c     region = 'conus'
-c     gridsec= '900'
-
-c - Built upon the skeleton of "makeplotem.f" for GEOCON v2.0
-c - But built specifically for NADCON v5.0.  So different
-c - in file names and expanded plot creation that it was
-c - given the new name "makeplotfiles02.f" to align with
-c - another NADCON5 program "makeplotfiles01.f"
-
-c - Creates a batch file called "gmtbat03.(olddtm).(newdtm).(region).(igridsec)
-
-c - That batch file will create JPGs of:
-c -   1)Color Plots of the dlat/dlon/deht grids at T=0.4
-c -   2)Color Plots of the "method noise" grids (the "d3" grids, see DRU-11, p. 150) with thinned coverage overlaid
-c -   3)B/W plots of thinned vectors that went into the T=0.4 transformation grid
-c -   4)B/W plots of dropped vectors that did not go into the T=0.4 transformation grid
-c -   5)B/W plots of thinned coverage of points that went into the T=0.4 transformation grid
-c -   6)B/W plots of dropped coverage of points that did not go into the T=0.4 transformation grid
-
+c> \ingroup doers    
+c> Part of the NADCON5 process, generates `gmtbat03`
+c>     
+c> Built upon the skeleton of "makeplotem.f" for GEOCON v2.0
+c> But built specifically for NADCON v5.0.  So different
+c> in file names and expanded plot creation that it was
+c> given the new name "makeplotfiles02.f" to align with
+c> another NADCON5 program "makeplotfiles01.f"
+c>     
+c> Creates a batch file called 
+c>     
+c>       gmtbat03.(olddtm).(newdtm).(region).(igridsec)
+c>     
+c> That batch file will create JPGs of:
+c>   1. Color Plots of the dlat/dlon/deht grids at T=0.4
+c>   2. Color Plots of the "method noise" grids (the "d3" grids, see DRU-11, p. 150) with thinned coverage overlaid
+c>   3. B/W plots of thinned vectors that went into the T=0.4 transformation grid
+c>   4. B/W plots of dropped vectors that did not go into the T=0.4 transformation grid
+c>   5. B/W plots of thinned coverage of points that went into the T=0.4 transformation grid
+c>   6. B/W plots of dropped coverage of points that did not go into the T=0.4 transformation grid
+c>     
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> They are enumerated here
+c> \param oldtm Source Datum
+c> \param newdtm Target Datum,region
+c> \param region Conversion Region 
+c> \param agridsec Grid Spacing in arcsec
+c>     
+c> Example:
+c>     
+c>     olddatum = 'ussd'
+c>     newdatum = 'nad27'
+c>     region = 'conus'
+c>     agridsec = '900'    
+c>      
+c> ### Program Inputs:
+c> 
+c> ## Changelog
+c>       
+c> ### 2016 08 26
+c> Added new code to do reference vectors consistently
+c> See DRU-12, p. 56-57
+c> Also fixed a typo in reference vector length for vmtcdeht plots
+c> Also changing the call to getmapbounds to give it `olddatum` and `newdatum`
+c> to aide in filtering out things like the Saint regions in Alaska
+c> for unsupported transformations.
+c>       
+c> ### 2016 07 29:
+c> Scrapped code about personalized reference vectors.  Just put all
+c> reference vectors outside/below plot
+c> Also moved gridstats and vecstats out into the `/Subs` directory
+c> to be used by other programs (like makeplotfiles03.f)
+c>       
+c> ### 2016 07 28: 
+c> Changed code to build the color palette of the `d3` grids 
+c> around the median, and not ave or std.
+c> See DRU-12, p. 48
+c>       
+c> ### 2016 07 21:
+c> Added code to allow for optional placement of reference vectors, coming from
+c> `map.parameters` as read in subroutine getmapbounds
+c>       
+c> ### 2016 01 21:
+c> Updated to get the CPT values fixed in `d3` grids, so that
+c> (cpthi - cptlo) is exactly divisible by `cptin` at (2 x csm)
+c>       
+c> ### 2015 10 27:
+c> Updated to work with the new naming scheme (see DRU-11, p. 150)
+c>       
+c> ### 2015 10 05: 
+c> Updated to work with the new naming scheme (see DRU-11, p. 139)
+      program makeplotfiles02
       implicit real*8(a-h,o-z)
       parameter(maxplots=60)
 

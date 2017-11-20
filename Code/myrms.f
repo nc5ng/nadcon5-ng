@@ -1,60 +1,101 @@
+c> \ingroup doers    
+c> Part of the NADCON5 build process, generates `gmtbat05`
+c> 
+c> Creates a batch file called 
+c>       
+c>       gmtbat05.(olddtm).(newdtm).(region).(igridsec)
+c> 
+c> 
+c> Program to 
+c> 1. Run a customized RMS-computing
+c>    algorithm on vector differences (gridded minus true)
+c> 2. Save the RMS data to GMT-ready plottable files
+c> 3. Create a GMT batch file to plot both the 
+c>    thinned data and removed data in both coverage and vectors
+c> 
+c> Unlike "mymedian5.f", this program is
+c> set up to compute the RMS of vector differences
+c> in a cell-by-cell basis (aka NOT a median filter
+c> at all, but a true RMS representation of of disagreements)
+c> 
+c> A "value" is the differential vector of:
+c> 
+c>     interpolated-from-grid minus true
+c>
+c> For any cell with at least ONE point with a value, the following is done:
+c> 1. Compute the average latitude of all points in the cell
+c> 2. Compute the average longitude of all points in the cell
+c> 3. Compute the RMS of all values in the cell
+c> 
+c> The output vector will then reflect these three values.
+c> 
+c> For latitude and ellipsoid height, the azimuth of the vector 
+c> will ALWAYS be 0.0 (pointing up) while for longitude it will
+c> always be 90.0 (pointing right).  However, these are mere conventions
+c> as they are not directional vectors anyway, but rather quanta which
+c> will be gridded and it is the grid which is of utmost importance.
+c> 
+c> No PIDS will be in the output files, as the output RMS vectors are
+c> not reflective of any one point, but rather a cell-wide conglomeration
+c> of information.
+c> 
+c> See DRU-11, p. 130
+c>     
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> They are enumerated here
+c> \param oldtm Source Datum
+c> \param newdtm Target Datum,region
+c> \param region Conversion Region 
+c> \param agridsec Grid Spacing in arcsec
+c>     
+c> Example:
+c>     
+c>     olddatum = 'ussd'
+c>     newdatum = 'nad27'
+c>     region = 'conus'
+c>     agridsec = '900'    
+c>      
+c> ### Program Inputs:
+c> 
+c> ## Changelog
+c> 
+c> ### 2016 01 21:
+c> Updated to RETURN to an old way of registering RMS vectors
+c> at AVE lat/lon rather than center of cell.
+c> 
+c> ### 2015 10 28 
+c> Updated to work with new naming scheme (see DRU-11, p. 150) and
+c> to adopt the central lat/lon for the RMS vectors, rather than 
+c> ave lat/ave lon (see DRU-11, p.145), and to also set up the gridding
+c> of RMS vectors at the T=0.9 level (see DRU-11, p. 148)
+c> 
+c> Also added "donzd" functionality to help control the magnitude
+c> of the Length of Reference Vector on Ground variables.
+c> 
+c> Also, added a section at the end to create the TOTAL error grids.
+c> by RMS-combining the "method noise grid" (the "d3" grid)
+c> with the "data noise grid" (the "rdd...09" grid) into
+c> one single "transformation error grid"
+c> 
+c> ### 2016 08 25: 
+c> For reasons that are difficult to describe, "donzd" is 
+c> now "onzd2.f" in /home/dru/Subs.  Change and recompile...
+c> 
+c> ### 2015 10 09: 
+c> Updated to add HOR vectors
+c> 
+c> ### 2015 10 06:
+c> Updated
+c> 
+c> ### 2015 09 16:
+c> Initial Release, For use in creating NADCON5
+c> Built by Dru Smith
+c> 
+c>       
       program myrms
-
-c - Update 2016 01 21 to RETURN to an old way of registering RMS vectors
-c - at AVE lat/lon rather than center of cell.
-
-c - Updated 2015 10 28 to work with new naming scheme (see DRU-11, p. 150) and
-c - to adopt the central lat/lon for the RMS vectors, rather than 
-c - ave lat/ave lon (see DRU-11, p.145), and to also set up the gridding
-c - of RMS vectors at the T=0.9 level (see DRU-11, p. 148)
-c - Also added "donzd" functionality to help control the magnitude
-c - of the Length of Reference Vector on Ground variables.
-c - Also, added a section at the end to create the TOTAL error grids.
-c - by RMS-combining the "method noise grid" (the "d3" grid)
-c - with the "data noise grid" (the "rdd...09" grid) into
-c - one single "transformation error grid"
-c -  2016 08 25:  For reasons that are difficult to describe, "donzd" is
-c                 now "onzd2.f" in /home/dru/Subs.  Change and recompile...
-
-c - Updated 2015 10 09 to add HOR vectors
-c - Updated 2015 10 06
-
-c - 2015 09 16
-c - For use in creating NADCON5
-c - Built by Dru Smith
-
-c - Unlike "mymedian5.f", this program is
-c - set up to compute the RMS of vector differences
-c - in a cell-by-cell basis (aka NOT a median filter
-c - at all, but a true RMS representation of of disagreements)
-
-c - A "value" is the differential vector of:
-c    "interpolated-from-grid minus true"
-c 
-c - For any cell with at least ONE point with a value, the following is done:
-c - 1) Compute the average latitude of all points in the cell
-c - 2) Compute the average longitude of all points in the cell
-c - 3) Compute the RMS of all values in the cell
-c - The output vector will then reflect these three values.
-c - For latitude and ellipsoid height, the azimuth of the vector 
-c - will ALWAYS be 0.0 (pointing up) while for longitude it will
-c - always be 90.0 (pointing right).  However, these are mere conventions
-c - as they are not directional vectors anyway, but rather quanta which
-c - will be gridded and it is the grid which is of utmost importance.
-
-c - No PIDS will be in the output files, as the output RMS vectors are
-c - not reflective of any one point, but rather a cell-wide conglomeration
-c - of information.
-
-c - Program to 
-c - 1) Run a customized RMS-computing
-c -    algorithm on vector differences (gridded minus true)
-c - 2) Save the RMS data to GMT-ready plottable files
-c - 3) Create a GMT batch file to plot both the 
-c -    thinned data and removed data in both coverage and vectors
-
-c - See DRU-11, p. 130
-
+      
       implicit real*8(a-h,o-z)
 
 c - Allow up to 280,000 points to come in 

@@ -1,68 +1,87 @@
-c - Program "makeplotfiles03"
-
-c - 2016 10 19
-c - FIX for the HARN/FBN transformation.  As it stood, the "gridstats" was
-c - returning  "0.0" as the median of the post-masked "ete" grid (which
-c - is true, but unfortunate.)  I've changed the call to "gridstats"
-c - to send it the "PREMASKED" version of the "ete" grid, so the median
-c - won't be zero.   
-
-c - 2016 08 26
-c - Added new code to do reference vectors consistently
-c - See DRU-12, p. 56-57
-c - Fixed an error where "lorvogehtm" was declared real*8 but past 72 column,
-c - so defaulting to integer*4 and coming out as "0.000" on plots
-c - Also changing the call to "getmapbounds" to give it "olddatum" and "newdatum"
-c - to aide in filtering out things like the Saint regions in Alaska
-c - for unsupported transformations.
-
-
-c - 2016 08 02:  Changed the color palette for "09" grids from 2xMedian to 3xMedian
-
-c - 2016 07 29:  Dropped code about personalized reference vectors and just
-c - let them be below/outside map
-c - 2016 08 01:  Moved "gridstats" to subroutines
-c -              Also, completely removed the in-program computations of
-c                the color palette, and instead relied on "cpt" and "cpt2"
-c                as per "makeplotfiles02"
-
-c - 2016 07 21:
-c    - Added code to allow for optional placement of reference vectors, coming from
-c      "map.parameters" as read in subroutine "getmapbounds"
-
-
-c
-c - Part of the NADCON5 process
-c
-c - Program presumes, as input
-c - the "old datum", "new datum" , "region", "gridsec" and "mapflag"
-c - arguments fed into "doit4.bat"
-c - Examples:
-c     olddatum = 'ussd'
-c     newdatum = 'nad27'
-c     region = 'conus'
-c     gridsec= '900'
-c     mapflag = '0'
-c
-
-c - Updated 2016 01 21 to fix the CPT for the "09" (data noise)
-c - grids so that (cpthi - cptin) is exactly divisible by cptin
-c
-c - Updated 2015 11 09 to adopt new naming scheme (yes, again)
-c - (See DRU-11, p. 150), as well as creating plots of the
-c - total error grid.
-
-c - Latest version: 2015 10 07 which had new naming scheme and
-c - dual-computations of arcseconds and meters for lat/lon
-c - See DRU-11, pl. 139.
-
-c - Creates a batch file called "gmtbat06.(olddtm).(newdtm).(region).(igridsec).(mapflag)"
-
-c - That batch file will create JPGs of:
-c -   1)Color Plots of the rddlat/rddlon/rddeht grids
-c -   2)B/W plots of coverage of RMS'd differential vectors that went into the grid
-c -   3)B/W plots of RMS'd differential vectors that went into the grid
-
+c> \ingroup doers    
+c> Part of the NADCON5 process, generates `gmtbat06`
+c> 
+c> Creates a batch file called 
+c>       
+c>       gmtbat06.(olddtm).(newdtm).(region).(igridsec).(mapflag)
+c> 
+c> That batch file will create JPGs of:
+c>   1. Color Plots of the rddlat/rddlon/rddeht grids
+c>   2. B/W plots of coverage of RMS'd differential vectors that went into the grid
+c>   3. B/W plots of RMS'd differential vectors that went into the grid
+c>     
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> They are enumerated here
+c> \param oldtm Source Datum
+c> \param newdtm Target Datum,region
+c> \param region Conversion Region 
+c> \param agridsec Grid Spacing in arcsec
+c> \param mapflag Map Generation Level
+c>     
+c> Example:
+c>     
+c>     olddatum = 'ussd'
+c>     newdatum = 'nad27'
+c>     region = 'conus'
+c>     agridsec = '900'    
+c>     mapflag = '0'   
+c>      
+c> ### Program Inputs:
+c> 
+c> ## Changelog
+c>       
+c> ### 2016 10 19:
+c> FIX for the HARN/FBN transformation.  As it stood, the "gridstats" was
+c> returning  "0.0" as the median of the post-masked "ete" grid (which
+c> is true, but unfortunate.)  I've changed the call to "gridstats"
+c> to send it the "PREMASKED" version of the "ete" grid, so the median
+c> won't be zero.   
+c>       
+c> ### 2016 08 26
+c> Added new code to do reference vectors consistently
+c> See DRU-12, p. 56-57
+c>       
+c> Fixed an error where "lorvogehtm" was declared real*8 but past 72 column,
+c> so defaulting to integer*4 and coming out as "0.000" on plots
+c>       
+c> Also changing the call to "getmapbounds" to give it "olddatum" and "newdatum"
+c> to aide in filtering out things like the Saint regions in Alaska
+c> for unsupported transformations.
+c>       
+c> ### 2016 08 02:  
+c> Changed the color palette for "09" grids from 2xMedian to 3xMedian      
+c>       
+c> ### 2016 07 29:  
+c> Dropped code about personalized reference vectors and just      
+c> let them be below/outside map
+c>       
+c> ### 2016 08 01:  
+c> Moved "gridstats" to subroutines      
+c> Also, completely removed the in-program computations of
+c> the color palette, and instead relied on "cpt" and "cpt2"
+c> as per "makeplotfiles02"
+c>       
+c> ### 2016 07 21:
+c> Added code to allow for optional placement of reference vectors, coming from
+c> `map.parameters` as read in subroutine getmapbounds
+c>       
+c> ### 2016 01 21: 
+c> Updated to fix the CPT for the "09" (data noise)       
+c> grids so that (cpthi - cptin) is exactly divisible by cptin
+c>       
+c> ### 2015 11 09:
+c> Updated to adopt new naming scheme (yes, again)       
+c> (See DRU-11, p. 150), as well as creating plots of the
+c> total error grid.
+c>       
+c> ### 2015 10 07: 
+c> Latest Version which had new naming scheme and      
+c> dual-computations of arcseconds and meters for lat/lon
+c> See DRU-11, pl. 139.
+c>       
+      program makeplotfiles03
       implicit real*8(a-h,o-z)
       parameter(maxplots=60)
 

@@ -1,58 +1,70 @@
+c> \ingroup doers
+c> Program to filter Map Data for GMT Plotting
+c>   
+c> 1. Run a customized block-median thinning 
+c>    algorithm on coordinate differences (horizontal
+c>    and ellipsoid height)
+c> 2. Save the thinned data to GMT-ready plottable files
+c> 3. Save the removed data to GMT-ready plottable files
+c> 4. Create a GMT batch file (gmtbat02) to grid the thinned data at T=0.4 (which
+c>    becomes the final transformation grid) and also at T=1.0 and
+c>    T=0.0, (whose difference becomes the bases for the 
+c>    "method noise" grid)
+c> 5. If, and only if, we are doing the combination of 
+c>    HARN/FBN/CONUS, insert commands into gmtbat02
+c>    to apply a mask to the "04.b" grids (See DRU-12, p. 36-37)
+c> See DRU-11, p. 127
+c>       
+c> unlike `mymedian.f`, this program is
+c> set up to filter/process all data
+c> at once in one run. Also, significant
+c> philosophical changes occurred, including:
+c>       
+c> 1. Median filter on absolute horizontal length, and
+c>    then, when we have our "kept" points, we use
+c>    the lat and lon of those kept points to grid
+c>    lat and lon separately.  (mymedian.f actually
+c>    sorted lat medians and lon medians separately,
+c>    raising the very real possibility that separate
+c>    points would go into each grid.)
+c> 2. Nothing RANDOM!  No coin flipping, etc.  It was
+c>    viewed, for NADCON 5.0, as scientifically
+c>    improper for the final grids to be reliant upon
+c>    a filtering mechanism that could be different
+c>    each time it was run. 
+c>       
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> They are enumerated here
+c> \param oldtm Source Datum
+c> \param newdtm Target Datum,region
+c> \param region Conversion Region 
+c> \param agridsec Grid Spacing in Arc Seconds
+c>      
+c> ### Program Inputs:
+c> 
+c> ## Changelog
+c>       
+c> ### 2016 09 14
+c> Bug found when running Hawaii with points outside grid -- some mixup
+c> between "ikt" and "ipid".  Changed this program as follows:  It now
+c> REQUIRES that the incoming data has NO points outside the grid
+c> boundary.  This has been forced by giving such points a "444" reject
+c> code in "makework" when creating the work file.  By going through
+c> "makeplotfiles01" with a "444" reject, those points won't even make
+c> it into the "all" file, which is our input for median filtering here...
+c>       
+c> ### 2016 06 29
+c> Updated to insert masking commands for the "...04.b" (transformation
+c> grid) into gmtbat02 when working ONLY in the HARN/FBN/CONUS combination.
+c>       
+c> ### 2015 10 27
+c> For use in creating NADCON5
+c> Built by Dru Smith
+c> Built from scratch, scrapping all previous
+c> "mymedian" programs used in making GEOCON
       program mymedian5
-
-c - 2016 09 14
-c - Bug found when running Hawaii with points outside grid -- some mixup
-c - between "ikt" and "ipid".  Changed this program as follows:  It now
-c - REQUIRES that the incoming data has NO points outside the grid
-c - boundary.  This has been forced by giving such points a "444" reject
-c - code in "makework" when creating the work file.  By going through
-c - "makeplotfiles01" with a "444" reject, those points won't even make
-c - it into the "all" file, which is our input for median filtering here...
-
-c - 2016 06 29
-c - Updated to insert masking commands for the "...04.b" (transformation
-c - grid) into gmtbat02 when working ONLY in the HARN/FBN/CONUS combination.
-
-c - 2015 10 27
-c - For use in creating NADCON5
-c - Built by Dru Smith
-c - Built from scratch, scrapping all previous
-c - "mymedian" programs used in making GEOCON
-c
-c
-c - Unlike "mymedian.f", this program is
-c - set up to filter/process all data
-c - at once in one run. Also, significant
-c - philosophical changes occurred, including:
-c - 1) Median filter on absolute horizontal length, and
-c -    then, when we have our "kept" points, we use
-c -    the lat and lon of those kept points to grid
-c -    lat and lon separately.  (mymedian.f actually
-c -    sorted lat medians and lon medians separately,
-c -    raising the very real possibility that separate
-c -    points would go into each grid.)
-c - 2) Nothing RANDOM!  No coin flipping, etc.  It was
-c -    viewed, for NADCON 5.0, as scientifically
-c -    improper for the final grids to be reliant upon
-c -    a filtering mechanism that could be different
-c -    each time it was run. 
-
-
-c - Program to 
-c - 1) Run a customized block-median thinning 
-c -    algorithm on coordinate differences (horizontal
-c -    and ellipsoid height)
-c - 2) Save the thinned data to GMT-ready plottable files
-c - 3) Save the removed data to GMT-ready plottable files
-c - 4) Create a GMT batch file (gmtbat02) to grid the thinned data at T=0.4 (which
-c -    becomes the final transformation grid) and also at T=1.0 and
-c -    T=0.0, (whose difference becomes the bases for the 
-c -    "method noise" grid)
-c - 5) If, and only if, we are doing the combination of 
-c -    HARN/FBN/CONUS, insert commands into gmtbat02
-c -    to apply a mask to the "04.b" grids (See DRU-12, p. 36-37)
-
-c - See DRU-11, p. 127
 
       implicit real*8(a-h,o-z)
 

@@ -1,48 +1,57 @@
+c> \ingroup doers
+c> Part of the NADCON5 process, generates gmtbat01
+c>
+c> Program to take a "work" file and create
+c> a variety of GMT-ready data files of the following
+c> 1. Coverage in latitude
+c> 2. Coverage in longitude
+c> 3. Coverage in ellipsoid height
+c> 4. Vectors  in latitude
+c> 5. Vectors  in longitude
+c> 6. Vectors  in ellipdoid height
+c> 7. Vectors  in horizontal (properly azimuthed)
+c>
+c> It furthermore will create batch file to run the
+c> GMT scripts:
+c>     
+c>      gmtbat01.(olddtm).(newdtm).(region).(mapflag)
+c>
+c> ### Program arguments
+c> Arguments are newline terminated and read from standard input
+c>     
+c> They are enumerated here
+c> \param oldtm Source Datum
+c> \param newdtm Target Datum,region
+c> \param region Conversion Region 
+c> \param mapflag Map Detail Level
+c>     
+c> Example:
+c>     
+c>     olddatum = 'ussd'
+c>     newdatum = 'nad27'
+c>     region = 'conus'
+c>     mapflag = 0      
+c>      
+c> ### Program Inputs:
+c> 
+c> ## Changelog
+c>       
+c> ### 2016 08 26
+c> Added new code to do reference vectors consistently
+c> See DRU-12, p. 56-57
+c> Also changing the call to "getmapbounds" to give it "olddatum" and "newdatum"
+c> to aide in filtering out things like the Saint regions in Alaska
+c> for unsupported transformations.
+c>       
+c> ### 2016 07 29:
+c> Scrapped the code for personalized reference vector location.  Just put
+c> all ref vectors outside/below plot.
+c>       
+c> ### 2016 07 21:
+c> Added code to allow for optional placement of reference vectors, coming from
+c> "map.parameters" as read in subroutine "getmapbounds"
+c>       
       program makeplotfiles01
-
-c - 2016 08 26
-c - Added new code to do reference vectors consistently
-c - See DRU-12, p. 56-57
-c - Also changing the call to "getmapbounds" to give it "olddatum" and "newdatum"
-c - to aide in filtering out things like the Saint regions in Alaska
-c - for unsupported transformations.
-
-
-c - 2016 07 29:
-c   Scrapped the code for personalized reference vector location.  Just put
-c   all ref vectors outside/below plot.
-
-c - 2016 07 21:
-c    - Added code to allow for optional placement of reference vectors, coming from
-c      "map.parameters" as read in subroutine "getmapbounds"
-
-c 
-c - Part of the NADCON5 process
-c
-c - Program presumes, as input
-c - the "old datum", "new datum" , "region" and "mapflag"
-c - arguments fed into "doit2.bat"
-c - Examples:
-c     olddatum = 'ussd'
-c     newdatum = 'nad27'
-c     region = 'conus'
-c     mapflag = 0
-c
-c - Program to take a "work" file and create
-c - a variety of GMT-ready data files of the following
-c - 1) Coverage in latitude
-c - 2) Coverage in longitude
-c - 3) Coverage in ellipsoid height
-c - 4) Vectors  in latitude
-c - 5) Vectors  in longitude
-c - 6) Vectors  in ellipdoid height
-c - 7) Vectors  in horizontal (properly azimuthed)
-c - It furthermore will create batch file to run the
-c - GMT scripts:
-c      gmtbat01.(olddtm).(newdtm).(region).(mapflag)
-
-c ---------------------------------------------------
-
       implicit double precision(a-h,o-z)
       parameter(maxplots=60)
 
