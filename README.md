@@ -2,7 +2,7 @@
 
 Tweaks and Updates to US National Geodetic Survey `NADCON5` Tool. Used to convert Geodetic Data between various US Datums, including: US Standard Datum (`USSD`) used  prior to `NAD27`, North American Datum of 1927 (`NAD27`(, and various realizations of the North American Datum of 1983 `NAD83`
 
-[Link To Doxygen Documentation Website](http://nadcon5-ng.akshmakov.com)
+[Link To Doxygen Documentation Website](http://docs.nc5ng.org/latest)
 
 The intent of this project is to adapt the existing tool to be accessible to more users,  useable as a command line utility, hopefully parallelizable,  and eventually an element in a Continuous Data Integration Pipeline using Docker or other container environment. 
 
@@ -20,7 +20,7 @@ At the time of this README was update, the following was true
 
 1. The existing processing pipeline has been offloaded to GNU Make to eliminate in-source builds
 2. Doxygen was strapped on top of the project to create documentation , source files were modified, superficially, to export documentation in doxygen 
-3. Documentation and website live, via `github-pages`, url: http://nadcon5-ng.akshmakov.com
+3. Documentation and website live, via `github-pages`, url: http://docs.nc5ng.org/latest
 
 On the Immediate Roadmap
 
