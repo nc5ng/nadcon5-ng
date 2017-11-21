@@ -1,0 +1,6 @@
+<map id="myrms" name="myrms">
+<area shape="rect" id="node2" href="$group__core.html#ga456c2747eddc4e9792e9c052fc3dfb2a" title="Subroutine to collect up the GRID boundaries for use in creating NADCON 5. " alt="" coords="116,5,219,32"/>
+<area shape="rect" id="node3" href="$myrms_8f.html#a2340f145ed413d747cdf2b160fd72e51" title="getrms" alt="" coords="136,56,199,83"/>
+<area shape="rect" id="node4" href="$group__core.html#gaada1f7f6294a20b1828bd4d1b7e37ca0" title="Subroutine to perform ?? indexing on integer data. " alt="" coords="136,107,199,133"/>
+<area shape="rect" id="node5" href="$group__core.html#gadc5c9acc8aedbc27aa45d5a78980e6d0" title="Function to round a digit to one significant figure (one non zero digit), double precision. " alt="" coords="139,157,196,184"/>
+</map>

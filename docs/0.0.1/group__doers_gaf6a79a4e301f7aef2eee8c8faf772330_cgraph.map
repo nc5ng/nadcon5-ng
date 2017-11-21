@@ -1,0 +1,7 @@
+<map id="makeplotfiles01" name="makeplotfiles01">
+<area shape="rect" id="node2" href="$group__core.html#ga6d046a9be31aa1d9b69abd6eb6117294" title="Subroutine to make GMT calls to do a B/W coverage plot. " alt="" coords="183,5,257,32"/>
+<area shape="rect" id="node4" href="$group__core.html#ga82c09d84f1af66481bc8e975f3f986ae" title="Subroutine to make GMT calls to do a B/W vector plot. " alt="" coords="183,56,257,83"/>
+<area shape="rect" id="node5" href="$group__core.html#ga34660db69356d6ab42d986fc2f85d158" title="Subroutine to collect up the MAP boundaries for use in creating NADCON 5. " alt="" coords="167,107,273,133"/>
+<area shape="rect" id="node6" href="$group__core.html#gadc5c9acc8aedbc27aa45d5a78980e6d0" title="Function to round a digit to one significant figure (one non zero digit), double precision. " alt="" coords="191,157,249,184"/>
+<area shape="rect" id="node3" href="$group__core.html#ga43be1e80c0bde6748f414d2eee05603f" title="Subroutine to write GMT&#45;based commands to create a shoreline Write GMT&#45;based commands to create a sho..." alt="" coords="321,31,396,57"/>
+</map>
