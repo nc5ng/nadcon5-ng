@@ -1,0 +1,2 @@
+#!/bin/sh
+gmt ps2raster "$@"

@@ -10,10 +10,10 @@
 ########################################
 
 _TOP_DIR := ../
-TOP_DIR   = $(shell cd $(_TOP_DIR); pwd)
-BUILD_DIR = $(TOP_DIR)/build
-BIN_DIR   = $(BUILD_DIR)/bin
-MASK_DIR  = $(BIN_DIR)/masks
+TOP_DIR   ?= $(shell cd $(_TOP_DIR); pwd)
+BUILD_DIR ?= $(TOP_DIR)/build
+BIN_DIR   ?= $(BUILD_DIR)/bin
+MASK_DIR  ?= $(BIN_DIR)/masks
 DIRS := $(BUILD_DIR) $(BIN_DIR) $(MASK_DIR)
 
 ########################################
@@ -21,16 +21,16 @@ DIRS := $(BUILD_DIR) $(BIN_DIR) $(MASK_DIR)
 ########################################
 
 
-ECHO  = echo
-MKDIR = mkdir
-RM    = rm
+ECHO  ?= echo
+MKDIR ?= mkdir
+RM    ?= rm
 
 # Orace Fortran
-_ORACLE_STUDIO_BIN = ../../OracleDeveloperStudio12.6-linux-x86-bin/developerstudio12.6/bin
-FC = $(_ORACLE_STUDIO_BIN)/f95
+_ORACLE_STUDIO_BIN ?= ../../OracleDeveloperStudio12.6-linux-x86-bin/developerstudio12.6/bin
+FC ?= $(_ORACLE_STUDIO_BIN)/f95
 
 #Existing Flags
-FFLAGS = "-O5 -libmil -fsimple=0 -dalign -xlibmopt -ftrap=%none -xvector=yes -xprefetch=yes -parallel -reduction -xloopinfo -s -stackvar -m64"
+FFLAGS ?= "-O5 -libmil -fsimple=0 -dalign -xlibmopt -ftrap=%none -xvector=yes -xprefetch=yes -parallel -reduction -xloopinfo -s -stackvar -m64"
 
 
 

@@ -1,0 +1,2 @@
+#!/bin/sh
+gmt xyz2grd "$@"

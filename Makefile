@@ -7,43 +7,43 @@ GRIDSPACING ?= 900
 BASE_OUT_NAME := $(OLD_DATUM).$(NEW_DATUM).$(REGION).$(GRIDSPACING).$(MAPLEVEL)
 
 _TOP_DIR := ./
-TOP_DIR   = $(shell cd $(_TOP_DIR); pwd)
-DATA_ROOT_DIR=$(TOP_DIR)/data
-BUILD_DIR = $(TOP_DIR)/build
-BIN_DIR = $(BUILD_DIR)/bin
-OUT_DIR = $(BUILD_DIR)/out.$(BASE_OUT_NAME)
+TOP_DIR   ?= $(shell cd $(_TOP_DIR); pwd)
+DATA_ROOT_DIR ?= $(TOP_DIR)/data
+BUILD_DIR ?= $(TOP_DIR)/build
+BIN_DIR ?= $(BUILD_DIR)/bin
+OUT_DIR ?= $(BUILD_DIR)/out.$(BASE_OUT_NAME)
+GMT_WRAP_DIR ?= $(TOP_DIR)/gmt_wrappers
 
-CODE_DIR = $(TOP_DIR)/src
-export PATH := $(PATH):$(BIN_DIR)
+CODE_DIR ?= $(TOP_DIR)/src
+export PATH := $(PATH):$(BIN_DIR):$(GMT_WRAP_DIR)
 
-CONTROL_DIR = $(DATA_ROOT_DIR)/Control
+CONTROL_DIR ?= $(DATA_ROOT_DIR)/Control
 CONTROL_CPY_DIR = $(OUT_DIR)/Control
 
-DATA_DIR = $(DATA_ROOT_DIR)/Data
+DATA_DIR ?= $(DATA_ROOT_DIR)/Data
 DATA_CPY_DIR = $(OUT_DIR)/Data
 
-WORK_DIR = $(DATA_ROOT_DIR)/Work
+WORK_DIR ?= $(DATA_ROOT_DIR)/Work
 WORK_CPY_DIR = $(OUT_DIR)/Work
 
-MASKS_DIR = $(DATA_ROOT_DIR)/Masks
+MASKS_DIR ?= $(DATA_ROOT_DIR)/Masks
 MASKS_CPY_DIR = $(OUT_DIR)/Masks
 
-IN_DIR = $(DATA_ROOT_DIR)/InFiles
+IN_DIR ?= $(DATA_ROOT_DIR)/InFiles
 IN_CPY_DIR = $(OUT_DIR)/InFiles
 
-GMTDEFAULTS = $(DATA_ROOT_DIR)/gmtdefaults4
+GMTDEFAULTS ?= $(DATA_ROOT_DIR)/gmtdefaults4
 GMTDEFAULTS_CPY = $(OUT_DIR)/.gmtdefaults4
 
 CPY_TARGETS = $(WORK_CPY_DIR) $(DATA_CPY_DIR) $(IN_CPY_DIR) $(CONTROL_CPY_DIR) $(GMTDEFAULTS_CPY) $(MASKS_CPY_DIR)
 
 ## Common System Commands
-MKDIR=mkdir
-RM=rm
-ECHO=echo
-CP=cp
-CD=cd
-DATE=date
-
+MKDIR ?= mkdir
+RM ?= rm
+ECHO ?= echo
+CP ?= cp
+CD ?= cd
+DATE ?= date
 TIMESTAMP := $(shell $(DATE) +"%Y%m%d-%H%M%S")
 
 ## Target Files
@@ -57,7 +57,7 @@ CHECKGRID_BIN = $(BIN_DIR)/checkgrid
 
 BIN_DEPS = $(MAKEWORK_BIN) $(MAKEPLOT1_BIN) $(MAKEPLOT2_BIN) $(MYMEDIAN_BIN) $(MAKEPLOT3_BIN) $(MYRMS_BIN) $(CHECKGRID_BIN)
 
-OUT_FILE_1 = $(OUT_DIR)/Work/work.$(OLD_DATUM).$(NEW_DATUM).$(REGION)
+OUT_FILE_1 = $(WORK_CPY_DIR)/work.$(OLD_DATUM).$(NEW_DATUM).$(REGION)
 
 OUT_FILE_2 = $(OUT_DIR)/gmtbat01.$(OLD_DATUM).$(NEW_DATUM).$(REGION).$(MAPLEVEL)
 

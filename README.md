@@ -74,7 +74,6 @@ Which will build the initial tools and generate conversion output and images for
 1. [Generic Mapping Tools](http://gmt.soest.hawaii.edu/) `**GMT**`
    - Tested with 5.2.1
    - Install on Debian Systems with `sudo apt-get install gmt gmt-dcw gmt-gshhg`
-   - `PATH` Aliases must be provided for the following `GMT` modules `gmtset` `grd2xyz` `grdimage` `ps2raster` `psscale` `psxy` `surface` `grdcontour`  `makecpt`   `pscoast` `pstext` `xyz2grd` (see: [gmt_wrappers/](gmt_wrappers/))
 
 2. Oracle Fortran (`f95`) available for free (as in money, but not freedom) in [Oracle Developer Studio](https://www.oracle.com/tools/developerstudio/index.html)
    - Set `f95` path with environment variable `FC` (Per [GNU Conventions](https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html))
