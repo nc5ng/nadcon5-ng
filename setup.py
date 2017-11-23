@@ -5,7 +5,7 @@ from os import listdir, path, environ
 from datetime import datetime
 
 PKG_INFO= {
-    'version':getattr(environ,
+    'version':environ.get(
                     'NC5NG_BUILD_VERSION',
                     int(datetime.now().timestamp())
     ),
@@ -24,8 +24,18 @@ For Documentation See: https://docs.nc5ng.org/latest
 
 ## Selectively disable modules from processing
 DISABLED_MODULES = [ 
-] 
+    ]
 
+_LINK_PLOTCOAST = " -lplotcoast "
+F2PY_DEFAULT_OPTS = [ ]
+MODULE_BASE_OPTS = { }
+MODULE_EXTRA_OPTS = {
+    'nc5ng.core.bwplotvc': [_LINK_PLOTCOAST,],
+    'nc5ng.core.bwplotcv':[_LINK_PLOTCOAST,],
+    'nc5ng.core.coplot': [_LINK_PLOTCOAST,],
+    'nc5ng.core.coplotwcv':[_LINK_PLOTCOAST,],
+}
+print (MODULE_EXTRA_OPTS)
 ## Buffer for calculated Extensions
 fortran_extensions = []
 
@@ -37,7 +47,7 @@ def mk_fortran_extension_kwargs(src_file, pkg, sig_dir = None):
     root, ext = path.splitext(src_file)
     src_dir, name = path.split(root)
 
-    mod_name = "%s.%s"%(pkg, name)
+    mod_name = ("%s.%s"%(pkg, name)).strip()
 
     if ext not in ['.f', '.for']:
         print (src_file, " is not a valid fortran file, ignoring ")
@@ -50,9 +60,15 @@ def mk_fortran_extension_kwargs(src_file, pkg, sig_dir = None):
     sig_file_name = name + ".pyf"
     sig_file = None
 
-    print ("Found Valid src_file ", src_file, " for package ", pkg,
-           " , with sig_dir ", sig_dir, " module name ", mod_name)
+    f2py_e_opts = MODULE_EXTRA_OPTS.get( mod_name, [])
+    f2py_b_opts = MODULE_BASE_OPTS.get( mod_name, F2PY_DEFAULT_OPTS)
+    f2py_opts = f2py_b_opts + f2py_e_opts
 
+    print ("Found Valid src_file ", src_file, " for package ", pkg,
+           " , with sig_dir ", sig_dir, " module name ", mod_name, " f2py_opts ", f2py_opts)
+
+    sources = [ src_file ]
+    
     if sig_dir and path.exists(path.join(sig_dir, sig_file_name)):
         sig_file = path.join(sig_dir, sig_file_name)
         print ("Found signature file ", sig_file)
@@ -61,12 +77,11 @@ def mk_fortran_extension_kwargs(src_file, pkg, sig_dir = None):
         print ("Found signature file ", sig_file)
 
     if sig_file is not None:
-        return {'name': mod_name,
-                'sources' : [ sig_file, src_file]}
-    else:
-        print( "No Signature File Found for " , name )
-        return {'name': mod_name,
-                'sources' : [ src_file  ]}
+        sources = [ sig_file, src_file ]
+
+    return {'name': mod_name,
+            'sources' : sources,
+            'f2py_options' : f2py_opts}
             
 ## Setup Our Core Library Fortran Extension
     

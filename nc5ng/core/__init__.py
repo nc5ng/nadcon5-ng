@@ -1,31 +1,31 @@
 """Core Library"""
 
-#from qterp import qterp
+from nc5ng.core.qterp import qterp
 
-#from onzd import onzd 
-#from bicubic import bicubic
-#from cpt2 import cpt2
-#from indexxd import indexxd
-#from plotcoast import plotcoast
-#from bilin import bilin
-#from cpt import cpt
-#from indexxi import indexxi
+from nc5ng.core.onzd import onzd 
+from nc5ng.core.bicubic import bicubic
+from nc5ng.core.cpt2 import cpt2
+from nc5ng.core.indexxd import indexxd
+from nc5ng.core.plotcoast import plotcoast
+from nc5ng.core.bilin import bilin
+from nc5ng.core.cpt import cpt
+from nc5ng.core.indexxi import indexxi
 
-#from biquad import biquad
+from nc5ng.core.biquad import biquad
 
-#from cubterp import cubterp
-#from select2_dbl import select2 as select2_dbl
-#from select_mod import select2 as select2_mod
-#from bwplotvc import bwplotvc
-#from bwplotcv import bwplotvc
-#from getgridbounds import getgridbounds
-#from getmag import getmag
-#from iselect2 import iselect2
-#from vecstats import vecstats
-#from coplot import coplot
-#from getmapbounds import getmapboundz
-#from onzd2 import onzd2
-#from coplotwcv import coplotwcv
-#from gridstats import gridstats
+from nc5ng.core.cubterp import cubterp
+from nc5ng.core.select2_dbl import select2 as select2_dbl
+from nc5ng.core.select2_mod import select2 as select2_mod
+#from nc5ng.core.bwplotvc import bwplotvc
+#from nc5ng.core.bwplotcv import bwplotvc
+from nc5ng.core.getgridbounds import getgridbounds
+from nc5ng.core.getmag import getmag
+from nc5ng.core.iselect2 import iselect2
+from nc5ng.core.vecstats import vecstats
+#from nc5ng.core.coplot import coplot
+from nc5ng.core.getmapbounds import getmapbounds
+from nc5ng.core.onzd2 import onzd2
+#from nc5ng.core.coplotwcv import coplotwcv
+#from nc5ng.core.gridstats import gridstats
 
-__all__ = [ 'qterp']
+#__all__ = []
