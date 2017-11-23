@@ -1,0 +1,31 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module biquad ! in 
+    interface  ! in :biquad
+        subroutine biquad(z,glamn,glomn,dla,dlo,nla,nlo,maxla,maxlo,xla,xlo,val) ! in :biquad:Subs/biquad.f
+            real*4 dimension(maxla,maxlo) :: z
+            real*8 :: glamn
+            real*8 :: glomn
+            real*8 :: dla
+            real*8 :: dlo
+            integer :: nla
+            integer :: nlo
+            integer, optional,check(shape(z,0)==maxla),depend(z) :: maxla=shape(z,0)
+            integer, optional,check(shape(z,1)==maxlo),depend(z) :: maxlo=shape(z,1)
+            real*8 :: xla
+            real*8 :: xlo
+            real*8 :: val
+        end subroutine biquad
+        function qterp(x,f0,f1,f2) ! in :biquad:Subs/qterp.f
+            real*8 :: x
+            real*8 :: f0
+            real*8 :: f1
+            real*8 :: f2
+            real :: qterp
+        end function qterp
+    end interface 
+end python module biquad
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

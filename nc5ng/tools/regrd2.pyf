@@ -1,0 +1,68 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module regrd2 ! in 
+    interface  ! in :regrd2
+        subroutine bquad1(h,gla,glo,ival) ! in :regrd2:BinSource/regrd2.f
+            integer dimension(nla,nlo) :: h
+            double precision :: gla
+            double precision :: glo
+            integer :: ival
+            double precision :: glamn
+            double precision :: dgla
+            double precision :: glamx
+            double precision :: glomn
+            double precision :: dglo
+            double precision :: glomx
+            integer, optional,check(shape(h,0)==nla),depend(h) :: nla=shape(h,0)
+            integer, optional,check(shape(h,1)==nlo),depend(h) :: nlo=shape(h,1)
+            integer :: nclip
+            common /gstuff/ glamn,dgla,glamx,glomn,dglo,glomx,nla,nlo,nclip
+        end subroutine bquad1
+        subroutine bquad2(z,gla,glo,val) ! in :regrd2:BinSource/regrd2.f
+            real*4 dimension(nla,nlo) :: z
+            double precision :: gla
+            double precision :: glo
+            double precision :: val
+            double precision :: glamn
+            double precision :: dgla
+            double precision :: glamx
+            double precision :: glomn
+            double precision :: dglo
+            double precision :: glomx
+            integer, optional,check(shape(z,0)==nla),depend(z) :: nla=shape(z,0)
+            integer, optional,check(shape(z,1)==nlo),depend(z) :: nlo=shape(z,1)
+            integer :: nclip
+            common /gstuff/ glamn,dgla,glamx,glomn,dglo,glomx,nla,nlo,nclip
+        end subroutine bquad2
+        function qterp1(x,if0,if1,if2) ! in :regrd2:BinSource/regrd2.f
+            double precision :: x
+            integer :: if0
+            integer :: if1
+            integer :: if2
+            real :: qterp1
+        end function qterp1
+        function qterp2(x,f0,f1,f2) ! in :regrd2:BinSource/regrd2.f
+            double precision :: x
+            double precision :: f0
+            double precision :: f1
+            double precision :: f2
+            real :: qterp2
+        end function qterp2
+        subroutine r1(lin,h,nla,nlo) ! in :regrd2:BinSource/regrd2.f
+            integer :: lin
+            integer dimension(nla,nlo) :: h
+            integer, optional,check(shape(h,0)==nla),depend(h) :: nla=shape(h,0)
+            integer, optional,check(shape(h,1)==nlo),depend(h) :: nlo=shape(h,1)
+        end subroutine r1
+        subroutine r2(lin,z,nla,nlo) ! in :regrd2:BinSource/regrd2.f
+            integer :: lin
+            real*4 dimension(nla,nlo) :: z
+            integer, optional,check(shape(z,0)==nla),depend(z) :: nla=shape(z,0)
+            integer, optional,check(shape(z,1)==nlo),depend(z) :: nlo=shape(z,1)
+        end subroutine r2
+    end interface 
+end python module regrd2
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

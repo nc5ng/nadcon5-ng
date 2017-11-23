@@ -1,0 +1,14 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module onzd ! in 
+    interface  ! in :onzd
+        function onzd(x) ! in :onzd:Subs/onzd.f
+            real*4 :: x
+            real*4 :: onzd
+        end function onzd
+    end interface 
+end python module onzd
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

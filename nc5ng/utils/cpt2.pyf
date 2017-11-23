@@ -1,0 +1,17 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module cpt2 ! in 
+    interface  ! in :cpt2
+        subroutine cpt2(med,csm,xlo,xhi,xin) ! in :cpt2:Subs/cpt2.f
+            real*8 :: med
+            real*8 :: csm
+            real*8 :: xlo
+            real*8 :: xhi
+            real*8 :: xin
+        end subroutine cpt2
+    end interface 
+end python module cpt2
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

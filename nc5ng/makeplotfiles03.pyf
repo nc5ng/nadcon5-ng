@@ -1,0 +1,129 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module makeplotfiles03 ! in 
+    interface  ! in :makeplotfiles03
+        subroutine getmapbounds(mapflag,maxplots,region,nplots,olddtm,newdtm,bw,be,bs,bn,jm,b1,b2,fn,lrv,rv0x,rv0y,rl0y) ! in :makeplotfiles03:Subs/getmapbounds.f
+            character*1 :: mapflag
+            integer, optional,check(len(bw)>=maxplots),depend(bw) :: maxplots=len(bw)
+            character*10 :: region
+            integer :: nplots
+            character*10 :: olddtm
+            character*10 :: newdtm
+            real*8 dimension(maxplots) :: bw
+            real*8 dimension(maxplots),depend(maxplots) :: be
+            real*8 dimension(maxplots),depend(maxplots) :: bs
+            real*8 dimension(maxplots),depend(maxplots) :: bn
+            real*4 dimension(maxplots),depend(maxplots) :: jm
+            real*4 dimension(maxplots),depend(maxplots) :: b1
+            real*4 dimension(maxplots),depend(maxplots) :: b2
+            character dimension(maxplots,10),intent(c),depend(maxplots) :: fn
+            logical dimension(maxplots),depend(maxplots) :: lrv
+            real*8 dimension(maxplots),depend(maxplots) :: rv0x
+            real*8 dimension(maxplots),depend(maxplots) :: rv0y
+            real*8 dimension(maxplots),depend(maxplots) :: rl0y
+        end subroutine getmapbounds
+        subroutine getmag(x,ix) ! in :makeplotfiles03:Subs/getmag.f
+            real*8 :: x
+            integer :: ix
+        end subroutine getmag
+        subroutine coplot(ele,fname,bw,be,bs,bn,jm,b1,b2,maxplots,olddtm,newdtm,region,elecap,ij,cptlo,cpthi,cptin6,suffixused,igridsec,fn) ! in :makeplotfiles03:Subs/coplot.f
+            character*3 :: ele
+            character*200 :: fname
+            real*8 dimension(maxplots) :: bw
+            real*8 dimension(maxplots),depend(maxplots) :: be
+            real*8 dimension(maxplots),depend(maxplots) :: bs
+            real*8 dimension(maxplots),depend(maxplots) :: bn
+            real*4 dimension(maxplots),depend(maxplots) :: jm
+            real*4 dimension(maxplots),depend(maxplots) :: b1
+            real*4 dimension(maxplots),depend(maxplots) :: b2
+            integer*4, optional,check(len(bw)>=maxplots),depend(bw) :: maxplots=len(bw)
+            character*10 :: olddtm
+            character*10 :: newdtm
+            character*10 :: region
+            character*3 :: elecap
+            integer :: ij
+            real*8 :: cptlo
+            real*8 :: cpthi
+            real*8 :: cptin6
+            character*200 :: suffixused
+            integer :: igridsec
+            character dimension(maxplots,10),intent(c),depend(maxplots) :: fn
+        end subroutine coplot
+        subroutine bwplotvc(ele,fname,bw,be,bs,bn,jm,b1,b2,maxplots,olddtm,newdtm,region,elecap,ij,xvlon,xvlat,xllon,xllat,lorvog,lorvopc,igridsec,fn) ! in :makeplotfiles03:Subs/bwplotvc.f
+            character*3 :: ele
+            character*200 :: fname
+            real*8 dimension(maxplots) :: bw
+            real*8 dimension(maxplots),depend(maxplots) :: be
+            real*8 dimension(maxplots),depend(maxplots) :: bs
+            real*8 dimension(maxplots),depend(maxplots) :: bn
+            real*4 dimension(maxplots),depend(maxplots) :: jm
+            real*4 dimension(maxplots),depend(maxplots) :: b1
+            real*4 dimension(maxplots),depend(maxplots) :: b2
+            integer*4, optional,check(len(bw)>=maxplots),depend(bw) :: maxplots=len(bw)
+            character*10 :: olddtm
+            character*10 :: newdtm
+            character*10 :: region
+            character*3 :: elecap
+            integer :: ij
+            real*8 :: xvlon
+            real*8 :: xvlat
+            real*8 :: xllon
+            real*8 :: xllat
+            real*8 :: lorvog
+            real*8 :: lorvopc
+            integer :: igridsec
+            character dimension(maxplots,10),intent(c),depend(maxplots) :: fn
+        end subroutine bwplotvc
+        subroutine bwplotcv(ele,fname,bw,be,bs,bn,jm,b1,b2,maxplots,olddtm,newdtm,region,elecap,ij,igridsec,fn) ! in :makeplotfiles03:Subs/bwplotcv.f
+            character*3 :: ele
+            character*200 :: fname
+            real*8 dimension(maxplots) :: bw
+            real*8 dimension(maxplots),depend(maxplots) :: be
+            real*8 dimension(maxplots),depend(maxplots) :: bs
+            real*8 dimension(maxplots),depend(maxplots) :: bn
+            real*4 dimension(maxplots),depend(maxplots) :: jm
+            real*4 dimension(maxplots),depend(maxplots) :: b1
+            real*4 dimension(maxplots),depend(maxplots) :: b2
+            integer*4, optional,check(len(bw)>=maxplots),depend(bw) :: maxplots=len(bw)
+            character*10 :: olddtm
+            character*10 :: newdtm
+            character*10 :: region
+            character*3 :: elecap
+            integer :: ij
+            integer :: igridsec
+            character dimension(maxplots,10),intent(c),depend(maxplots) :: fn
+        end subroutine bwplotcv
+        subroutine plotcoast(region,ifnum) ! in :makeplotfiles03:Subs/plotcoast.f
+            character*10 :: region
+            integer :: ifnum
+        end subroutine plotcoast
+        function onzd2(x) ! in :makeplotfiles03:Subs/onzd2.f
+            real*8 :: x
+            real*8 :: onzd2
+        end function onzd2
+        subroutine gridstats(fname,ave,std,med) ! in :makeplotfiles03:Subs/gridstats.f
+            character*200 :: fname
+            real*8 :: ave
+            real*8 :: std
+            real*8 :: med
+        end subroutine gridstats
+        subroutine cpt2(med,csm,xlo,xhi,xin) ! in :makeplotfiles03:Subs/cpt2.f
+            real*8 :: med
+            real*8 :: csm
+            real*8 :: xlo
+            real*8 :: xhi
+            real*8 :: xin
+        end subroutine cpt2
+        function select2(k,n,arr,nmax) ! in :makeplotfiles03:Subs/select2_mod.for
+            integer :: k
+            integer :: n
+            real*4 dimension(nmax) :: arr
+            integer, optional,check(len(arr)>=nmax),depend(arr) :: nmax=len(arr)
+            real*4 :: select2
+        end function select2
+    end interface 
+end python module makeplotfiles03
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

@@ -1,0 +1,34 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module coplotwcv ! in 
+    interface  ! in :coplotwcv
+        subroutine coplotwcv(ele,fname,bw,be,bs,bn,jm,b1,b2,maxplots,olddtm,newdtm,region,elecap,ij,cptlo,cpthi,cptin6,suffixused,igridsec,fn,cvfname) ! in :coplotwcv:Subs/coplotwcv.f
+            character*3 :: ele
+            character*200 :: fname
+            real*8 dimension(maxplots) :: bw
+            real*8 dimension(maxplots),depend(maxplots) :: be
+            real*8 dimension(maxplots),depend(maxplots) :: bs
+            real*8 dimension(maxplots),depend(maxplots) :: bn
+            real*4 dimension(maxplots),depend(maxplots) :: jm
+            real*4 dimension(maxplots),depend(maxplots) :: b1
+            real*4 dimension(maxplots),depend(maxplots) :: b2
+            integer*4, optional,check(len(bw)>=maxplots),depend(bw) :: maxplots=len(bw)
+            character*10 :: olddtm
+            character*10 :: newdtm
+            character*10 :: region
+            character*3 :: elecap
+            integer :: ij
+            real*8 :: cptlo
+            real*8 :: cpthi
+            real*8 :: cptin6
+            character*200 :: suffixused
+            integer :: igridsec
+            character dimension(maxplots,10),intent(c),depend(maxplots) :: fn
+            character*200 :: cvfname
+        end subroutine coplotwcv
+    end interface 
+end python module coplotwcv
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

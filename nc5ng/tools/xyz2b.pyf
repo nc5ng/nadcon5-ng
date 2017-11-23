@@ -1,0 +1,60 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module xyz2b ! in 
+    interface  ! in :xyz2b
+        subroutine put1(ival,gla,glo,h,nla,nlo,glamn,dgla,glomn,dglo,iclp) ! in :xyz2b:BinSource/xyz2b.f
+            integer :: ival
+            real*4 :: gla
+            real*4 :: glo
+            integer dimension(nla,nlo) :: h
+            integer, optional,check(shape(h,0)==nla),depend(h) :: nla=shape(h,0)
+            integer, optional,check(shape(h,1)==nlo),depend(h) :: nlo=shape(h,1)
+            double precision :: glamn
+            double precision :: dgla
+            double precision :: glomn
+            double precision :: dglo
+            integer :: iclp
+        end subroutine put1
+        subroutine put2(val,gla,glo,z,nla,nlo,glamn,dgla,glomn,dglo,iclip) ! in :xyz2b:BinSource/xyz2b.f
+            real*4 :: val
+            real*4 :: gla
+            real*4 :: glo
+            real*4 dimension(nla,nlo) :: z
+            integer, optional,check(shape(z,0)==nla),depend(z) :: nla=shape(z,0)
+            integer, optional,check(shape(z,1)==nlo),depend(z) :: nlo=shape(z,1)
+            double precision :: glamn
+            double precision :: dgla
+            double precision :: glomn
+            double precision :: dglo
+            integer :: iclip
+        end subroutine put2
+        subroutine w1(lout,h,nla,nlo,glamn,dgla,glomn,dglo) ! in :xyz2b:BinSource/xyz2b.f
+            integer :: lout
+            integer dimension(nla,nlo) :: h
+            integer, optional,check(shape(h,0)==nla),depend(h) :: nla=shape(h,0)
+            integer, optional,check(shape(h,1)==nlo),depend(h) :: nlo=shape(h,1)
+            double precision :: glamn
+            double precision :: dgla
+            double precision :: glomn
+            double precision :: dglo
+        end subroutine w1
+        subroutine w2(lout,z,nla,nlo,glamn,dgla,glomn,dglo) ! in :xyz2b:BinSource/xyz2b.f
+            integer :: lout
+            real*4 dimension(nla,nlo) :: z
+            integer, optional,check(shape(z,0)==nla),depend(z) :: nla=shape(z,0)
+            integer, optional,check(shape(z,1)==nlo),depend(z) :: nlo=shape(z,1)
+            double precision :: glamn
+            double precision :: dgla
+            double precision :: glomn
+            double precision :: dglo
+        end subroutine w2
+        function makpos(glon) ! in :xyz2b:BinSource/xyz2b.f
+            double precision :: glon
+            logical :: makpos
+        end function makpos
+    end interface 
+end python module xyz2b
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

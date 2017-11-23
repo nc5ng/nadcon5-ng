@@ -1,0 +1,17 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module getgridbounds ! in 
+    interface  ! in :getgridbounds
+        subroutine getgridbounds(region,xn,xs,xw,xe) ! in :getgridbounds:Subs/getgridbounds.f
+            character*10 :: region
+            real*8 :: xn
+            real*8 :: xs
+            real*8 :: xw
+            real*8 :: xe
+        end subroutine getgridbounds
+    end interface 
+end python module getgridbounds
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

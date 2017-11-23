@@ -1,0 +1,22 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module cpt ! in 
+    interface  ! in :cpt
+        subroutine cpt(ave,std,csm,xlo,xhi,xin) ! in :cpt:Subs/cpt.f
+            real*8 :: ave
+            real*8 :: std
+            real*8 :: csm
+            real*8 :: xlo
+            real*8 :: xhi
+            real*8 :: xin
+        end subroutine cpt
+        function onzd2(x) ! in :cpt:Subs/onzd2.f
+            real*8 :: x
+            real*8 :: onzd2
+        end function onzd2
+    end interface 
+end python module cpt
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

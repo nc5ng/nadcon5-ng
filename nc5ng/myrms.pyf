@@ -1,0 +1,40 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module myrms ! in 
+    interface  ! in :myrms
+        subroutine getrms(zs,max_bn,inumlo,inumhi,indx,maxppcell,xlat,xlon,alat,alon,rval) ! in :myrms:myrms.f
+            real*8 dimension(max_bn) :: zs
+            integer, optional,check(len(zs)>=max_bn),depend(zs) :: max_bn=len(zs)
+            integer*4 :: inumlo
+            integer*4 :: inumhi
+            integer*4 dimension(max_bn),depend(max_bn) :: indx
+            integer :: maxppcell
+            real*8 dimension(max_bn),depend(max_bn) :: xlat
+            real*8 dimension(max_bn),depend(max_bn) :: xlon
+            real*8 :: alat
+            real*8 :: alon
+            real*8 :: rval
+        end subroutine getrms
+        subroutine getgridbounds(region,xn,xs,xw,xe) ! in :myrms:Subs/getgridbounds.f
+            character*10 :: region
+            real*8 :: xn
+            real*8 :: xs
+            real*8 :: xw
+            real*8 :: xe
+        end subroutine getgridbounds
+        subroutine indexxi(n,nd,arr,indx) ! in :myrms:Subs/indexxi.for
+            integer :: n
+            integer, optional,check(len(arr)>=nd),depend(arr) :: nd=len(arr)
+            integer*4 dimension(nd) :: arr
+            integer dimension(nd),depend(nd) :: indx
+        end subroutine indexxi
+        function onzd2(x) ! in :myrms:Subs/onzd2.f
+            real*8 :: x
+            real*8 :: onzd2
+        end function onzd2
+    end interface 
+end python module myrms
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/
