@@ -21,8 +21,10 @@ For Documentation See: https://docs.nc5ng.org/latest
     'url':"https://nc5ng.org",
     'download_url':"https://github.com/nc5ng/nadcon5ng"
 }
+
 ## Selectively disable modules from processing
-DISABLED_MODULES = [] #'nc5ng.core.onzd' , ]
+DISABLED_MODULES = [ 
+] 
 
 ## Buffer for calculated Extensions
 fortran_extensions = []
@@ -49,12 +51,14 @@ def mk_fortran_extension_kwargs(src_file, pkg, sig_dir = None):
     sig_file = None
 
     print ("Found Valid src_file ", src_file, " for package ", pkg,
-           " , with sig_dir ", sig_dir)
+           " , with sig_dir ", sig_dir, " module name ", mod_name)
 
     if sig_dir and path.exists(path.join(sig_dir, sig_file_name)):
         sig_file = path.join(sig_dir, sig_file_name)
+        print ("Found signature file ", sig_file)
     elif path.exists(path.join(src_dir, sig_file_name)):
         sig_file = path.join(src_dir, sig_file_name)
+        print ("Found signature file ", sig_file)
 
     if sig_file is not None:
         return {'name': mod_name,
@@ -84,6 +88,9 @@ for kwargs in CORE_PROGRAMS:
 ## Run Setup 
 if __name__ == '__main__':
     from numpy.distutils.core import setup
+
+    print (fortran_extensions)
+    
     setup(name = 'nc5ng',
           packages = find_packages(),
           ext_modules = fortran_extensions,

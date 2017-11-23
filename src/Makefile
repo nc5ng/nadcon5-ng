@@ -236,6 +236,7 @@ $(MASK_DIR)/%:$(notdir %).f | $(MASK_DIR)
 ###
 $(NC5NG_DIR)/core/%.pyf:Subs/%.f 
 	$(F2PY) -h $(F2PY_OPTS) $@ $< -m $*
+
 $(NC5NG_DIR)/core/%.pyf:Subs/%.for
 	$(F2PY) -h $(F2PY_OPTS) $@ $< -m $*
 
