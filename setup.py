@@ -1,17 +1,36 @@
+#! /usr/bin/env python
 from setuptools import find_packages
 from numpy.distutils.core import Extension
-from os import listdir, path
+from os import listdir, path, environ
+from datetime import datetime
 
-DISABLED_MODULES = [ 'nc5ng.tools.regrd2' ,
-                     'nc5ng.tools.b2xyz',
-                     'nc5ng.tools.xyz2b' ,
-                     'nc5ng.makeplotfiles02',
-                     'nc5ng.makeplotfiles03']
+PKG_INFO= {
+    'version':getattr(environ,
+                    'NC5NG_BUILD_VERSION',
+                    int(datetime.now().timestamp())
+    ),
+    'description': "Python Wrapper for the NADCON5 Datum Transformation Tool",
+    'long_description': """Used to Transform US National Geodetic Survey Datums USSD, NAD27, NAD83
 
+For More Information See: https://nc5ng.org
 
+For Documentation See: https://docs.nc5ng.org/latest
+""",
+    'author':"Andrey Shmakov",
+    'author_email':"akshmakov@gmail.com",
+    'url':"https://nc5ng.org",
+    'download_url':"https://github.com/nc5ng/nadcon5ng"
+}
+## Selectively disable modules from processing
+DISABLED_MODULES = [] #'nc5ng.core.onzd' , ]
+
+## Buffer for calculated Extensions
 fortran_extensions = []
 
-
+##
+## Make The KWARGS aka a Dictionary
+## suitable for passing to numpy.distutils.core.Extension
+##
 def mk_fortran_extension_kwargs(src_file, pkg, sig_dir = None):
     root, ext = path.splitext(src_file)
     src_dir, name = path.split(root)
@@ -45,46 +64,30 @@ def mk_fortran_extension_kwargs(src_file, pkg, sig_dir = None):
         return {'name': mod_name,
                 'sources' : [ src_file  ]}
             
-
-ROOT_PKG = 'nc5ng'
-ROOT_SRC_DIR = 'src'
-ROOT_PKG_DIR = 'nc5ng'
-ROOT_PROGRAMS = [mk_fortran_extension_kwargs(path.join(ROOT_SRC_DIR, f),
-                                             ROOT_PKG,
-                                             ROOT_PKG_DIR)
-                 for f in listdir(ROOT_SRC_DIR)]
-
-UTILS_PKG = 'nc5ng.utils'
-UTILS_SRC_DIR = 'src/Subs'
-UTILS_PKG_DIR = 'nc5ng/utils'
-UTILS = [mk_fortran_extension_kwargs(path.join(UTILS_SRC_DIR, f),
-                                     UTILS_PKG,
-                                     UTILS_PKG_DIR)
-         for f in listdir(UTILS_SRC_DIR)]
-
-TOOLS_PKG = 'nc5ng.tools'
-TOOLS_SRC_DIR = 'src/BinSource'
-TOOLS_PKG_DIR = 'nc5ng/tools'
-TOOLS = [mk_fortran_extension_kwargs(path.join(TOOLS_SRC_DIR, f),
-                                     TOOLS_PKG,
-                                             TOOLS_PKG_DIR)
-         for f in listdir(TOOLS_SRC_DIR)]
-
-
-
-
-for kwargs in UTILS+TOOLS+ROOT_PROGRAMS:
+## Setup Our Core Library Fortran Extension
     
+CORE_PKG = 'nc5ng.core'
+CORE_SRC_DIR = 'src/Subs'
+CORE_PKG_DIR = 'nc5ng/core'
+CORE_PROGRAMS = [mk_fortran_extension_kwargs(path.join(CORE_SRC_DIR, f),
+                                             CORE_PKG,
+                                             CORE_PKG_DIR)
+                 for f in listdir(CORE_SRC_DIR)]
+
+
+## Run Through All Extensions
+for kwargs in CORE_PROGRAMS:
     if kwargs is not None:
         fortran_extensions.append(Extension(**kwargs))
 
-    
+
+## Run Setup 
 if __name__ == '__main__':
     from numpy.distutils.core import setup
     setup(name = 'nc5ng',
-          description = "nc5ng",
           packages = find_packages(),
-          ext_modules = fortran_extensions
+          ext_modules = fortran_extensions,
+          **PKG_INFO
           )
           
     #setup(**configuration(top_path='').todict())

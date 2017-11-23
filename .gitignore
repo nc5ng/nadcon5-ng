@@ -1,3 +1,13 @@
 *~
 \#*\#
 build/
+
+nc5ng/**/*.so
+nc5ng/**/*.c
+
+__pycache__
+*.pyc
+
+*.egg-info
+
+dist/
