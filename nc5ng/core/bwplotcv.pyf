@@ -1,0 +1,29 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module bwplotcv ! in 
+    interface  ! in :bwplotcv
+        subroutine bwplotcv(ele,fname,bw,be,bs,bn,jm,b1,b2,maxplots,olddtm,newdtm,region,elecap,ij,igridsec,fn) ! in :bwplotcv:Subs/bwplotcv.f
+            character*3 :: ele
+            character*200 :: fname
+            real*8 dimension(maxplots) :: bw
+            real*8 dimension(maxplots),depend(maxplots) :: be
+            real*8 dimension(maxplots),depend(maxplots) :: bs
+            real*8 dimension(maxplots),depend(maxplots) :: bn
+            real*4 dimension(maxplots),depend(maxplots) :: jm
+            real*4 dimension(maxplots),depend(maxplots) :: b1
+            real*4 dimension(maxplots),depend(maxplots) :: b2
+            integer*4, optional,check(len(bw)>=maxplots),depend(bw) :: maxplots=len(bw)
+            character*10 :: olddtm
+            character*10 :: newdtm
+            character*10 :: region
+            character*3 :: elecap
+            integer :: ij
+            integer :: igridsec
+            character dimension(maxplots,10),intent(c),depend(maxplots) :: fn
+        end subroutine bwplotcv
+    end interface 
+end python module bwplotcv
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

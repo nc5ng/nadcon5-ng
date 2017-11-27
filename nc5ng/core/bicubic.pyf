@@ -1,0 +1,32 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module bicubic ! in 
+    interface  ! in :bicubic
+        subroutine bicubic(z,glamn,glomn,dla,dlo,nla,nlo,maxla,maxlo,xla,xlo,val) ! in :bicubic:Subs/bicubic.f
+            real*4 dimension(maxla,maxlo) :: z
+            real*8 :: glamn
+            real*8 :: glomn
+            real*8 :: dla
+            real*8 :: dlo
+            integer :: nla
+            integer :: nlo
+            integer, optional,check(shape(z,0)==maxla),depend(z) :: maxla=shape(z,0)
+            integer, optional,check(shape(z,1)==maxlo),depend(z) :: maxlo=shape(z,1)
+            real*8 :: xla
+            real*8 :: xlo
+            real*8 :: val
+        end subroutine bicubic
+        function cubterp(x,f0,f1,f2,f3) ! in :bicubic:Subs/cubterp.f
+            real*8 :: x
+            real*8 :: f0
+            real*8 :: f1
+            real*8 :: f2
+            real*8 :: f3
+            real :: cubterp
+        end function cubterp
+    end interface 
+end python module bicubic
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

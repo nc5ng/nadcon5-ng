@@ -1,0 +1,17 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module select2_dbl ! in 
+    interface  ! in :select2_dbl
+        function select2(k,n,arr,nmax) ! in :select2_dbl:Subs/select2_dbl.for
+            integer :: k
+            integer :: n
+            real*8 dimension(nmax) :: arr
+            integer, optional,check(len(arr)>=nmax),depend(arr) :: nmax=len(arr)
+            real*8 :: select2
+        end function select2
+    end interface 
+end python module select2_dbl
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

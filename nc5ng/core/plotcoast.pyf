@@ -1,0 +1,14 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module plotcoast ! in 
+    interface  ! in :plotcoast
+        subroutine plotcoast(region,ifnum) ! in :plotcoast:Subs/plotcoast.f
+            character*10 :: region
+            integer :: ifnum
+        end subroutine plotcoast
+    end interface 
+end python module plotcoast
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

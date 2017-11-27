@@ -1,0 +1,30 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module getmapbounds ! in 
+    interface  ! in :getmapbounds
+        subroutine getmapbounds(mapflag,maxplots,region,nplots,olddtm,newdtm,bw,be,bs,bn,jm,b1,b2,fn,lrv,rv0x,rv0y,rl0y) ! in :getmapbounds:Subs/getmapbounds.f
+            character*1 :: mapflag
+            integer, optional,check(len(bw)>=maxplots),depend(bw) :: maxplots=len(bw)
+            character*10 :: region
+            integer :: nplots
+            character*10 :: olddtm
+            character*10 :: newdtm
+            real*8 dimension(maxplots) :: bw
+            real*8 dimension(maxplots),depend(maxplots) :: be
+            real*8 dimension(maxplots),depend(maxplots) :: bs
+            real*8 dimension(maxplots),depend(maxplots) :: bn
+            real*4 dimension(maxplots),depend(maxplots) :: jm
+            real*4 dimension(maxplots),depend(maxplots) :: b1
+            real*4 dimension(maxplots),depend(maxplots) :: b2
+            character dimension(maxplots,10),intent(c),depend(maxplots) :: fn
+            logical dimension(maxplots),depend(maxplots) :: lrv
+            real*8 dimension(maxplots),depend(maxplots) :: rv0x
+            real*8 dimension(maxplots),depend(maxplots) :: rv0y
+            real*8 dimension(maxplots),depend(maxplots) :: rl0y
+        end subroutine getmapbounds
+    end interface 
+end python module getmapbounds
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

@@ -1,0 +1,16 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module indexxd ! in 
+    interface  ! in :indexxd
+        subroutine indexxd(n,nd,arr,indx) ! in :indexxd:Subs/indexxd.for
+            integer :: n
+            integer, optional,check(len(arr)>=nd),depend(arr) :: nd=len(arr)
+            real*8 dimension(nd) :: arr
+            integer dimension(nd),depend(nd) :: indx
+        end subroutine indexxd
+    end interface 
+end python module indexxd
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

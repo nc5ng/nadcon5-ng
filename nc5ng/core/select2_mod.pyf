@@ -1,0 +1,17 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module select2_mod ! in 
+    interface  ! in :select2_mod
+        function select2(k,n,arr,nmax) ! in :select2_mod:Subs/select2_mod.for
+            integer :: k
+            integer :: n
+            real*4 dimension(nmax) :: arr
+            integer, optional,check(len(arr)>=nmax),depend(arr) :: nmax=len(arr)
+            real*4 :: select2
+        end function select2
+    end interface 
+end python module select2_mod
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

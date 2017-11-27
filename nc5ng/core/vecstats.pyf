@@ -1,0 +1,14 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module vecstats ! in 
+    interface  ! in :vecstats
+        subroutine vecstats(fname,n) ! in :vecstats:Subs/vecstats.f
+            character*200 :: fname
+            integer*4 :: n
+        end subroutine vecstats
+    end interface 
+end python module vecstats
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

@@ -1,0 +1,14 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module getmag ! in 
+    interface  ! in :getmag
+        subroutine getmag(x,ix) ! in :getmag:Subs/getmag.f
+            real*8 :: x
+            integer :: ix
+        end subroutine getmag
+    end interface 
+end python module getmag
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

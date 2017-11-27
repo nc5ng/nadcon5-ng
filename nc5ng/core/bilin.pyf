@@ -1,0 +1,24 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module bilin ! in 
+    interface  ! in :bilin
+        subroutine bilin(data,glamn,glomn,dla,dlo,nla,nlo,maxla,maxlo,xla,xlo,val) ! in :bilin:Subs/bilin.f
+            real*4 dimension(maxla,maxlo) :: data
+            real*8 :: glamn
+            real*8 :: glomn
+            real*8 :: dla
+            real*8 :: dlo
+            integer :: nla
+            integer :: nlo
+            integer, optional,check(shape(data,0)==maxla),depend(data) :: maxla=shape(data,0)
+            integer, optional,check(shape(data,1)==maxlo),depend(data) :: maxlo=shape(data,1)
+            real*8 :: xla
+            real*8 :: xlo
+            real*8 :: val
+        end subroutine bilin
+    end interface 
+end python module bilin
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

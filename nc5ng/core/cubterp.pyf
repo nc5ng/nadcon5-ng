@@ -1,0 +1,18 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module cubterp ! in 
+    interface  ! in :cubterp
+        function cubterp(x,f0,f1,f2,f3) ! in :cubterp:Subs/cubterp.f
+            real :: x
+            real :: f0
+            real :: f1
+            real :: f2
+            real :: f3
+            real :: cubterp
+        end function cubterp
+    end interface 
+end python module cubterp
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

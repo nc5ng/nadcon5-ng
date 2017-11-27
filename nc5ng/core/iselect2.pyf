@@ -1,0 +1,17 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module iselect2 ! in 
+    interface  ! in :iselect2
+        function iselect2(k,n,arr,nmax) ! in :iselect2:Subs/iselect2.for
+            integer :: k
+            integer :: n
+            integer*2 dimension(nmax) :: arr
+            integer, optional,check(len(arr)>=nmax),depend(arr) :: nmax=len(arr)
+            integer*2 :: iselect2
+        end function iselect2
+    end interface 
+end python module iselect2
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

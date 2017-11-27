@@ -1,0 +1,16 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module gridstats ! in 
+    interface  ! in :gridstats
+        subroutine gridstats(fname,ave,std,med) ! in :gridstats:Subs/gridstats.f
+            character*200 :: fname
+            real*8 :: ave
+            real*8 :: std
+            real*8 :: med
+        end subroutine gridstats
+    end interface 
+end python module gridstats
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/

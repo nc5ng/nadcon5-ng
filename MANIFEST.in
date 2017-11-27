@@ -1,0 +1,3 @@
+include src/Subs/*.f
+include src/Subs/*.for
+include nc5ng/core/*.pyf
