@@ -222,6 +222,16 @@ gmtbat07: $(OUT_FILE_7)
 .PHONY: src all doit doit2 doit3 doit4 gmtbat01 gmtbat02 gmtbat03 gmtbat04 gmtbat05 gmtbat06 gmtbat07 arch
 
 
+## python
+
+pybuild:
+	./setup.py build
+
+pydevelop: pybuild
+	./setup.py develop
+
+.PHONY: pybuild pydevelop
+
 ## Clean Up
 
 clean:
@@ -237,8 +247,12 @@ pyclean:
 	$(RM) -rf nc5ng/core/*.c
 	$(RM) -rf nc5ng/core/*.so
 	$(RM) -rf dist/
-	$(RM) -rf build/{src,lib,temp}.*
+	$(RM) -rf build/src.*
+	$(RM) -rf build/lib.*
+	$(RM) -rf build/temp.*
 	$(RM) -rf ./*.egg-info
+	./setup.py develop -u
+	./setup.py clean	
 
 .PHONY: clean mrclean pyclean
 

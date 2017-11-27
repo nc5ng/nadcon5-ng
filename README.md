@@ -4,13 +4,13 @@ Tweaks and Updates to US National Geodetic Survey `NADCON5` Tool. Used to conver
 
 [Link To Doxygen Documentation Website](http://docs.nc5ng.org/latest)
 
-The intent of this fork is to adapt the existing tool to be accessible to more users, developers, and data scientists.  Eventually an element in a Continuous Data Integration Pipeline using Docker or other container environment. 
+The intent of this fork is to adapt the existing tool to be accessible to more users, developers, and data scientists, through the implementation of additional interfaces and workflows on top of existing NADCON5 Code. 
 
 > **NOTE**: This project is a personal project that is not in any way affiliated with the US Government, NOAA, or the National Geodetic Survey
 
 **Derivative Work:** Additions and Modifications to this software are released explicitly under Public Domain. 
 
-As a product of the United States Government NADCON5 is considered a work under public domain.
+As a product of the United States Government NADCON5 Source Code is considered a work under public domain.
 
 ## Project Status
 
@@ -22,17 +22,18 @@ At the time of this README was update, the following was true
 2. Doxygen was strapped on top of the project to create documentation , source files were modified, superficially, to export documentation in doxygen 
 3. Documentation and website live, via `github-pages`, url: http://docs.nc5ng.org/latest
 4. Initial Framework for a python glue library, with several functioning submodules and functions
+  - install with `pip install nc5ng`
 
 
 On the Immediate Roadmap
 
 1. Remove dependence on proprietary Oracle Fortran `f95`
- - Requires mapping build options to `gfortran` and correcting where necessary
- - Biggest issue is compiler specific handling of I/O and certain convenience extensions, not the math
+  - Requires mapping build options to `gfortran` and correcting where necessary
+  - Biggest issue is compiler specific handling of I/O and certain convenience extensions, not the math
 2. Take over the "batch generator" programs (e.g. makework() , makeplotfiles01 , etc.) so that individual conversions can be done as needed, through Make or otherwise
 3. Create an `install` target - install existing fortran programs onto system as a distribution
- - Some tweaks to programs to make this doable (path dependencies) 
- - Pruning of applications to core install package
+  - Some tweaks to programs to make this doable (path dependencies) 
+  - Pruning of applications to core install package
 
 
 ## What is NADCON5?

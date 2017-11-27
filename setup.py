@@ -1,16 +1,13 @@
 #! /usr/bin/env python
-from setuptools import find_packages
-from numpy.distutils.core import Extension
+from setuptools import find_packages, setup
 from distutils.command.build   import build as DistutilsBuild
 from distutils.command.install import install as DistutilsInstall
 from os import listdir, path, environ
 from datetime import datetime
 
+
 PKG_INFO= {
-    'version':environ.get(
-                    'NC5NG_BUILD_VERSION',
-                    int(datetime.now().timestamp())
-    ),
+    'version':'0.0.2',
     'description': "Python Wrapper for the NADCON5 Datum Transformation Tool",
     'long_description': """Used to Transform US National Geodetic Survey Datums USSD, NAD27, NAD83
 
@@ -21,7 +18,7 @@ For Documentation See: https://docs.nc5ng.org/latest
     'author':"Andrey Shmakov",
     'author_email':"akshmakov@gmail.com",
     'url':"https://nc5ng.org",
-    'download_url':"https://github.com/nc5ng/nadcon5ng"
+    'download_url':"https://github.com/nc5ng/nadcon5ng",
 }
 
 ## Selectively disable modules from processing
@@ -61,6 +58,7 @@ def _merge_dict(x,y):
 ## suitable for passing to numpy.distutils.core.Extension
 ##
 def mk_fortran_extension_kwargs(src_file, pkg, sig_dir = None):
+        
     root, ext = path.splitext(src_file)
     src_dir, name = path.split(root)
 
@@ -111,10 +109,6 @@ CORE_PROGRAMS = [mk_fortran_extension_kwargs(path.join(CORE_SRC_DIR, f),
                  for f in listdir(CORE_SRC_DIR)]
 
 
-## Run Through All Extensions
-for kwargs in CORE_PROGRAMS:
-    if kwargs is not None:
-        fortran_extensions.append(Extension(**kwargs))
 
 
 
@@ -123,9 +117,12 @@ for kwargs in CORE_PROGRAMS:
 
 ## Run Setup 
 if __name__ == '__main__':
-    from numpy.distutils.core import setup
+    from numpy.distutils.core import Extension, setup
 
-    print (fortran_extensions)
+    ## Run Through All Extensions
+    for kwargs in CORE_PROGRAMS:
+        if kwargs is not None:
+            fortran_extensions.append(Extension(**kwargs))
     
     setup(name = 'nc5ng',
           packages = find_packages(),
