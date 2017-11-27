@@ -125,7 +125,7 @@ if __name__ == '__main__':
             fortran_extensions.append(Extension(**kwargs))
     
     setup(name = 'nc5ng',
-          packages = find_packages(),
+          packages = ['nc5ng', 'nc5ng.core'],
           ext_modules = fortran_extensions,
           **PKG_INFO
           )

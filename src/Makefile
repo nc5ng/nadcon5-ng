@@ -1,8 +1,11 @@
-# NADCON5-NG Makefile
-#
-# Adapted from CSH Script `compileCode` in the original distribution
-# 
-#
+## nadcon5-ng/src/Makefile
+##
+## NADCON5-NG Compile Programs Makefile
+## -------------------------------------
+##
+## Adapted from CSH Script `compileCode` in the original distribution
+## 
+##
 
 _TOP_DIR := ../
 
@@ -137,7 +140,7 @@ DOER_BIN = $(addprefix $(BIN_DIR)/,  $(DOER_SRC:.f='') )
 CORE_BIN_SRC = xyz2b.f subtrc.f gabs.f gscale.f b2xyz.f gsqr.f gsqrt.f addem.f regrd2.f convlv.f decimate.f
 
 ## CORE_BIN : Binary Targets for doers
-CORE_BIN = $(addprefix $(BIN_DIR)/,$(CORE_BIN_SRC:.f='') )
+CORE_BIN = $(addprefix $(BIN_DIR)/,$(CORE_BIN_SRC:.f=) )
 
 ## CORE_LIB_SRC : List of Fortran files for subroutines and functions
 CORE_LIB_SRC = $(basename $(notdir $(wildcard $(CORE_LIB_SRC_DIR)/*.f $(CORE_LIB_SRC_DIR)/*.for)))
@@ -175,7 +178,8 @@ MASK_BIN = $(addprefix $(MASK_DIR)/,  $(MASK_SRC) )
 
 
 ### All Binaries
-BIN_TARGETS = $(ROOT_BIN) $(MASK_BIN) $(CORE_LIB_BIN)
+BIN_TARGETS = $(ROOT_BIN) $(MASK_BIN) $(CORE_BIN)
+
 ### All Libraries (excludes F2PY Convenience Builds)
 LIB_TARGETS = $(CORE_LIB) 
 

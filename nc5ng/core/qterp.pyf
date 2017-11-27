@@ -1,14 +1,19 @@
 !    -*- f90 -*-
 ! Note: the context of this file is case sensitive.
 
-python module qterp ! in 
-    interface  ! in :qterp
-        function qterp(x,f0,f1,f2) ! in :qterp:Subs/qterp.f
+python module qterp ! in
+!    usercode '''
+!      const char* doc = "This is qterp!";
+!'''
+interface  ! in :qterp
+    function qterp(x,f0,f1,f2) ! in :qterp:Subs/qterp.f
             real :: x
             real :: f0
             real :: f1
             real :: f2
             real :: qterp
+
+            
         end function qterp
     end interface 
 end python module qterp
