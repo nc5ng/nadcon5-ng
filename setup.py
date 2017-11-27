@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 from setuptools import find_packages
 from numpy.distutils.core import Extension
+from distutils.command.build   import build as DistutilsBuild
+from distutils.command.install import install as DistutilsInstall
 from os import listdir, path, environ
 from datetime import datetime
 
@@ -26,18 +28,33 @@ For Documentation See: https://docs.nc5ng.org/latest
 DISABLED_MODULES = [ 
     ]
 
-_LINK_PLOTCOAST = " -lplotcoast "
-F2PY_DEFAULT_OPTS = [ ]
-MODULE_BASE_OPTS = { }
-MODULE_EXTRA_OPTS = {
-    'nc5ng.core.bwplotvc': [_LINK_PLOTCOAST,],
-    'nc5ng.core.bwplotcv':[_LINK_PLOTCOAST,],
-    'nc5ng.core.coplot': [_LINK_PLOTCOAST,],
-    'nc5ng.core.coplotwcv':[_LINK_PLOTCOAST,],
+F2PY_DEFAULT_OPTS = { "include_dirs" : ["src/Subs"] }
+MODULE_INCLUDES = {
+    'nc5ng.core.bwplotvc': ['src/Subs/plotcoast.f'],
+    'nc5ng.core.bwplotcv': ['src/Subs/plotcoast.f'],
+    'nc5ng.core.coplot': ['src/Subs/plotcoast.f'],
+    'nc5ng.core.coplotwcv': ['src/Subs/plotcoast.f'],
+    'nc5ng.core.gridstats' : ['src/Subs/select2_dbl.for']
+    }
+
+MODULE_OPTS = {
+    'nc5ng.core.bwplotvc': {}, # { 'library_dirs' : ['build/lib'],
+                             #'libraries': ['plotcoast' ]},
+    'nc5ng.core.bwplotcv':{},
+    'nc5ng.core.coplot': {},
+    'nc5ng.core.coplotwcv': {},
 }
-print (MODULE_EXTRA_OPTS)
 ## Buffer for calculated Extensions
 fortran_extensions = []
+
+class MakeBuilder(DistutilsBuild):
+    def run(self):
+        DistutilsBuild.run(self)
+
+def _merge_dict(x,y):
+    z = x.copy()
+    z.update(y)
+    return z
 
 ##
 ## Make The KWARGS aka a Dictionary
@@ -60,9 +77,7 @@ def mk_fortran_extension_kwargs(src_file, pkg, sig_dir = None):
     sig_file_name = name + ".pyf"
     sig_file = None
 
-    f2py_e_opts = MODULE_EXTRA_OPTS.get( mod_name, [])
-    f2py_b_opts = MODULE_BASE_OPTS.get( mod_name, F2PY_DEFAULT_OPTS)
-    f2py_opts = f2py_b_opts + f2py_e_opts
+    f2py_opts = MODULE_OPTS.get( mod_name, F2PY_DEFAULT_OPTS )
 
     print ("Found Valid src_file ", src_file, " for package ", pkg,
            " , with sig_dir ", sig_dir, " module name ", mod_name, " f2py_opts ", f2py_opts)
@@ -79,9 +94,11 @@ def mk_fortran_extension_kwargs(src_file, pkg, sig_dir = None):
     if sig_file is not None:
         sources = [ sig_file, src_file ]
 
-    return {'name': mod_name,
-            'sources' : sources,
-            'f2py_options' : f2py_opts}
+    sources = MODULE_INCLUDES.get( mod_name , []) + sources
+
+    return _merge_dict({'name': mod_name,
+                        'sources' : sources}
+                       , f2py_opts)
             
 ## Setup Our Core Library Fortran Extension
     
@@ -98,6 +115,10 @@ CORE_PROGRAMS = [mk_fortran_extension_kwargs(path.join(CORE_SRC_DIR, f),
 for kwargs in CORE_PROGRAMS:
     if kwargs is not None:
         fortran_extensions.append(Extension(**kwargs))
+
+
+
+        
 
 
 ## Run Setup 

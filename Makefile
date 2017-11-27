@@ -230,8 +230,17 @@ clean:
 mrclean:
 	$(RM) -rf $(BUILD_DIR)
 
+pyclean:
+	$(RM) -rf nc5ng/__pycache__
+	$(RM) -rf nc5ng/core/__pycache__
+	$(RM) -rf nc5ng/core/*.f
+	$(RM) -rf nc5ng/core/*.c
+	$(RM) -rf nc5ng/core/*.so
+	$(RM) -rf dist/
+	$(RM) -rf build/{src,lib,temp}.*
+	$(RM) -rf ./*.egg-info
 
-.PHONY: clean mrclean
+.PHONY: clean mrclean pyclean
 
 ## Docs
 
