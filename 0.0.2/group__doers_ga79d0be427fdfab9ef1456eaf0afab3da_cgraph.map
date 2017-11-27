@@ -1,0 +1,6 @@
+<map id="mymedian5" name="mymedian5">
+<area shape="rect" id="node2" href="$group__core.html#ga456c2747eddc4e9792e9c052fc3dfb2a" title="Subroutine to collect up the GRID boundaries for use in creating NADCON 5. " alt="" coords="143,5,245,32"/>
+<area shape="rect" id="node3" href="$mymedian5_8f.html#a1ec08b743c792932cedde2d4e702882c" title="getmedian" alt="" coords="153,56,235,83"/>
+<area shape="rect" id="node5" href="$group__core.html#gaada1f7f6294a20b1828bd4d1b7e37ca0" title="Subroutine to perform ?? indexing on integer data. " alt="" coords="163,107,225,133"/>
+<area shape="rect" id="node4" href="$group__core.html#gaec1b049dc4be13c46b684423fc31805e" title="Subroutine to perform ?? indexing on floating point data (double precision) " alt="" coords="293,56,360,83"/>
+</map>

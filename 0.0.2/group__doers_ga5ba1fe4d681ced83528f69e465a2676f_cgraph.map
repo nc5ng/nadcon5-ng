@@ -1,0 +1,10 @@
+<map id="makeplotfiles03" name="makeplotfiles03">
+<area shape="rect" id="node2" href="$group__core.html#ga6d046a9be31aa1d9b69abd6eb6117294" title="Subroutine to make GMT calls to do a B/W coverage plot. " alt="" coords="183,5,257,32"/>
+<area shape="rect" id="node4" href="$group__core.html#ga82c09d84f1af66481bc8e975f3f986ae" title="Subroutine to make GMT calls to do a B/W vector plot. " alt="" coords="183,56,257,83"/>
+<area shape="rect" id="node5" href="$group__core.html#ga44465308a9701d8ffe256715e4f01215" title="Subroutine to make GMT calls to do Color Raster Rendering of Gridded Data. " alt="" coords="191,107,249,133"/>
+<area shape="rect" id="node6" href="$group__core.html#gadc3e084679aba567131d58415054bd59" title="This subroutine generates the color pallette variables for a GMT color plot. " alt="" coords="197,157,243,184"/>
+<area shape="rect" id="node7" href="$group__core.html#ga34660db69356d6ab42d986fc2f85d158" title="Subroutine to collect up the MAP boundaries for use in creating NADCON 5. " alt="" coords="167,208,273,235"/>
+<area shape="rect" id="node8" href="$group__core.html#ga1593f511d0df7cf215e5eb55d297e515" title="Subroutine to print grid statistics to stdout. " alt="" coords="184,259,256,285"/>
+<area shape="rect" id="node9" href="$group__core.html#gadc5c9acc8aedbc27aa45d5a78980e6d0" title="Function to round a digit to one significant figure (one non zero digit), double precision. " alt="" coords="191,309,249,336"/>
+<area shape="rect" id="node3" href="$group__core.html#ga43be1e80c0bde6748f414d2eee05603f" title="Subroutine to write GMT&#45;based commands to create a shoreline Write GMT&#45;based commands to create a sho..." alt="" coords="321,56,396,83"/>
+</map>
