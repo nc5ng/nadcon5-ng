@@ -76,8 +76,9 @@ FC = $(ORACLE_STUDIO_BIN)/f95
 
 ###
 ### Existing FF Flags
-###
-FFLAGS ?= -O5 -libmil -fsimple=0 -dalign -xlibmopt -ftrap=%none -xvector=yes -xprefetch=yes  -reduction -xloopinfo -s -stackvar -m64
+### 
+###FFLAGS ?= -O5 -libmil -fsimple=0 -dalign -xlibmopt -ftrap=%none -xvector=yes -xprefetch=yes  -reduction -xloopinfo -s -stackvar -m64 -xautopar
+FFLAGS ?=
 
 ###
 ### Fortran 2 Python Wrapper (courtesy of numpy)
@@ -118,7 +119,7 @@ VPATH += BinSource $(DATA_DIR)/Masks Subs
 DOER_SRC = checkgrid.f makeplotfiles01.f makeplotfiles02.f makeplotfiles03.f makework.f mymedian5.f myrms.f
 
 ## DOER_BIN : Binary Targets for doers
-DOER_BIN = $(addprefix $(BIN_DIR)/,  $(DOER_SRC:.f='') )
+DOER_BIN = $(addprefix $(BIN_DIR)/,  $(DOER_SRC:.f=) )
 
 
 #############################################################################
@@ -178,7 +179,7 @@ MASK_BIN = $(addprefix $(MASK_DIR)/,  $(MASK_SRC) )
 
 
 ### All Binaries
-BIN_TARGETS = $(ROOT_BIN) $(MASK_BIN) $(CORE_BIN)
+BIN_TARGETS = $(DOER_BIN) $(MASK_BIN) $(CORE_BIN)
 
 ### All Libraries (excludes F2PY Convenience Builds)
 LIB_TARGETS = $(CORE_LIB) 
