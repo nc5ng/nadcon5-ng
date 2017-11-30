@@ -1,10 +1,11 @@
-## nadcon5-ng/Makefile
+## \file Makefile
+## \brief NADCON5-NG Top Makefile
 ##
-## NADCON5-NG Top Makefile
-## -----------------------
-##
+## Stuff and Things
 ##
 
+
+## Internal Variable showing relative location to top of project
 _TOP_DIR := ./
 
 ################################################################################
@@ -23,7 +24,6 @@ _TOP_DIR := ./
 #### These can be set externally by environment variable or by passing to make
 ####
 ##############################################################################
-
 
 ## OLD_DATUM : Source Datum (usually arg[1])
 OLD_DATUM ?= ussd
@@ -567,6 +567,9 @@ docs:
 ####
 ##############################################################################
 
+help:     ## Show this help.
+	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
+
 
 build-info:
 	@$(ECHO) "==========================="
@@ -590,4 +593,6 @@ build-info:
 
 
 
+
+.phony: build-info help
 

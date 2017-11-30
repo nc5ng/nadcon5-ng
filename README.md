@@ -4,13 +4,18 @@ Tweaks and Updates to US National Geodetic Survey `NADCON5` Tool. Used to conver
 
 [Link To Doxygen Documentation Website](http://docs.nc5ng.org/latest)
 
-The intent of this fork is to adapt the existing tool to be accessible to more users, developers, and data scientists, through the implementation of additional interfaces and workflows on top of existing NADCON5 Code. 
+The intent of this fork is to adapt the existing tool to be accessible to more users, developers, and data scientists.Through the implementation of additional interfaces and workflows on top of existing NADCON5 Code Base. 
 
 > **NOTE**: This project is a personal project that is not in any way affiliated with the US Government, NOAA, or the National Geodetic Survey
 
 **Derivative Work:** Additions and Modifications to this software are released explicitly under Public Domain. 
 
 As a product of the United States Government NADCON5 Source Code is considered a work under public domain.
+
+Build the daset with one command
+
+    make
+
 
 ## Project Status
 
@@ -20,7 +25,7 @@ At the time of this README was update, the following was true
 
 1. The existing processing pipeline has been offloaded to GNU Make to eliminate in-source builds
 2. Doxygen was strapped on top of the project to create documentation , source files were modified, superficially, to export documentation in doxygen 
-3. Documentation and website live, via `github-pages`, url: http://docs.nc5ng.org/latest
+3. Documentation and website live, hosted on `github-pages`, at url: https://docs.nc5ng.org/latest
 4. Initial Framework for a python glue library, with several functioning submodules and functions
   - install with `pip install nc5ng`
 
@@ -36,7 +41,9 @@ On the Immediate Roadmap
   - Pruning of applications to core install package
 
 
+---
 ## What is NADCON5?
+
 
 [NGS NADCON5 Front Page](https://www.ngs.noaa.gov/NADCON5/index.shtml)
 
@@ -101,7 +108,9 @@ These can be set as environment variables or directly on the command line
     export NEW_DATUM=nad83
     make
     # Equivalent
-    OLD_DATUM=nad27 NEW_DATAUM=nad83 make
+    OLD_DATUM=ussd NEW_DATUM=nad27 make
+    # Third Option
+    make OLD_DATUM=ussd NEW_DATUM=nad27
 
 ### Targets
 

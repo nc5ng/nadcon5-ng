@@ -38,7 +38,7 @@ DOXY_PROJECT_BRIEF := "NADCON5 Next Generation"
 DOXY_EXTRACT_ALL := NO
 
 ### DOXY_INPUT - space seperate list of source to process for documentation 
-DOXY_INPUT := "modules ../src pages  ../README.md ../LICENSE.md"
+DOXY_INPUT := "modules ../src pages  ../README.md ../LICENSE.md ../Makefile "
 
 ### DOXY_ENABLE_SOURCE - append source to documentation
 DOXY_ENABLE_SOURCE := NO
@@ -51,6 +51,12 @@ DOXY_ENABLE_UML := YES
 
 ### DOXY_ENABLE_CALL_GRAPHS - Enable Call Graph Creation
 DOXY_ENABLE_CALL_GRAPHS := NO
+
+## DOXY_CREATE_MANUAL - Create Manual page (.man) in section 3
+DOXY_CREATE_MANUAL := NO
+
+## DOXY_MANUAL_SECTION - Section of Manual to put docs
+DOXY_MANUAL_SECTION := 3
 
 ### DOXY_CREATE_HTML - create html output
 DOXY_CREATE_HTML := YES
@@ -79,6 +85,8 @@ DOXY_BASE_CSS_FILE :=
 ### DOXY_MD_MAINPAGE - Markdown Mainpage (Common README)
 DOXY_MD_MAINPAGE := ../README.md
 
+### DOXY_ENABLED_SECTIONS - Optional Processing for a particular output type based on sections 
+DOXY_ENABLED_SECTIONS :=
 
 .PHONY: publish_docs full_docs doxy_docs clean
 
@@ -102,6 +110,17 @@ full_docs: DOXY_ENABLE_CLASS_GRAPHS=YES
 full_docs: DOXY_CREATE_LATEX=YES
 full_docs: publish_docs
 
+bin_manual: DOXY_CREATE_HTML=NO
+bin_manual: DOXY_CREATE_LATEX=NO
+bin_manual: DOXY_CREATE_MANUAL=YES
+bin_manual: DOXY_MANUAL_SECTION=1
+bin_manual: DOXY_INPUT=" ../src/makework.f "
+bin_manual: DOXY_EXTRACT_ALL=YES
+bin_manual: DOXY_MD_MAINPAGE=
+bin_manual: DOXY_ENABLED_SECTIONS=MANPAGE
+bin_manual: doxy_docs
+
+
 #workkhorse, all other targets simply set variables
 doxy_docs:
 	mkdir -p $(DOC_DIR)
@@ -123,7 +142,10 @@ doxy_docs:
 	DOXY_HTML_FOOTER_FILE=$(DOXY_HTML_FOOTER_FILE) \
 	DOXY_EXTRA_CSS_FILE=$(DOXY_EXTRA_CSS_FILE) \
 	DOXY_BASE_CSS_FILE=$(DOXY_BASE_CSS_FILE) \
-	DOXY_MD_MAINPAGE=$(DOXY_MD_MAINPAGE)\
+	DOXY_MD_MAINPAGE=$(DOXY_MD_MAINPAGE) \
+	DOXY_CREATE_MANUAL=$(DOXY_CREATE_MANUAL) \
+	DOXY_MANUAL_SECTION=$(DOXY_MANUAL_SECTION) \
+	DOXY_ENABLED_SECTIONS=$(DOXY_ENABLED_SECTIONS) \
 		$(DOXY) $(DOXY_FLAGS) $(DOXY_FILE) 
 #export DOC_DIR
 #export FULL_PROJECT_VERSION

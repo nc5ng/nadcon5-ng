@@ -1,4 +1,8 @@
 c> \ingroup doers
+c> \if MANPAGE     
+c> \page makework
+c> \endif      
+c> 
 c> **Program** to create a *work* file which will
 c> serve as the primary information needed to
 c> analyze and create NADCON v5.0 grids.

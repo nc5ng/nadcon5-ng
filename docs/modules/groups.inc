@@ -9,7 +9,7 @@ The elements described here are the "doers", programs that construct the output 
 /**
 \ingroup doers
 
-\dir Code 
+\dir src
 \brief Folder containing the \ref doers and subfolders \ref Code/Subs and \ref Code/BinSource
 */
 
@@ -27,14 +27,36 @@ The programs here can be considered "Library" Programs, or functions, which do t
 /**
 \ingroup core
 
-\dir Code/BinSource
+\dir src/BinSource
 \brief Folder containing \ref core Programs
 */
 
 /**
 \ingroup core
 
-\dir Code/Subs
+\dir src/Subs
 \brief Folder containing \ref core Subroutines
 */
 
+
+
+
+
+/**
+\defgroup build Build System
+
+Makefile Documentation
+
+*/
+
+/**
+\ingroup build
+
+\file Makefile
+*/
+
+
+/**
+\ingroup build
+\defgroup source-compilation Compilation
+*/
