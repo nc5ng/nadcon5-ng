@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page getgridbounds
+c> \endif      
+c> 
 c> Subroutine to collect up the GRID boundaries
 c> for use in creating NADCON 5
 c>

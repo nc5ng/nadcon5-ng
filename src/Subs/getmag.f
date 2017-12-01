@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page getmap
+c> \endif      
+c> 
 c> Subroutine to return the magnitude of a double precision
 c> value.
 c> 

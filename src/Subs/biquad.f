@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page biquad
+c> \endif      
+c> 
 c> Subroutine to perform a 2-D quadratic ("biquadratic") interpolation
 c> 
 c> Performs a biquadratic interpolation at location 

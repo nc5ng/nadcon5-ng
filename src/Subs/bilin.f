@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page bilin
+c> \endif      
+c> 
 c> Subroutine to perform bilinear interpolation
 c> 
 c> Performs a bilinear interpolation

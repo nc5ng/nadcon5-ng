@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page indexxd
+c> \endif      
+c> 
 c> Subroutine to perform ?? indexing on floating point data (double precision)
 c> 
 c> \param[in] n number of iterations (rows?)

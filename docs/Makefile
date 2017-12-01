@@ -40,6 +40,12 @@ DOXY_EXTRACT_ALL := NO
 ### DOXY_INPUT - space seperate list of source to process for documentation 
 DOXY_INPUT := "modules ../src pages  ../README.md ../LICENSE.md ../Makefile "
 
+### DOXY_EXLUDE - files to exclude
+DOXY_EXCLUDE := ""
+
+### DOXY_EXCLUDE_PATTERNS
+DOXY_EXCLUDE_PATTERNS := ""
+
 ### DOXY_ENABLE_SOURCE - append source to documentation
 DOXY_ENABLE_SOURCE := NO
 
@@ -88,7 +94,16 @@ DOXY_MD_MAINPAGE := ../README.md
 ### DOXY_ENABLED_SECTIONS - Optional Processing for a particular output type based on sections 
 DOXY_ENABLED_SECTIONS :=
 
-.PHONY: publish_docs full_docs doxy_docs clean
+.PHONY: publish_docs full_docs doxy_docs clean bin_manual lib_manual
+
+# Because of the way makefile handles dependencies
+# it does not work to set variables per dependency
+
+all:
+	$(MAKE) full_docs
+	$(MAKE) latex_docs
+	$(MAKE) bin_manual
+	$(MAKE) lib_manual
 
 
 publish_docs: DOXY_LAYOUT_FILE=layout/default_layout.xml
@@ -99,26 +114,40 @@ publish_docs: DOXY_ENABLE_CALL_GRAPHS=YES
 publish_docs: DOXY_EXTRACT_ALL=YES
 publish_docs: DOXY_ENABLE_SOURCE=YES
 publish_docs: DOXY_DISABLE_CACHE=NO
-publish_docs: DOXY_CREATE_LATEX=YES
 publish_docs: doxy_docs
 
-full_docs: DOXY_ENABLE_CALL_GRAPHS=YES
-full_docs: DOXY_EXTRACT_ALL=YES
-full_docs: DOXY_ENABLE_SOURCE=YES
-full_docs: DOXY_DISABLE_CACHE=NO
+
 full_docs: DOXY_ENABLE_CLASS_GRAPHS=YES
-full_docs: DOXY_CREATE_LATEX=YES
 full_docs: publish_docs
+
+
+latex_docs: DOXY_CREATE_HTML=NO
+latex_docs: DOXY_CREATE_LATEX=YES
+latex_docs: doxy_docs
+	$(MAKE) -C $(DOC_DIR)/latex all
+
 
 bin_manual: DOXY_CREATE_HTML=NO
 bin_manual: DOXY_CREATE_LATEX=NO
 bin_manual: DOXY_CREATE_MANUAL=YES
 bin_manual: DOXY_MANUAL_SECTION=1
-bin_manual: DOXY_INPUT=" ../src/makework.f "
+bin_manual: DOXY_INPUT=" ../src "
+bin_manual: DOXY_EXCLUDE=" ../src/Subs "
 bin_manual: DOXY_EXTRACT_ALL=YES
 bin_manual: DOXY_MD_MAINPAGE=
 bin_manual: DOXY_ENABLED_SECTIONS=MANPAGE
 bin_manual: doxy_docs
+
+lib_manual: DOXY_CREATE_HTML=NO
+lib_manual: DOXY_CREATE_LATEX=NO
+lib_manual: DOXY_CREATE_MANUAL=YES
+lib_manual: DOXY_MANUAL_SECTION=3
+lib_manual: DOXY_INPUT=" ../src/Subs "
+lib_manual: DOXY_EXCLUDE=""
+lib_manual: DOXY_EXTRACT_ALL=YES
+lib_manual: DOXY_MD_MAINPAGE=
+lib_manual: DOXY_ENABLED_SECTIONS=MANPAGE
+lib_manual: doxy_docs
 
 
 #workkhorse, all other targets simply set variables
@@ -131,6 +160,8 @@ doxy_docs:
 	DOXY_PROJECT_BRIEF=$(DOXY_PROJECT_BRIEF) \
 	DOXY_EXTRACT_ALL=$(DOXY_EXTRACT_ALL) \
 	DOXY_INPUT=$(DOXY_INPUT) \
+	DOXY_EXCLUDE=$(DOXY_EXCLUDE) \
+	DOXY_EXCLUDE_PATTERNS=$(DOXY_EXCLUDE_PATTERNS) \
 	DOXY_ENABLE_SOURCE=$(DOXY_ENABLE_SOURCE) \
 	DOXY_ENABLE_CLASS_GRAPHS=$(DOXY_ENABLE_CLASS_GRAPHS) \
 	DOXY_ENABLE_UML=$(DOXY_ENABLE_UML) \

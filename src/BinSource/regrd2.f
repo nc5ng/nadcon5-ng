@@ -1,4 +1,8 @@
 c> \ingroup core 
+c> \if MANPAGE     
+c> \page regrd2
+c> \endif      
+c> 
 c> Part of the NADCON5 \ref core , regrid data 
 c>     
 c> Regrid gridded data using biquadratic interpolation     

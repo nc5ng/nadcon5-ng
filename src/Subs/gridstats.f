@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page gridstats
+c> \endif      
+c> 
 c> Subroutine to print grid statistics to stdout
 c> 
 c> \param[in] fname name of grid stat file 

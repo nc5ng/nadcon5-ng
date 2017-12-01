@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page bwplotcv
+c> \endif      
+c> 
 c> Subroutine to make GMT calls to do a B/W coverage plot
 c> 
 c> ## Changelog

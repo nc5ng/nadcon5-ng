@@ -1,4 +1,8 @@
 c> \ingroup core 
+c> \if MANPAGE     
+c> \page gabs
+c> \endif      
+c> 
 c> Part of the NADCON5 \ref core , Convert values in a `*.b` grid to absolute value
 c>     
 c> Belongs to the suite of ".b" file manipulators

@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page indexxi
+c> \endif      
+c> 
 c> Subroutine to perform ?? indexing on integer data
 c> 
 c> \param[in] n number of iterations (rows?)

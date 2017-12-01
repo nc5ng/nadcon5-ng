@@ -1,4 +1,8 @@
 c> \ingroup doers    
+c> \if MANPAGE     
+c> \page myrms
+c> \endif      
+c> 
 c> Part of the NADCON5 build process, generates `gmtbat05`
 c> 
 c> Creates a batch file called 

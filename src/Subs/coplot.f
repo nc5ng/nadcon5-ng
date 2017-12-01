@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page coplot
+c> \endif      
+c> 
 c> Subroutine to make GMT calls to do Color Raster Rendering of Gridded Data
 c> 
 c> ## Changelog

@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page cpt
+c> \endif      
+c> 
 c> This subroutine generates the color pallette variables
 c> for a GMT color plot
 c> 

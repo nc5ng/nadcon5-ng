@@ -1,4 +1,8 @@
 c> \ingroup core 
+c> \if MANPAGE     
+c> \page decimate
+c> \endif      
+c> 
 c> Part of the NADCON5 \ref core , Extract a reduced (1 of n) dataset
 c>     
 c> Decimate - Extract `1` of every `n` points

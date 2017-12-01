@@ -1,4 +1,8 @@
 c> \ingroup core 
+c> \if MANPAGE     
+c> \page gsqrt
+c> \endif      
+c> 
 c> Part of the NADCON5 \ref core , Square Root of values in a `*.b` grid
 c>     
 c> Belongs to the suite of ".b" file manipulators

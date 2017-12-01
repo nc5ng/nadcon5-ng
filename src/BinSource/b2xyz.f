@@ -1,4 +1,8 @@
 c> \ingroup core 
+c> \if MANPAGE     
+c> \page b2xyz
+c> \endif      
+c> 
 c> Part of the NADCON5 \ref core , converts `*.b` grid to `xyz`
 c>     
 c> Program to convert standard "*.b" grid

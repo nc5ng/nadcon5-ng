@@ -1,4 +1,8 @@
 c> \ingroup core 
+c> \if MANPAGE     
+c> \page addem
+c> \endif      
+c> 
 c> Part of the NADCON5 \ref core , adds one grid to another
 c>     
 c> ### Program arguments

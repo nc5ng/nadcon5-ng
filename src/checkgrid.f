@@ -1,4 +1,8 @@
 c> \ingroup doers    
+c> \if MANPAGE     
+c> \page checkgrid
+c> \endif      
+c> 
 c> Part of the NADCON5 build process, generates `gmtbat04`
 c> 
 c> Creates a batch file called 

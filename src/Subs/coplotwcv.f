@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page coplotwcv
+c> \endif      
+c> 
 c> Subroutine to make GMT calls to do a color raster rendering
 c> of gridded data, with coverage overlaid.
 c> 

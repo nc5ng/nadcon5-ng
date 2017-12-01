@@ -1,4 +1,8 @@
 c> \ingroup core 
+c> \if MANPAGE     
+c> \page xyz2b
+c> \endif      
+c> 
 c> Part of the NADCON5 \ref core , Converts GMT `*.grd` to a `*.b` NADCON style grid file
 c>     
 c> Turn gmt/netcdf grd dump into my grid file  (real number version)

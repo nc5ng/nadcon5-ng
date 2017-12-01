@@ -1,4 +1,8 @@
 c> \ingroup doers
+c> \if MANPAGE     
+c> \page mymedian5
+c> \endif      
+c> 
 c> Program to filter Map Data for GMT Plotting
 c>   
 c> 1. Run a customized block-median thinning 

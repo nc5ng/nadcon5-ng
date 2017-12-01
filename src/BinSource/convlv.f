@@ -1,4 +1,8 @@
 c> \ingroup core 
+c> \if MANPAGE     
+c> \page convlv
+c> \endif      
+c> 
 c> Part of the NADCON5 \ref core , Convolves two grids 
 c>     
 c> Convolves one grid against another    

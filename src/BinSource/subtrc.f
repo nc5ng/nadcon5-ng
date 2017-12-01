@@ -1,4 +1,8 @@
 c> \ingroup core 
+c> \if MANPAGE     
+c> \page subtrc
+c> \endif      
+c> 
 c> Part of the NADCON5 \ref core , Subtract one grid from another
 c>     
 c>     
