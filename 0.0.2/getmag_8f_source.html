@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.11-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,7 @@
 });
 </script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="custom_style_overrides.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -40,7 +42,7 @@
    <div id="projectname">NADCON5-ng
    &#160;<span id="projectnumber">0.0.2</span>
    </div>
-   <div id="projectbrief">NADCON5 Next Generation</div>
+   <div id="projectbrief">NADCON5 Next Generation Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -53,9 +55,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Home</span></a></li>
-      <li><a href="pages.html"><span>Project&#160;Documentation</span></a></li>
+      <li><a href="index.html"><span>About</span></a></li>
+      <li><a href="pages.html"><span>Manual</span></a></li>
       <li><a href="modules.html"><span>Code&#160;Documentation</span></a></li>
+      <li><a href="https://nc5ng.org"><span>Project&#160;Homepage</span></a></li>
+      <li><a href="https://github.com/nc5ng/nadcon5-ng"><span>Project&#160;Github</span></a></li>
       <li class="current"><a href="files.html"><span>Index</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -115,14 +119,15 @@ $(document).ready(function(){initNavTree('getmag_8f_source.html','');});
 <div class="title">getmag.f</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="getmag_8f.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">c&gt; \ingroup core</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">c&gt; Subroutine to return the magnitude of a double precision</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">c&gt; value.</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">c&gt; </span></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">c&gt; \param[out] x result, magnitude of ix</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">c&gt; \param[in] ix input douple precision </span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">c&gt; </span></div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">      subroutine </span><a class="code" href="group__core.html#ga7abb43855645428af96aacf2447e7caf">getmag</a>(x,ix)</div><div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="group__core.html#ga7abb43855645428af96aacf2447e7caf">    9</a></span>&#160;<span class="comment">c - Subroutine to return the magnitude of a double precision</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">c - value.</span></div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;      <span class="keywordtype">implicit real*8</span> (a-h,o-z)</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;      y = dlog10(x)</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;      ix = floor(y) </div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;      <span class="keyword">write</span>(6,*) <span class="stringliteral">&#39; getmag: x,y,ix = &#39;</span>,x,y,ix</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;      <span class="keywordflow">return</span></div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">      end</span></div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  </div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;      </div><div class="ttc" id="group__core_html_ga7abb43855645428af96aacf2447e7caf"><div class="ttname"><a href="group__core.html#ga7abb43855645428af96aacf2447e7caf">getmag</a></div><div class="ttdeci">subroutine getmag(x, ix)</div><div class="ttdoc">Subroutine to return the magnitude of a double precision value. </div><div class="ttdef"><b>Definition:</b> <a href="getmag_8f_source.html#l00009">getmag.f:9</a></div></div>
+<a href="getmag_8f.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">c&gt; \ingroup core</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">c&gt; \if MANPAGE     </span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">c&gt; \page getmap</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">c&gt; \endif      </span></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">c&gt; </span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">c&gt; Subroutine to return the magnitude of a double precision</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">c&gt; value.</span></div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">c&gt; </span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">c&gt; \param[out] x result, magnitude of ix</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">c&gt; \param[in] ix input douple precision </span></div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">c&gt; </span></div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">      subroutine </span><a class="code" href="group__core.html#ga7abb43855645428af96aacf2447e7caf">getmag</a>(x,ix)</div><div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="group__core.html#ga7abb43855645428af96aacf2447e7caf">   13</a></span>&#160;<span class="comment">c - Subroutine to return the magnitude of a double precision</span></div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">c - value.</span></div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;      <span class="keywordtype">implicit real*8</span> (a-h,o-z)</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;      y = dlog10(x)</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;      ix = floor(y) </div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;      <span class="keyword">write</span>(6,*) <span class="stringliteral">&#39; getmag: x,y,ix = &#39;</span>,x,y,ix</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      <span class="keywordflow">return</span></div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">      end</span></div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  </div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;      </div><div class="ttc" id="group__core_html_ga7abb43855645428af96aacf2447e7caf"><div class="ttname"><a href="group__core.html#ga7abb43855645428af96aacf2447e7caf">getmag</a></div><div class="ttdeci">subroutine getmag(x, ix)</div><div class="ttdoc">Subroutine to return the magnitude of a double precision value. </div><div class="ttdef"><b>Definition:</b> <a href="getmag_8f_source.html#l00013">getmag.f:13</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_ed91b8bd2cf1fe3f8ede164ac9ac75bf.html">Subs</a></li><li class="navelem"><a class="el" href="getmag_8f.html">getmag.f</a></li>
-    <li class="footer">Generated on Sun Nov 26 2017 19:44:23 for NADCON5-ng by
+    <li class="footer">Generated on Fri Dec 1 2017 02:49:28 for NADCON5-ng by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -1,5 +1,7 @@
 var group__core =
 [
+    [ "BinSource", "dir_462f77f6b7eb607a32f8a29cc299b51a.html", null ],
+    [ "Subs", "dir_ed91b8bd2cf1fe3f8ede164ac9ac75bf.html", null ],
     [ "addem", "group__core.html#ga5614597c90588a48f6887c51b9fe3f57", null ],
     [ "b2xyz", "group__core.html#ga7412e40b3811c1a0af4f53b945917a69", null ],
     [ "bicubic", "group__core.html#ga27ef6de6cc481c624a5558b20c38ba04", null ],

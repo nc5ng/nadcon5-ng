@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.11-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,7 @@
 });
 </script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="custom_style_overrides.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -40,7 +42,7 @@
    <div id="projectname">NADCON5-ng
    &#160;<span id="projectnumber">0.0.2</span>
    </div>
-   <div id="projectbrief">NADCON5 Next Generation</div>
+   <div id="projectbrief">NADCON5 Next Generation Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -53,9 +55,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Home</span></a></li>
-      <li><a href="pages.html"><span>Project&#160;Documentation</span></a></li>
+      <li><a href="index.html"><span>About</span></a></li>
+      <li><a href="pages.html"><span>Manual</span></a></li>
       <li><a href="modules.html"><span>Code&#160;Documentation</span></a></li>
+      <li><a href="https://nc5ng.org"><span>Project&#160;Homepage</span></a></li>
+      <li><a href="https://github.com/nc5ng/nadcon5-ng"><span>Project&#160;Github</span></a></li>
       <li class="current"><a href="files.html"><span>Index</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -159,17 +163,16 @@ Functions/Subroutines</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="checkgrid_8f_source.html#l01780">1780</a> of file <a class="el" href="checkgrid_8f_source.html">checkgrid.f</a>.</p>
+<p>Definition at line <a class="el" href="checkgrid_8f_source.html#l01784">1784</a> of file <a class="el" href="checkgrid_8f_source.html">checkgrid.f</a>.</p>
 
-<p>Referenced by <a class="el" href="checkgrid_8f_source.html#l00096">checkgrid()</a>.</p>
-<div class="fragment"><div class="line"><a name="l01780"></a><span class="lineno"> 1780</span>&#160;      <span class="keywordtype">integer*4</span> ifile,num</div><div class="line"><a name="l01781"></a><span class="lineno"> 1781</span>&#160;      <span class="keywordtype">logical*1</span> ilogic</div><div class="line"><a name="l01782"></a><span class="lineno"> 1782</span>&#160;      <span class="keywordtype">character*1</span> dummy</div><div class="line"><a name="l01783"></a><span class="lineno"> 1783</span>&#160;    </div><div class="line"><a name="l01784"></a><span class="lineno"> 1784</span>&#160;      ilogic = .false.</div><div class="line"><a name="l01785"></a><span class="lineno"> 1785</span>&#160;      num = 0</div><div class="line"><a name="l01786"></a><span class="lineno"> 1786</span>&#160;    1 <span class="keyword">read</span>(ifile,<span class="stringliteral">&#39;(a)&#39;</span>,end=2)dummy</div><div class="line"><a name="l01787"></a><span class="lineno"> 1787</span>&#160;        num = num + 1</div><div class="line"><a name="l01788"></a><span class="lineno"> 1788</span>&#160;      <span class="keywordflow">goto</span> 1</div><div class="line"><a name="l01789"></a><span class="lineno"> 1789</span>&#160;    2 <span class="keywordflow">if</span>(num.eq.0)ilogic = .true.</div><div class="line"><a name="l01790"></a><span class="lineno"> 1790</span>&#160;      rewind(ifile)</div><div class="line"><a name="l01791"></a><span class="lineno"> 1791</span>&#160;      <span class="keywordflow">return</span></div></div><!-- fragment -->
+<p>Referenced by <a class="el" href="checkgrid_8f_source.html#l00100">checkgrid()</a>.</p>
+<div class="fragment"><div class="line"><a name="l01784"></a><span class="lineno"> 1784</span>&#160;      <span class="keywordtype">integer*4</span> ifile,num</div><div class="line"><a name="l01785"></a><span class="lineno"> 1785</span>&#160;      <span class="keywordtype">logical*1</span> ilogic</div><div class="line"><a name="l01786"></a><span class="lineno"> 1786</span>&#160;      <span class="keywordtype">character*1</span> dummy</div><div class="line"><a name="l01787"></a><span class="lineno"> 1787</span>&#160;    </div><div class="line"><a name="l01788"></a><span class="lineno"> 1788</span>&#160;      ilogic = .false.</div><div class="line"><a name="l01789"></a><span class="lineno"> 1789</span>&#160;      num = 0</div><div class="line"><a name="l01790"></a><span class="lineno"> 1790</span>&#160;    1 <span class="keyword">read</span>(ifile,<span class="stringliteral">&#39;(a)&#39;</span>,end=2)dummy</div><div class="line"><a name="l01791"></a><span class="lineno"> 1791</span>&#160;        num = num + 1</div><div class="line"><a name="l01792"></a><span class="lineno"> 1792</span>&#160;      <span class="keywordflow">goto</span> 1</div><div class="line"><a name="l01793"></a><span class="lineno"> 1793</span>&#160;    2 <span class="keywordflow">if</span>(num.eq.0)ilogic = .true.</div><div class="line"><a name="l01794"></a><span class="lineno"> 1794</span>&#160;      rewind(ifile)</div><div class="line"><a name="l01795"></a><span class="lineno"> 1795</span>&#160;      <span class="keywordflow">return</span></div></div><!-- fragment -->
 <p><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="checkgrid_8f_af43ed26cd341c8becbfac5d48d636924_icgraph.svg" width="194" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="checkgrid_8f_af43ed26cd341c8becbfac5d48d636924_icgraph.svg" width="194" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
@@ -177,11 +180,12 @@ Functions/Subroutines</h2></td></tr>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="checkgrid_8f.html">checkgrid.f</a></li>
-    <li class="footer">Generated on Sun Nov 26 2017 19:44:23 for NADCON5-ng by
+    <li class="footer">Generated on Fri Dec 1 2017 02:49:28 for NADCON5-ng by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

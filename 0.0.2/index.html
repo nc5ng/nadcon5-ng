@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.11-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,7 @@
 });
 </script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="custom_style_overrides.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -40,7 +42,7 @@
    <div id="projectname">NADCON5-ng
    &#160;<span id="projectnumber">0.0.2</span>
    </div>
-   <div id="projectbrief">NADCON5 Next Generation</div>
+   <div id="projectbrief">NADCON5 Next Generation Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -53,9 +55,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li class="current"><a href="index.html"><span>Home</span></a></li>
-      <li><a href="pages.html"><span>Project&#160;Documentation</span></a></li>
+      <li class="current"><a href="index.html"><span>About</span></a></li>
+      <li><a href="pages.html"><span>Manual</span></a></li>
       <li><a href="modules.html"><span>Code&#160;Documentation</span></a></li>
+      <li><a href="https://nc5ng.org"><span>Project&#160;Homepage</span></a></li>
+      <li><a href="https://github.com/nc5ng/nadcon5-ng"><span>Project&#160;Github</span></a></li>
       <li><a href="files.html"><span>Index</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -111,19 +115,20 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="contents">
 <div class="textblock"><p>Tweaks and Updates to US National Geodetic Survey <code>NADCON5</code> Tool. Used to convert Geodetic Data between various US Datums, including: US Standard Datum (<code>USSD</code>) used prior to <code>NAD27</code>, North American Datum of 1927 (<code>NAD27</code>), and various realizations of the North American Datum of 1983 <code>NAD83</code></p>
 <p><a href="http://docs.nc5ng.org/latest">Link To Doxygen Documentation Website</a></p>
-<p>The intent of this fork is to adapt the existing tool to be accessible to more users, developers, and data scientists, through the implementation of additional interfaces and workflows on top of existing NADCON5 Code.</p>
+<p>The intent of this fork is to adapt the existing tool to be accessible to more users, developers, and data scientists.Through the implementation of additional interfaces and workflows on top of existing NADCON5 Code Base.</p>
 <blockquote class="doxtable">
 <p><b>NOTE</b>: This project is a personal project that is not in any way affiliated with the US Government, NOAA, or the National Geodetic Survey </p>
 </blockquote>
 <p><b>Derivative Work:</b> Additions and Modifications to this software are released explicitly under Public Domain.</p>
 <p>As a product of the United States Government NADCON5 Source Code is considered a work under public domain.</p>
-<h2>Project Status</h2>
+<p>Build the daset with one command </p><pre class="fragment">make
+</pre><h2>Project Status</h2>
 <p>This project is new, feature requests and development will be driven through issues filed in github.</p>
 <p>At the time of this README was update, the following was true</p>
 <ol type="1">
 <li>The existing processing pipeline has been offloaded to GNU Make to eliminate in-source builds</li>
 <li>Doxygen was strapped on top of the project to create documentation , source files were modified, superficially, to export documentation in doxygen</li>
-<li>Documentation and website live, via <code>github-pages</code>, url: <a href="http://docs.nc5ng.org/latest">http://docs.nc5ng.org/latest</a></li>
+<li>Documentation and website live, hosted on <code>github-pages</code>, at url: <a href="https://docs.nc5ng.org/latest">https://docs.nc5ng.org/latest</a></li>
 <li>Initial Framework for a python glue library, with several functioning submodules and functions<ul>
 <li>install with <code>pip install nc5ng</code></li>
 </ul>
@@ -143,7 +148,8 @@ $(document).ready(function(){initNavTree('index.html','');});
 </ul>
 </li>
 </ol>
-<h2>What is NADCON5?</h2>
+<hr/>
+ <h2>What is NADCON5?</h2>
 <p><a href="https://www.ngs.noaa.gov/NADCON5/index.shtml">NGS NADCON5 Front Page</a></p>
 <p><a href="https://beta.ngs.noaa.gov/gtkweb">NGS NADCON5 Website</a></p>
 <p>The Following Information is Reproduced from the NADCON5 Webpage from NGS</p>
@@ -187,7 +193,9 @@ $(document).ready(function(){initNavTree('index.html','');});
 export NEW_DATUM=nad83
 make
 # Equivalent
-OLD_DATUM=nad27 NEW_DATAUM=nad83 make
+OLD_DATUM=ussd NEW_DATUM=nad27 make
+# Third Option
+make OLD_DATUM=ussd NEW_DATUM=nad27
 </pre><h3>Targets</h3>
 <p>The Upstream build sequence can be simulated by using the targets <code>doit</code> <code>doit2</code> <code>doit3</code> <code>doit4</code>, as in </p><pre class="fragment">make doit
 make doit2
@@ -205,10 +213,11 @@ make gmtbat07
 <p>Delete only the current configured build </p><pre class="fragment">make clean
 </pre><p>Delete all compiled output (deletes build directory) </p><pre class="fragment">make mrclean</pre> </div></div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Nov 26 2017 19:44:23 for NADCON5-ng by
+    <li class="footer">Generated on Fri Dec 1 2017 02:49:28 for NADCON5-ng by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

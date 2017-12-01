@@ -1,10 +1,11 @@
+<!-- HTML header for doxygen 1.8.11-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>NADCON5-ng: NADCON5 Build Pipeline</title>
+<title>NADCON5-ng: NADCON5 Build Programs</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,6 +30,7 @@
 });
 </script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="custom_style_overrides.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -40,7 +42,7 @@
    <div id="projectname">NADCON5-ng
    &#160;<span id="projectnumber">0.0.2</span>
    </div>
-   <div id="projectbrief">NADCON5 Next Generation</div>
+   <div id="projectbrief">NADCON5 Next Generation Documentation</div>
   </td>
  </tr>
  </tbody>
@@ -53,9 +55,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Home</span></a></li>
-      <li><a href="pages.html"><span>Project&#160;Documentation</span></a></li>
+      <li><a href="index.html"><span>About</span></a></li>
+      <li><a href="pages.html"><span>Manual</span></a></li>
       <li class="current"><a href="modules.html"><span>Code&#160;Documentation</span></a></li>
+      <li><a href="https://nc5ng.org"><span>Project&#160;Homepage</span></a></li>
+      <li><a href="https://github.com/nc5ng/nadcon5-ng"><span>Project&#160;Github</span></a></li>
       <li><a href="files.html"><span>Index</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -106,15 +110,22 @@ $(document).ready(function(){initNavTree('group__doers.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#dirs">Directories</a> &#124;
 <a href="#func-members">Programs, Functions, and Subroutines</a>  </div>
   <div class="headertitle">
-<div class="title">NADCON5 Build Pipeline</div>  </div>
+<div class="title">NADCON5 Build Programs</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>Programs which perform the generation of <code>GMT</code> batch scripts and the creation of output files using <a class="el" href="group__core.html">NADCON5 Core Library</a> and helpers.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="dirs"></a>
+Directories</h2></td></tr>
+<tr class="memitem:dir_68267d1309a1af8e8297ef4c3efbcdba"><td class="memItemLeft" align="right" valign="top">directory&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></td></tr>
+<tr class="memdesc:dir_68267d1309a1af8e8297ef4c3efbcdba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Folder containing the <a class="el" href="group__doers.html">NADCON5 Build Programs</a> and subfolders Code/Subs and Code/BinSource. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Programs, Functions, and Subroutines</h2></td></tr>
 <tr class="memitem:gac9a2ad84815a01e9242386d75cfb3d08"><td class="memItemLeft" align="right" valign="top">program&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__doers.html#gac9a2ad84815a01e9242386d75cfb3d08">checkgrid</a></td></tr>
@@ -201,17 +212,16 @@ agridsec = '900'
 <h3>2015 9 10:</h3>
 <p>Initial Release For use in creating NADCON5 Built by Dru Smith </p>
 
-<p>Definition at line <a class="el" href="checkgrid_8f_source.html#l00096">96</a> of file <a class="el" href="checkgrid_8f_source.html">checkgrid.f</a>.</p>
+<p>Definition at line <a class="el" href="checkgrid_8f_source.html#l00100">100</a> of file <a class="el" href="checkgrid_8f_source.html">checkgrid.f</a>.</p>
 
-<p>References <a class="el" href="bicubic_8f_source.html#l00037">bicubic()</a>, <a class="el" href="bilin_8f_source.html#l00023">bilin()</a>, <a class="el" href="biquad_8f_source.html#l00029">biquad()</a>, <a class="el" href="bwplotvc_8f_source.html#l00033">bwplotvc()</a>, <a class="el" href="getgridbounds_8f_source.html#l00026">getgridbounds()</a>, <a class="el" href="getmapbounds_8f_source.html#l00073">getmapbounds()</a>, <a class="el" href="checkgrid_8f_source.html#l01780">nlines()</a>, and <a class="el" href="onzd2_8f_source.html#l00032">onzd2()</a>.</p>
+<p>References <a class="el" href="bicubic_8f_source.html#l00041">bicubic()</a>, <a class="el" href="bilin_8f_source.html#l00027">bilin()</a>, <a class="el" href="biquad_8f_source.html#l00033">biquad()</a>, <a class="el" href="bwplotvc_8f_source.html#l00037">bwplotvc()</a>, <a class="el" href="getgridbounds_8f_source.html#l00030">getgridbounds()</a>, <a class="el" href="getmapbounds_8f_source.html#l00077">getmapbounds()</a>, <a class="el" href="checkgrid_8f_source.html#l01784">nlines()</a>, and <a class="el" href="onzd2_8f_source.html#l00036">onzd2()</a>.</p>
 
 <p><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_gac9a2ad84815a01e9242386d75cfb3d08_cgraph.svg" width="367" height="392"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_gac9a2ad84815a01e9242386d75cfb3d08_cgraph.svg" width="367" height="392"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
@@ -265,17 +275,16 @@ mapflag = 0
 <h3>2016 07 21:</h3>
 <p>Added code to allow for optional placement of reference vectors, coming from "map.parameters" as read in subroutine "getmapbounds" </p>
 
-<p>Definition at line <a class="el" href="makeplotfiles01_8f_source.html#l00054">54</a> of file <a class="el" href="makeplotfiles01_8f_source.html">makeplotfiles01.f</a>.</p>
+<p>Definition at line <a class="el" href="makeplotfiles01_8f_source.html#l00058">58</a> of file <a class="el" href="makeplotfiles01_8f_source.html">makeplotfiles01.f</a>.</p>
 
-<p>References <a class="el" href="bwplotcv_8f_source.html#l00026">bwplotcv()</a>, <a class="el" href="bwplotvc_8f_source.html#l00033">bwplotvc()</a>, <a class="el" href="getmapbounds_8f_source.html#l00073">getmapbounds()</a>, and <a class="el" href="onzd2_8f_source.html#l00032">onzd2()</a>.</p>
+<p>References <a class="el" href="bwplotcv_8f_source.html#l00030">bwplotcv()</a>, <a class="el" href="bwplotvc_8f_source.html#l00037">bwplotvc()</a>, <a class="el" href="getmapbounds_8f_source.html#l00077">getmapbounds()</a>, and <a class="el" href="onzd2_8f_source.html#l00036">onzd2()</a>.</p>
 
 <p><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_gaf6a79a4e301f7aef2eee8c8faf772330_cgraph.svg" width="402" height="190"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_gaf6a79a4e301f7aef2eee8c8faf772330_cgraph.svg" width="402" height="190"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
@@ -337,17 +346,16 @@ agridsec = '900'
 <h3>2015 10 05:</h3>
 <p>Updated to work with the new naming scheme (see DRU-11, p. 139) </p>
 
-<p>Definition at line <a class="el" href="makeplotfiles02_8f_source.html#l00074">74</a> of file <a class="el" href="makeplotfiles02_8f_source.html">makeplotfiles02.f</a>.</p>
+<p>Definition at line <a class="el" href="makeplotfiles02_8f_source.html#l00078">78</a> of file <a class="el" href="makeplotfiles02_8f_source.html">makeplotfiles02.f</a>.</p>
 
-<p>References <a class="el" href="bwplotcv_8f_source.html#l00026">bwplotcv()</a>, <a class="el" href="bwplotvc_8f_source.html#l00033">bwplotvc()</a>, <a class="el" href="coplot_8f_source.html#l00070">coplot()</a>, <a class="el" href="coplotwcv_8f_source.html#l00068">coplotwcv()</a>, <a class="el" href="cpt_8f_source.html#l00028">cpt()</a>, <a class="el" href="cpt2_8f_source.html#l00021">cpt2()</a>, <a class="el" href="getmapbounds_8f_source.html#l00073">getmapbounds()</a>, <a class="el" href="gridstats_8f_source.html#l00010">gridstats()</a>, <a class="el" href="onzd2_8f_source.html#l00032">onzd2()</a>, and <a class="el" href="vecstats_8f_source.html#l00008">vecstats()</a>.</p>
+<p>References <a class="el" href="bwplotcv_8f_source.html#l00030">bwplotcv()</a>, <a class="el" href="bwplotvc_8f_source.html#l00037">bwplotvc()</a>, <a class="el" href="coplot_8f_source.html#l00074">coplot()</a>, <a class="el" href="coplotwcv_8f_source.html#l00072">coplotwcv()</a>, <a class="el" href="cpt_8f_source.html#l00032">cpt()</a>, <a class="el" href="cpt2_8f_source.html#l00025">cpt2()</a>, <a class="el" href="getmapbounds_8f_source.html#l00077">getmapbounds()</a>, <a class="el" href="gridstats_8f_source.html#l00014">gridstats()</a>, <a class="el" href="onzd2_8f_source.html#l00036">onzd2()</a>, and <a class="el" href="vecstats_8f_source.html#l00012">vecstats()</a>.</p>
 
 <p><div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_gad0e3b2b69516341289fa5d05bec700bd_cgraph.svg" width="402" height="494"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_gad0e3b2b69516341289fa5d05bec700bd_cgraph.svg" width="402" height="494"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
@@ -413,17 +421,16 @@ mapflag = '0'
 <h3>2015 10 07:</h3>
 <p>Latest Version which had new naming scheme and dual-computations of arcseconds and meters for lat/lon See DRU-11, pl. 139. </p>
 
-<p>Definition at line <a class="el" href="makeplotfiles03_8f_source.html#l00084">84</a> of file <a class="el" href="makeplotfiles03_8f_source.html">makeplotfiles03.f</a>.</p>
+<p>Definition at line <a class="el" href="makeplotfiles03_8f_source.html#l00088">88</a> of file <a class="el" href="makeplotfiles03_8f_source.html">makeplotfiles03.f</a>.</p>
 
-<p>References <a class="el" href="bwplotcv_8f_source.html#l00026">bwplotcv()</a>, <a class="el" href="bwplotvc_8f_source.html#l00033">bwplotvc()</a>, <a class="el" href="coplot_8f_source.html#l00070">coplot()</a>, <a class="el" href="cpt2_8f_source.html#l00021">cpt2()</a>, <a class="el" href="getmapbounds_8f_source.html#l00073">getmapbounds()</a>, <a class="el" href="gridstats_8f_source.html#l00010">gridstats()</a>, and <a class="el" href="onzd2_8f_source.html#l00032">onzd2()</a>.</p>
+<p>References <a class="el" href="bwplotcv_8f_source.html#l00030">bwplotcv()</a>, <a class="el" href="bwplotvc_8f_source.html#l00037">bwplotvc()</a>, <a class="el" href="coplot_8f_source.html#l00074">coplot()</a>, <a class="el" href="cpt2_8f_source.html#l00025">cpt2()</a>, <a class="el" href="getmapbounds_8f_source.html#l00077">getmapbounds()</a>, <a class="el" href="gridstats_8f_source.html#l00014">gridstats()</a>, and <a class="el" href="onzd2_8f_source.html#l00036">onzd2()</a>.</p>
 
 <p><div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-3-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_ga5ba1fe4d681ced83528f69e465a2676f_cgraph.svg" width="402" height="342"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_ga5ba1fe4d681ced83528f69e465a2676f_cgraph.svg" width="402" height="342"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
@@ -539,17 +546,16 @@ cfname = control.nad27.nad83_1986.conus
 <h3>2016 01 07:</h3>
 <p>Changed to split "Relevant Edits" into three counts: lat, lon and eht </p>
 
-<p>Definition at line <a class="el" href="makework_8f_source.html#l00146">146</a> of file <a class="el" href="makework_8f_source.html">makework.f</a>.</p>
+<p>Definition at line <a class="el" href="makework_8f_source.html#l00150">150</a> of file <a class="el" href="makework_8f_source.html">makework.f</a>.</p>
 
-<p>References <a class="el" href="getgridbounds_8f_source.html#l00026">getgridbounds()</a>.</p>
+<p>References <a class="el" href="getgridbounds_8f_source.html#l00030">getgridbounds()</a>.</p>
 
 <p><div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-4-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_gaf03b9b1cd4fc369d51ac1e46b9231fc7_cgraph.svg" width="244" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_gaf03b9b1cd4fc369d51ac1e46b9231fc7_cgraph.svg" width="244" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
@@ -601,17 +607,16 @@ cfname = control.nad27.nad83_1986.conus
 <h3>2015 10 27</h3>
 <p>For use in creating NADCON5 Built by Dru Smith Built from scratch, scrapping all previous "mymedian" programs used in making GEOCON </p>
 
-<p>Definition at line <a class="el" href="mymedian5_8f_source.html#l00067">67</a> of file <a class="el" href="mymedian5_8f_source.html">mymedian5.f</a>.</p>
+<p>Definition at line <a class="el" href="mymedian5_8f_source.html#l00071">71</a> of file <a class="el" href="mymedian5_8f_source.html">mymedian5.f</a>.</p>
 
-<p>References <a class="el" href="getgridbounds_8f_source.html#l00026">getgridbounds()</a>, <a class="el" href="mymedian5_8f_source.html#l01330">getmedian()</a>, and <a class="el" href="indexxi_8for_source.html#l00020">indexxi()</a>.</p>
+<p>References <a class="el" href="getgridbounds_8f_source.html#l00030">getgridbounds()</a>, <a class="el" href="mymedian5_8f_source.html#l01334">getmedian()</a>, and <a class="el" href="indexxi_8for_source.html#l00024">indexxi()</a>.</p>
 
 <p><div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-5-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_ga79d0be427fdfab9ef1456eaf0afab3da_cgraph.svg" width="366" height="139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_ga79d0be427fdfab9ef1456eaf0afab3da_cgraph.svg" width="366" height="139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
@@ -680,17 +685,16 @@ agridsec = '900'
 <h3>2015 09 16:</h3>
 <p>Initial Release, For use in creating NADCON5 Built by Dru Smith </p>
 
-<p>Definition at line <a class="el" href="myrms_8f_source.html#l00097">97</a> of file <a class="el" href="myrms_8f_source.html">myrms.f</a>.</p>
+<p>Definition at line <a class="el" href="myrms_8f_source.html#l00101">101</a> of file <a class="el" href="myrms_8f_source.html">myrms.f</a>.</p>
 
-<p>References <a class="el" href="getgridbounds_8f_source.html#l00026">getgridbounds()</a>, <a class="el" href="myrms_8f_source.html#l01248">getrms()</a>, <a class="el" href="indexxi_8for_source.html#l00020">indexxi()</a>, and <a class="el" href="onzd2_8f_source.html#l00032">onzd2()</a>.</p>
+<p>References <a class="el" href="getgridbounds_8f_source.html#l00030">getgridbounds()</a>, <a class="el" href="myrms_8f_source.html#l01252">getrms()</a>, <a class="el" href="indexxi_8for_source.html#l00024">indexxi()</a>, and <a class="el" href="onzd2_8f_source.html#l00036">onzd2()</a>.</p>
 
 <p><div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-6-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_ga5baa6ad756ca0a7d136baa7644c5696b_cgraph.svg" width="224" height="190"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="group__doers_ga5baa6ad756ca0a7d136baa7644c5696b_cgraph.svg" width="224" height="190"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </p>
 
@@ -698,10 +702,11 @@ agridsec = '900'
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Nov 26 2017 19:44:23 for NADCON5-ng by
+    <li class="footer">Generated on Fri Dec 1 2017 02:49:28 for NADCON5-ng by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

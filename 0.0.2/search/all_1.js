@@ -14,5 +14,5 @@ var searchData=
   ['bwplotcv_2ef',['bwplotcv.f',['../bwplotcv_8f.html',1,'']]],
   ['bwplotvc',['bwplotvc',['../group__core.html#ga82c09d84f1af66481bc8e975f3f986ae',1,'bwplotvc.f']]],
   ['bwplotvc_2ef',['bwplotvc.f',['../bwplotvc_8f.html',1,'']]],
-  ['build_20system_20documentation',['Build System Documentation',['../makereadme.html',1,'']]]
+  ['build_20manual',['Build Manual',['../makereadme.html',1,'']]]
 ];
