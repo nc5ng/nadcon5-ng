@@ -1,13 +1,148 @@
-Build System Documentation  {#makereadme}
-==========================
+Build Manual  {#makereadme}
+============
 
 
 
 `NADCON5-ng` has been updated from the original development to use GNU Make as the target build system
 
+\tableofcontents
+
+# NADCON5.0 Data Pipeline         {#sdatapipe}
 
 
-## Makefile Primer
+The toplevel \ref Makefile defines the rules to construct the NADCON5-ng dataset in the traditional NADCON5.0 fashion, using the same fortran programs, simply managed by Make
+
+To generate the target NADCON data, from the command line
+
+     $ cd nadcon5-ng
+     $ make OLD_DATUM=ussd NEW_DATUM=nad27 REGION=conus GRIDSPACING=900 MAPLEVEL=0
+     $ cd build/out.ussd.nad27.conus.900.0
+
+Where the variables are specified and indicate
+
+ - `OLD_DATUM` = Source Datum
+ - `NEW_DATUM` = Target Datum
+ - `REGION`    = Geographic Region to Compute
+ - `GRIDSPACING` = The Grid Spacing in arcsec
+ - `MAPLEVEL` = The zoom level of images to generate (`0,1,2`)
+
+For more Information on the meaning of thes parameter see the documentation of functions in: \ref doers
+
+\note Conversion between datums is restricted in a strictly one-step chronoligical direction. Not all Regions are possible with all conversions
+
+
+## Step-by-step {#ss-step-by-step}
+
+With no arguments Make will execute the default target, in this case `all`, which is defined to run the data pipeline.
+
+Additional targets are defined to step through the data pipeline.
+
+These targets approximately mimic the steps taken in the upstream build scritpts `doitX.bat`
+
+    $ make doit
+    $ make doit2
+    $ make doit3
+    $ make doit4
+
+
+, will execute the build system in the same step-by step fashion as the upstream batch files. Generating a portion of the output each time.
+
+These `doit` targets use programs defined in \ref doers to generated Generic Mapping Tools (GMT) batch files in the output directory. Additionally, as a first step a "work" file is constructed (see \ref makework )
+
+Dataset construction can be done by stepping through these GMT scripts
+
+    $ make workfile
+    $ make gmtbat01
+    $ make gmtbat02
+    ...
+    $ make gmtbat07
+
+Allowing one to manually execute the batch file in the build directory
+
+\note These scripts call GMT functions without explicitly calling `gmt` which may not work on all distributions, shell wrappers for gmt are provided in `gmt_wrappers/`  and can be added to path for convenience.
+
+## Data Archive {#ss-data-archive}
+
+An archive file, with a unix timestamp is constructed with the `archive` target
+
+That is,
+ 
+    $ make archive
+
+This creates a file
+
+     build/nadcon5-TIMESTAMP.OLD_DATUM.NEW_DATUM.REGION.GRIDSPACING.MAPLEVEL.tgz
+
+
+## Output Files {#ss-output-files}
+
+Output files are generated in the folder
+
+     build/out.OLD_DATUM.NEW_DATUM.REGION.GRIDSPACING.MAPLEVEL
+
+# Source Compilation {#s-source-compile}
+
+The required files are compiled by the Data Pipeline automatically, but if you need to do this manually it can be done from the `src/` directory
+
+    $ cd nadcon5-ng/src
+    $ make
+
+
+Binaries are placed in the directory
+
+    build/bin
+
+
+# Documentation Compilation {#s-docs-compile}
+
+This page, as well as all the documentation on this page is also generated using Make
+
+## HTML {#ss-html-docs}
+
+To produce html documentation suitable for browsing or hosting
+
+    $ cd nadcon5-ng/docs
+    $ make full_docs
+
+Additionally, other output forms are available
+
+All forms of documentation can be compiled at once by omitting the target
+
+    $ cd nadcon5-ng/docs
+    $ make
+
+## Latex and PDF: {#ss-latex-docs}
+Latex sources and compiled PDF can
+be created by calling (in the docs folder)
+
+    $ make latex_docs
+
+## manpage {#ss-man-docs}
+
+*NIX style manual pages, suitable for use by the `man` command can be generated with the `bin_manual` and `lib_manual` targets
+
+Generate manual pages for the Compiled Programs (`man.1`)
+
+    $ make bin_manual
+
+
+Generate Documentation for subroutines and functions
+
+    $ make lib_manual
+
+
+
+
+# Dependencies {#s-deps}
+
+
+ - Oracle Fortran
+ - Generic Mapping Tools `GMT`
+ - GNU Make
+ - Doxygen
+ - 
+
+# Makefile Primer {#s-make-primer}
 
 **Note:** This primer has been adapted from other sources and is not specific to `NADCON5-ng`
 
@@ -113,10 +248,4 @@ This default rule maps all programs like `/path/to/build/bin/myprogram` to compi
 
 
 
-## Project Build System
-
-
-### Code Compilation
-
-Code Compilation occurs in the context of the Source Directory.
 

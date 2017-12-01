@@ -1,4 +1,3 @@
-## \file
 ## NADCON5-NG Compile Programs Makefile
 ##
 ## Adapted from CSH Script `compileCode` in the original distribution

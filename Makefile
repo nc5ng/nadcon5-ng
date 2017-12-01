@@ -1,9 +1,7 @@
-## \file Makefile
-## \brief NADCON5-NG Top Makefile
+## NADCON5-NG Top Makefile
 ##
-## Stuff and Things
 ##
-
+##
 
 ## Internal Variable showing relative location to top of project
 _TOP_DIR := ./
@@ -428,23 +426,23 @@ archive: $(BAT_FILE_6)
 ## However, script is currently executed always when built, note that this
 ## behavior may change
 ##
-gmtbat01: $(WORK_OUT_FILE)
+workfile: $(WORK_OUT_FILE)
 
-gmtbat02: $(BAT_FILE_1)
+gmtbat01: $(BAT_FILE_1)
 
-gmtbat03: $(BAT_FILE_2)
+gmtbat02: $(BAT_FILE_2)
 
-gmtbat04: $(BAT_FILE_3)
+gmtbat03: $(BAT_FILE_3)
 
-gmtbat05: $(BAT_FILE_4)
+gmtbat04: $(BAT_FILE_4)
 
-gmtbat06: $(BAT_FILE_5)
+gmtbat05: $(BAT_FILE_5)
 
-gmtbat07: $(BAT_FILE_6)
+gmtbat06: $(BAT_FILE_6)
 
 
 
-.PHONY: src all doit doit2 doit3 doit4 gmtbat01 gmtbat02 gmtbat03 gmtbat04 gmtbat05 gmtbat06 gmtbat07 arch
+.PHONY: src all doit doit2 doit3 doit4 gmtbat01 gmtbat02 gmtbat03 gmtbat04 gmtbat05 gmtbat06  arch workfile
 
 
 #############################################################################
@@ -596,3 +594,5 @@ build-info:
 
 .phony: build-info help
 
+
+## */

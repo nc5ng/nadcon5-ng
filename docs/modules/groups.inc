@@ -1,5 +1,5 @@
 /**
-\defgroup doers NADCON5 Build Pipeline
+\defgroup doers NADCON5 Build Programs
 \brief Programs which perform the generation of `GMT` batch scripts and the creation of output files using \ref core and \ref helpers
 
 The elements described here are the "doers", programs that construct the output using elements of \ref core
@@ -40,23 +40,3 @@ The programs here can be considered "Library" Programs, or functions, which do t
 
 
 
-
-
-/**
-\defgroup build Build System
-
-Makefile Documentation
-
-*/
-
-/**
-\ingroup build
-
-\file Makefile
-*/
-
-
-/**
-\ingroup build
-\defgroup source-compilation Compilation
-*/

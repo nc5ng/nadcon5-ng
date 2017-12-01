@@ -31,14 +31,14 @@ DOXY_PROJECT_NUMBER := 0.0.2
 DOXY_OUTPUT_DIR := $(DOC_DIR)
 
 ### DOXY_PROJECT_BRIEF - Summary of Project
-DOXY_PROJECT_BRIEF := "NADCON5 Next Generation" 
+DOXY_PROJECT_BRIEF := "NADCON5 Next Generation Documentation" 
 
 ### DOXY_EXTRACT_ALL - Extract Everything (Private/public/protected/anon/static
 ### When no do extract private members and anonymous namespaces
 DOXY_EXTRACT_ALL := NO
 
 ### DOXY_INPUT - space seperate list of source to process for documentation 
-DOXY_INPUT := "modules ../src pages  ../README.md ../LICENSE.md ../Makefile "
+DOXY_INPUT := "modules ../src pages  ../README.md ../LICENSE.md "
 
 ### DOXY_EXLUDE - files to exclude
 DOXY_EXCLUDE := ""
@@ -96,8 +96,12 @@ DOXY_ENABLED_SECTIONS :=
 
 .PHONY: publish_docs full_docs doxy_docs clean bin_manual lib_manual
 
-# Because of the way makefile handles dependencies
-# it does not work to set variables per dependency
+# We Must explicitly invoke Make because we have a
+# dependency that must be evaluated multiple times
+# > Be aware that a given prerequisite
+# > will only be built once per invocation
+# > of make, at most.
+# https://www.gnu.org/software/make/manual/html_node/Target_002dspecific.html
 
 all:
 	$(MAKE) full_docs
@@ -107,9 +111,9 @@ all:
 
 
 publish_docs: DOXY_LAYOUT_FILE=layout/default_layout.xml
-publish_docs: DOXY_HTML_HEADER_FILE=layout/default_header.html
-publish_docs: DOXY_HTML_FOOTER_FILE=layout/default_footer.html
-publish_docs: DOXY_HTML_CSS_EXTRA_FILE=layout/default_style_overrides.css
+publish_docs: DOXY_HTML_HEADER=layout/default_header.html
+publish_docs: DOXY_HTML_FOOTER=layout/default_footer.html
+publish_docs: DOXY_CSS_EXTRA=layout/custom_style_overrides.css
 publish_docs: DOXY_ENABLE_CALL_GRAPHS=YES
 publish_docs: DOXY_EXTRACT_ALL=YES
 publish_docs: DOXY_ENABLE_SOURCE=YES
@@ -169,10 +173,10 @@ doxy_docs:
 	DOXY_CREATE_HTML=$(DOXY_CREATE_HTML) \
 	DOXY_CREATE_LATEX=$(DOXY_CREATE_LATEX) \
 	DOXY_LAYOUT_FILE=$(DOXY_LAYOUT_FILE) \
-	DOXY_HTML_HEADER_FILE=$(DOXY_HTML_HEADER_FILE) \
-	DOXY_HTML_FOOTER_FILE=$(DOXY_HTML_FOOTER_FILE) \
-	DOXY_EXTRA_CSS_FILE=$(DOXY_EXTRA_CSS_FILE) \
-	DOXY_BASE_CSS_FILE=$(DOXY_BASE_CSS_FILE) \
+	DOXY_HTML_HEADER=$(DOXY_HTML_HEADER) \
+	DOXY_HTML_FOOTER=$(DOXY_HTML_FOOTER) \
+	DOXY_CSS_EXTRA=$(DOXY_CSS_EXTRA) \
+	DOXY_CSS_BASE=$(DOXY_CSS_BASE) \
 	DOXY_MD_MAINPAGE=$(DOXY_MD_MAINPAGE) \
 	DOXY_CREATE_MANUAL=$(DOXY_CREATE_MANUAL) \
 	DOXY_MANUAL_SECTION=$(DOXY_MANUAL_SECTION) \
