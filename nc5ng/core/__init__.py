@@ -1,5 +1,7 @@
 """Core Library"""
 
+name = 'core'
+
 from nc5ng.core.qterp import qterp
 
 from nc5ng.core.onzd import onzd 

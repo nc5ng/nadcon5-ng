@@ -1,5 +1,5 @@
-Build Manual  {#makereadme}
-============
+NADCON5-ng Manual  {#makereadme}
+=================
 
 
 

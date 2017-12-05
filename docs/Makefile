@@ -38,13 +38,16 @@ DOXY_PROJECT_BRIEF := "NADCON5 Next Generation Documentation"
 DOXY_EXTRACT_ALL := NO
 
 ### DOXY_INPUT - space seperate list of source to process for documentation 
-DOXY_INPUT := "modules ../src pages  ../README.md ../LICENSE.md "
+DOXY_INPUT := "modules ../src pages  ../README.md ../LICENSE.md"
+
+### DOXY_INCLUDE_PATH - Path for extra files which should be indexed and referenced, but do not provide documentation
+DOXY_INCLUDE_PATH := ""
 
 ### DOXY_EXLUDE - files to exclude
 DOXY_EXCLUDE := ""
 
 ### DOXY_EXCLUDE_PATTERNS
-DOXY_EXCLUDE_PATTERNS := ""
+DOXY_EXCLUDE_PATTERNS := "*.as"
 
 ### DOXY_ENABLE_SOURCE - append source to documentation
 DOXY_ENABLE_SOURCE := NO
@@ -164,6 +167,7 @@ doxy_docs:
 	DOXY_PROJECT_BRIEF=$(DOXY_PROJECT_BRIEF) \
 	DOXY_EXTRACT_ALL=$(DOXY_EXTRACT_ALL) \
 	DOXY_INPUT=$(DOXY_INPUT) \
+	DOXY_INCLUDE_PATH=$(DOXY_INCLUDE_PATH) \
 	DOXY_EXCLUDE=$(DOXY_EXCLUDE) \
 	DOXY_EXCLUDE_PATTERNS=$(DOXY_EXCLUDE_PATTERNS) \
 	DOXY_ENABLE_SOURCE=$(DOXY_ENABLE_SOURCE) \
