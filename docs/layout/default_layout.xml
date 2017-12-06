@@ -18,6 +18,7 @@
     </tab>
     <tab type="user"   url="https://nc5ng.org" title="Project Homepage"/>
     <tab type="user" url="https://github.com/nc5ng/nadcon5-ng" title="Project Github"/>
+    <tab type="user" url="./refman.pdf" title="PDF Manual"/>
     <tab type="files" visible="yes" title="Index">
       <tab type="filelist" visible="yes" title="" intro=""/>
       <tab type="globals" visible="yes" title="" intro=""/>

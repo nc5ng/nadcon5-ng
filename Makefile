@@ -134,6 +134,12 @@ CHECKGRID_BIN = $(BIN_DIR)/checkgrid
 DEP_TARGETS = $(MAKEWORK_BIN) $(MAKEPLOT1_BIN) $(MAKEPLOT2_BIN) $(MYMEDIAN_BIN) $(MAKEPLOT3_BIN) $(MYRMS_BIN) $(CHECKGRID_BIN)
 
 
+## GNU COnvention Programs
+INSTALL = install
+INSTALL_DATA = $(INSTALL) -m 644
+INSTALL_PROGRAM = $(INSTALL)
+
+
 ################################################################################
 ################################################################################
 ##### TARGET VARIABLES        ##################################################
@@ -167,6 +173,46 @@ BAT_FILE_6 = $(OUT_DIR)/gmtbat06.$(OLD_DATUM).$(NEW_DATUM).$(REGION).$(GRIDSPACI
 
 ## OUT_TARGETS : List of all generated output files
 OUT_TARGETS = $(WORK_OUT_FILE) $(BAT_FILE_1) $(BAT_FILE_2) $(BAT_FILE_3) $(BAT_FILE_4) $(BAT_FILE_5) $(BAT_FILE_6) 
+
+
+
+#############################################################################
+#### Installation Target Variables
+####
+#### variables conforming to GNU standards for the installation of binaries
+#### libraries, manuals, and data into the correct locations 
+####
+##############################################################################
+
+
+prefix = /usr/local
+
+exec_prefix = $(prefix)
+
+datarootdir = $(prefix)/share
+
+datadir = $(datarootdir)
+
+bindir = $(exec_prefix)/bin
+
+libdir = $(exec_prefix)/libexec
+
+mandir = $(datarootdir)/man
+
+man1dir = $(mandir)/man1
+
+man3dir = $(mandir)/man3
+
+docdir = $(datarootdir)/doc/nadcon5-ng
+
+htmldir = $(docdir)
+
+pdfdir = $(docdir)
+
+install_dirs = $(bindir) $(datadir) $(man1dir) $(man3dir)  $(docdir) $(libdir) 
+
+GNU_DIR_TARGETS = $(addprefix $(DESTDIR), $(install_dirs))
+
 
 
 ################################################################################
@@ -507,6 +553,7 @@ pyinstall:
 ##
 clean:
 	$(RM) -rf $(OUT_DIR)
+	-$(RM) -rf $(BUILD_DIR)/install
 
 ##
 ## mrclean
@@ -552,7 +599,70 @@ pyclean:
 docs:
 	$(MAKE) -C docs publish_docs
 
-.PHONY: docs
+all_docs:
+	$(MAKE) -C docs all
+
+pdf_docs:
+	$(MAKE) -C docs latex_docs
+man_docs:
+	$(MAKE) -C docs bin_manual
+	$(MAKE) -C docs lib_manual
+
+.PHONY: docs all_docs pdf_docs man_docs
+
+
+
+
+#############################################################################
+#### GNU Convention Targets
+####
+#### Installation and other targets that are commonly used by GNU tools
+####
+#### They are "standardized" by convention
+####
+#### https://www.gnu.org/prep/standards/html_node/Standard-Targets.html
+####
+####
+##############################################################################
+
+$(GNU_DIR_TARGETS):
+	$(MKDIR) -p $@
+
+install: BINS =  xyz2b subtrc gabs gscale b2xyz gsqr gsqrt addem regrd2 convlv decimate
+install: binaries $(GNU_DIR_TARGETS) man_docs
+	$(PRE_INSTALL)
+	$(NORMAL_INSTALL)
+	$(INSTALL_PROGRAM) $(addprefix $(BIN_DIR)/, $(BINS))  $(DESTDIR)$(bindir)
+	-$(INSTALL_DATA)  $(addprefix $(BUILD_DIR)/docs/man/man1/, $(addsuffix .1 , $(BINS)))  $(DESTDIR)$(man1dir)
+	#-$(INSTALL_DATA)  $(addprefix $(BUILD_DIR)/docs/man/man3/, $(addsuffix .3 , $(BINS))) $(DESTDIR)$(man3dir)
+	$(POST_INSTALL)
+
+
+
+install-pdf: pdf
+	$(PRE_INSTALL)
+	$(NORMAL_INSTALL)
+	$(INSTALL_DATA) $(BUILD_DIR)/docs/latex/refman.pdf $(DESTDIR)$(pdfdir)
+pdf: latex_docs
+
+install-html: html
+	$(PRE_INSTALL)
+	$(NORMAL_INSTALL)
+	$(INSTALL_DATA) $(BUILD_DIR)/docs/html/* $(DESTDIR)$(htmldir)
+html: docs
+
+uninstall: BINS =  xyz2b subtrc gabs gscale b2xyz gsqr gsqrt addem regrd2 convlv decimate
+uninstall:
+	$(PRE_UNINSTALL)
+	$(NORMAL_UNINSTALL)
+	$(RM) $(addprefix $(DESTDIR)$(bindir)/, $(BINS))
+	-$(RM)  $(addprefix $(DESTDIR)$(man1dir), $(addsuffix .1 , $(BINS)))  
+	#-$(INSTALL_DATA)  $(addprefix $(DESTDIR)$(man3dir), $(addsuffix .3 , $(BINS))) 
+
+.PHONY: install-html install-pdf install html pdf uninstall 
+
+
+
 
 
 #############################################################################
