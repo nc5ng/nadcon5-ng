@@ -1,5 +1,9 @@
 c copied from /home/dru/NumRec/Modified/select2.for
 c> \ingroup core
+c> \if MANPAGE     
+c> \page select2_mod
+c> \endif      
+c> 
 c> Function to select an element of a partially filled, but packed multi dimensional array, single precision
 c> 
 c> Finds the "kth" element of an array, "arr", which

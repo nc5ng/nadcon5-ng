@@ -1,4 +1,8 @@
 c> \ingroup core 
+c> \if MANPAGE     
+c> \page gscale
+c> \endif      
+c> 
 c> Part of the NADCON5 \ref core , Scales a grid by a factor
 c>     
 c>     

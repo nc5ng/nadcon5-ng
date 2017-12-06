@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page plotcoast
+c> \endif      
+c> 
 c> Subroutine to write GMT-based commands to create a shoreline
 c> Write GMT-based commands to create a shoreline
 c> based on region.

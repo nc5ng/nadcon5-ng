@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page onzd
+c> \endif      
+c> 
 c> Function to round a digit to one significant figure (one non zero digit), single precision
 c>
 c> Function "onzd" stands for "One Non Zero Digit"  

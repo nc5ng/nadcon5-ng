@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page iselect2
+c> \endif      
+c> 
 c> Function to select an element of a partially filled, but packed multi dimensional array, `integer*2` 
 c> 
 c> Finds the "kth" element of an array, "arr", which

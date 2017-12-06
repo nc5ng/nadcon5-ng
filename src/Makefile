@@ -1,11 +1,10 @@
-## nadcon5-ng/src/Makefile
-##
 ## NADCON5-NG Compile Programs Makefile
-## -------------------------------------
 ##
 ## Adapted from CSH Script `compileCode` in the original distribution
 ## 
 ##
+
+
 
 _TOP_DIR := ../
 
@@ -307,5 +306,6 @@ build-info:
 	@$(ECHO) "Mask Bins      = $(MASK_BIN)"
 	@$(ECHO) "NC5NG Dir      = $(NC5NG_DIR)"
 	@$(ECHO) "---------------------------"
+
 
 

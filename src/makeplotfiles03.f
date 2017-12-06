@@ -1,4 +1,8 @@
 c> \ingroup doers    
+c> \if MANPAGE     
+c> \page makeplotfiles03
+c> \endif      
+c> 
 c> Part of the NADCON5 process, generates `gmtbat06`
 c> 
 c> Creates a batch file called 

@@ -270,7 +270,7 @@ OPTIMIZE_OUTPUT_VHDL   = NO
 # Note that for custom extensions you also need to set FILE_PATTERNS otherwise
 # the files are not read by doxygen.
 
-EXTENSION_MAPPING      = .inc=c++
+EXTENSION_MAPPING      = inc=c++ mk=c++ no_extension=c++ dox=c++
 
 # If the MARKDOWN_SUPPORT tag is enabled then doxygen pre-processes all comments
 # according to the Markdown format, which allows for more readable
@@ -494,7 +494,7 @@ CASE_SENSE_NAMES       = YES
 # scope will be hidden.
 # The default value is: NO.
 
-HIDE_SCOPE_NAMES       = NO
+HIDE_SCOPE_NAMES       = YES
 
 # If the SHOW_INCLUDE_FILES tag is set to YES then doxygen will put a list of
 # the files that are included by a file in the documentation of that file.
@@ -606,7 +606,7 @@ GENERATE_DEPRECATEDLIST= YES
 # sections, marked by \if <section_label> ... \endif and \cond <section_label>
 # ... \endcond blocks.
 
-ENABLED_SECTIONS       =
+ENABLED_SECTIONS       = $(DOXY_ENABLED_SECTIONS)
 
 # The MAX_INITIALIZER_LINES tag determines the maximum number of lines that the
 # initial value of a variable or macro / define can have for it to appear in the
@@ -763,7 +763,7 @@ INPUT_ENCODING         = UTF-8
 # *.md, *.mm, *.dox, *.py, *.f90, *.f, *.for, *.tcl, *.vhd, *.vhdl, *.ucf,
 # *.qsf, *.as and *.js.
 
-FILE_PATTERNS          = 
+FILE_PATTERNS          =  
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
 # be searched for input files as well.
@@ -778,7 +778,7 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                = 
+EXCLUDE                =  $(DOXY_EXCLUDE)
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -794,7 +794,7 @@ EXCLUDE_SYMLINKS       = NO
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories for example use the pattern */test/*
 
-EXCLUDE_PATTERNS       =
+EXCLUDE_PATTERNS       = $(DOXY_EXCLUDE_PATTERNS)
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
 # (namespaces, classes, functions, etc.) that should be excluded from the
@@ -857,7 +857,7 @@ INPUT_FILTER           =
 # filters are used. If the FILTER_PATTERNS tag is empty or if none of the
 # patterns match the file name, INPUT_FILTER is applied.
 
-FILTER_PATTERNS        =
+FILTER_PATTERNS        =  "*/Makefile=./filters/doxy-make.sed "
 
 # If the FILTER_SOURCE_FILES tag is set to YES, the input filter (if set using
 # INPUT_FILTER ) will also be used to filter the input files that are used for
@@ -872,7 +872,7 @@ FILTER_SOURCE_FILES    = NO
 # *.ext= (so without naming a filter).
 # This tag requires that the tag FILTER_SOURCE_FILES is set to YES.
 
-FILTER_SOURCE_PATTERNS =
+FILTER_SOURCE_PATTERNS =     #"*/Makefile=./filters/doxy-make.sed"
 
 # If the USE_MDFILE_AS_MAINPAGE tag refers to the name of a markdown file that
 # is part of the input, its contents will be placed on the main page
@@ -1068,7 +1068,7 @@ HTML_STYLESHEET        =
 # see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_STYLESHEET  = $(DOXY_EXTRA_CSS)
+HTML_EXTRA_STYLESHEET  = $(DOXY_CSS_EXTRA)
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note
@@ -1687,7 +1687,7 @@ LATEX_BIB_STYLE        = plain
 # readers/editors.
 # The default value is: NO.
 
-GENERATE_RTF           = NO
+GENERATE_RTF           = $(DOXY_GENERATE_RTF)
 
 # The RTF_OUTPUT tag is used to specify where the RTF docs will be put. If a
 # relative path is entered the value of OUTPUT_DIRECTORY will be put in front of
@@ -1742,7 +1742,7 @@ RTF_EXTENSIONS_FILE    =
 # classes and files.
 # The default value is: NO.
 
-GENERATE_MAN           = NO
+GENERATE_MAN           = $(DOXY_CREATE_MANUAL)
 
 # The MAN_OUTPUT tag is used to specify where the man pages will be put. If a
 # relative path is entered the value of OUTPUT_DIRECTORY will be put in front of
@@ -1760,7 +1760,7 @@ MAN_OUTPUT             = man
 # The default value is: .3.
 # This tag requires that the tag GENERATE_MAN is set to YES.
 
-MAN_EXTENSION          = .3
+MAN_EXTENSION          = $(DOXY_MANUAL_SECTION)
 
 # If the MAN_LINKS tag is set to YES and doxygen generates man output, then it
 # will generate one additional man file for each entity documented in the real
@@ -1779,7 +1779,7 @@ MAN_LINKS              = NO
 # captures the structure of the code including all documentation.
 # The default value is: NO.
 
-GENERATE_XML           = NO
+GENERATE_XML           = $(DOXY_GENERATE_XML)
 
 # The XML_OUTPUT tag is used to specify where the XML pages will be put. If a
 # relative path is entered the value of OUTPUT_DIRECTORY will be put in front of
@@ -1818,7 +1818,7 @@ XML_PROGRAMLISTING     = YES
 # that can be used to generate PDF.
 # The default value is: NO.
 
-GENERATE_DOCBOOK       = NO
+GENERATE_DOCBOOK       = $(DOXY_GENERATE_DOCBOOK)
 
 # The DOCBOOK_OUTPUT tag is used to specify where the Docbook pages will be put.
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be put in
@@ -1917,7 +1917,7 @@ SEARCH_INCLUDES        = YES
 # preprocessor.
 # This tag requires that the tag SEARCH_INCLUDES is set to YES.
 
-INCLUDE_PATH           =
+INCLUDE_PATH           = $(DOXY_INCLUDE_PATH)
 
 # You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard
 # patterns (like *.h and *.hpp) to filter out the header-files in the

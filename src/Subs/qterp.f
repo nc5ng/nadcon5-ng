@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page qterp
+c> \endif      
+c> 
 c> This function fits a quadratic function through 3 points
 c> 
 c> This function fits a parabola (quadratic) function through

@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page getmapbounds
+c> \endif      
+c> 
 c> Subroutine to collect up the MAP boundaries
 c> for use in creating NADCON 5
 c>

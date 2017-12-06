@@ -1,5 +1,9 @@
 c copied from /home/dru/NumRec/Double/select2.for
 c> \ingroup core
+c> \if MANPAGE     
+c> \page select2_dbl
+c> \endif      
+c> 
 c> Function to select an element of a partially filled, but packed multi dimensional array, double precision
 c> 
 c> Finds the "kth" element of an array, "arr", which

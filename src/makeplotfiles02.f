@@ -1,4 +1,8 @@
 c> \ingroup doers    
+c> \if MANPAGE     
+c> \page makeplotfiles02
+c> \endif      
+c> 
 c> Part of the NADCON5 process, generates `gmtbat03`
 c>     
 c> Built upon the skeleton of "makeplotem.f" for GEOCON v2.0

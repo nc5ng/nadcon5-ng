@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page cubterp
+c> \endif      
+c> 
 c> This function fits a cubic function through four points
 c> 
 c> This function fits a cubic function through

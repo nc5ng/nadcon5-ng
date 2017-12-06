@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page vecstats
+c> \endif      
+c> 
 c> Subroutine to tell us how many thinned vectors were
 c> used to make a grid
 c> 

@@ -1,4 +1,8 @@
 c> \ingroup doers
+c> \if MANPAGE     
+c> \page makeplotfiles01
+c> \endif      
+c> 
 c> Part of the NADCON5 process, generates gmtbat01
 c>
 c> Program to take a "work" file and create

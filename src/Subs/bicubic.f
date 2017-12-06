@@ -1,4 +1,8 @@
 c> \ingroup core
+c> \if MANPAGE     
+c> \page bicubic
+c> \endif      
+c> 
 c> Subroutine to perform a 2-D cubic ("bicubic") interpolation
 c> 
 c> Performs interpolation at location "xla,xlo" off of grid "z", whose
