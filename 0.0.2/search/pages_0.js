@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['build_20manual',['Build Manual',['../makereadme.html',1,'']]]
+  ['license',['LICENSE',['../md_LICENSE.html',1,'']]]
 ];

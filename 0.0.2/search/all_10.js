@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['xyz2b',['xyz2b',['../group__core.html#gaddd91b04c391f82cba5511c45ae9d691',1,'xyz2b.f']]],
-  ['xyz2b_2ef',['xyz2b.f',['../xyz2b_8f.html',1,'']]]
+  ['w1',['w1',['../xyz2b_8f.html#aa012bf225e6a10a1e85dc0b15e3fa44e',1,'xyz2b.f']]],
+  ['w2',['w2',['../xyz2b_8f.html#ac7edd4eecb126ebaf41db74abd5d1017',1,'xyz2b.f']]]
 ];
