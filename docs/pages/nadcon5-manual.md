@@ -211,6 +211,30 @@ For Example:
 
 The file is read until the last record indicated by an end of file (`EOF`), there is no footer or record counter.
 
+grid.parameters
+---------------
+
+The `grid.parameters` file lists the grid extents (W/E/N/S)  of each available region
+
+This file is located in the folder `data/Data` and has a fixed format.
+
+The format is defined hardcoded without a fortran format specified.
+
+Records are matched by the region name, therefore any line which
+does not start with a valid region name is a comment. The first
+line of the file is a descriptive column header.
+
+
+
+    Region       Grid North   Grid South    Grid West    Grid East 
+    conus                50           24          235          294
+    AAAAAAAAAA---XXXXXXXXXX---XXXXXXXXXX---XXXXXXXXXX---XXXXXXXXXX
+
+
+
+
+XXXXXXXXXX---X
+conus                50           24          235          294
 
 ---
 GMT Batch Files     {#sgmtbatscript}

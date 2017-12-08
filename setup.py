@@ -124,7 +124,7 @@ if __name__ == '__main__':
         if kwargs is not None:
             fortran_extensions.append(Extension(**kwargs))
     
-    setup(name = 'nc5ng',
+    setup(name = 'nc5ng-core',
           packages = ['nc5ng', 'nc5ng.core'],
           ext_modules = fortran_extensions,
           **PKG_INFO
