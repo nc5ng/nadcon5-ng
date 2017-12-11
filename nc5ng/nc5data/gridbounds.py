@@ -4,7 +4,9 @@ import pkg_resources
 GRID_FILE = pkg_resources.resource_filename('nc5ng.nc5data', 'data/Data/grid.parameters')
 
 class GridBounds(metaclass=MyMeta, fpath=GRID_FILE):
-    
+    """@ingroup nc5data
+
+    """
     
     def __init__(self, region):
 

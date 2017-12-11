@@ -152,7 +152,7 @@ An Example:
 
 
 In Files      {#sinfiles}
--------
+--------
  
 The In Files are located in \ref data/InFiles and contain the actual reference and transformation data for the construction of the NADCON5.0 dataset.
 
@@ -211,7 +211,7 @@ For Example:
 
 The file is read until the last record indicated by an end of file (`EOF`), there is no footer or record counter.
 
-grid.parameters
+grid.parameters    {#sgridparams}
 ---------------
 
 The `grid.parameters` file lists the grid extents (W/E/N/S)  of each available region

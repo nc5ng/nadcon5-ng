@@ -25,3 +25,12 @@ The programs here can be considered "Library" Programs, or functions, which do t
 
 
 
+
+
+/**
+\defgroup nc5data Python Data Inspection Library
+\brief Python Wrapper Library around the data files provided by NADCON5.
+
+That is, this is a pythonic wrapper *for the data itself*
+
+*/
