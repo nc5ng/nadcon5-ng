@@ -156,6 +156,16 @@ lib_manual: DOXY_MD_MAINPAGE=
 lib_manual: DOXY_ENABLED_SECTIONS=MANPAGE
 lib_manual: doxy_docs
 
+file_manual: DOXY_CREATE_HTML=NO
+file_manual: DOXY_CREATE_LATEX=NO
+file_manual: DOXY_CREATE_MANUAL=YES
+file_manual: DOXY_MANUAL_SECTION=5
+file_manual: DOXY_INPUT="pages/nadcon5-manual.md"
+file_manual: DOXY_EXCLUDE=""
+file_manual: DOXY_EXTRACT_ALL=YES
+file_manual: DOXY_MD_MAINPAGE=
+file_manual: DOXY_ENABLED_SECTIONS=MANPAGE
+file_manual: doxy_docs
 
 #workkhorse, all other targets simply set variables
 doxy_docs:
