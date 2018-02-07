@@ -1,85 +1,286 @@
-from os.path import basename, exists, join, isdir, isfile
+""" \file nadcon5_files_ng.py
+"""
+from os.path import basename, exists, join, isdir, isfile, isabs
 from os import listdir
+import pkg_resources
 
 from .utils import dmstodec
-from .dataset import DataPoint
 
-class FileMetaBase(type):
-    """ This class is the base for our metaclass hierarchy
+import fortranformat as ff
+import logging
 
-    These classes create a system for a file backed database
-    hiding much of the underlying file parsing from the user
-    
-    Shared low level functionality for parsing files
-    
-    
-    """
-    
-    @classmethod
-    def __prepare__(metacls, name, bases, **kargs):
-        """ Prepare the new class, here for completeness
-        """
-        return super().__prepare__(name, bases, **kargs)
 
-    def __new__(metacls, name, bases, namespace, **kargs):
-        return super().__new__(metacls, name, bases, namespace)
-    
-    def __init__(cls, name, bases, namespace, fpath=None, **kwargs):
-        """
-        """        
-        cls._fpath = fpath
-        if fpath is None:
-            print ("Registering new data class ", name, " with no underlying filepath")
-        elif isfile(fpath):
-            print ("Registering new data class ", name , " backed by file ", fpath)
-        elif isdir(fpath):
-            print ("Registering new data class ", name , " backed by directory ", fpath)
-        else:
-            print ("Registering new data class ", name, " but path ", fname, " not found")
-            
+NADCON5_FILE_RESOURCES = {
+    'in_dir': pkg_resources.resource_filename('nc5ng.nc5data', 'data/InFiles'),
+    'grid_file': pkg_resources.resource_filename('nc5ng.nc5data', 'data/Data/grid.parameters'),
+    'control_dir': pkg_resources.resource_filename('nc5ng.nc5data', 'data/Control'),
+    'workedits_file': pkg_resources.resource_filename('nc5ng.nc5data', 'data/Work/workedits'),
+}
+
+
+class BaseFileParser(object):
+    def __init__(self, parser=None, fdir=None, ffile=None):
+        self.parser = parser
+        self.fdir = fdir
+        self.ffile = ffile
         
-    def __init_read__(cls, key, f):
-        pass
-
-
-    def __init_dir__(cls):
-        """ Initialize the class variables for a directory backed class
-        """
-        cls._fmatrix = []
-        cls._openf = {}
         
 
-        
-    ## These properties are automatically created in every class that uses
-    ## This as meta class
-    
     @property
-    def fpath(self):
-        return self._fpath
+    def parser(self):
+        return self._parser
+    @parser.setter
+    def parser(self, value):
+        self._parser = value
 
-    
-            
+    @property
+    def fdir(self):
+        return self._fdir
+
+    @fdir.setter
+    def fdir(self, value):
+        self._fdir = value
+        if (value is not None) and not(isabs(value)):
+            logging.warning("%s is not an absolute path"%str(value))
+
+    @property
+    def ffile(self):
+        return self._ffile
+
+    @ffile.setter
+    def ffile(self, value):
+        self._ffile = value
         
 
+    def __call__(self, it):
+        if self.parser and hasattr(self.parser, '__call__'):
+            return [self.parser(_line) for _line in it]
+        elif self.parser and hasattr(self.parser, 'read'):
+            return [self.parser.read(_line) for _line in it]
+        else:
+            return None
+
+    def __fromfile__(self, f):
+        return {'meta': {}, 'data':[ _ for _ in self(f) if _ is not None] }
+
+    def fromfile(self, ffile=None, process=None):
+        if ffile is None and self.ffile is not None:
+            ffile = self.ffile
+        
+        if (self.fdir is not None) and (ffile is not None) and  not(isabs(ffile)):
+            ffile = join(self._fdir, ffile)
+
+        with open(ffile,'r') as f:
+            res = self.__fromfile__(f)
+            res['meta']['source'] = ffile
+            return res
+        
+        return None
+
+class FortranFormatFileParser(BaseFileParser):
+    def __init__(self, fformat = None, ffilter = None):
+        self._parser = None
+        self.fformat = fformat
+        self.ffilter = ffilter
+        
+    @property
+    def fformat(self):
+        return self._fformat
+    
+    @fformat.setter
+    def fformat(self, value):
+        self._fformat = value
+        if self._fformat:
+            self._parser = ff.FortranRecordReader(self._fformat)
+
+    @property
+    def ffilter(self):
+        return self._ffilter
+
+    @ffilter.setter
+    def ffilter(self, value):
+        if value is None:
+            self._ffilter = lambda x: x
+        else:
+            self._ffilter = value            
+    
+    def __call__(self, it):
+        if self._parser:
+            return [ self._ffilter( self._parser.read(_line) ) for _line in it ]
+    
+        
+
+class IndexedFortranFormatFileParser(FortranFormatFileParser):
+    def __init__(self, *args, **kwargs):
+        super().__init__()
+        self._running_index=0
+        self._index=0
+        self.indexed_format = {}
+        
+        for entry in args:
+            try:
+                fformat,ffilter = entry
+            except TypeException:
+                fformat = args.pop(0)
+                if args: ffilter = args.pop(0)
+                else: ffilter=None
+            self._register_format(fformat, ffilter)
+        for index, entry in kwargs.items():
+            try:
+                fformat, ffilter = entry
+            except TypeException:
+                fformat = entry
+                ffilter = None
+            self._register_format(fformat, ffilter, index)
+        self.index=0
+
+    def _register_format(self, fformat, ffilter=None, index = None, overwrite=False):
+        if index is None:
+            index = self._running_index
+            self.fformat = fformat
+            self._running_index = self._running_index + 1
+
+        if (index not in self.indexed_format or overwrite):
+            self.indexed_format[index]=(fformat,ffilter)
+            if (index == self.index):
+                self.index = index # reload filters
+            return index
+        else:
+            return None
+
+    @property
+    def index(self):
+        return self._index
+
+    @index.setter
+    def index(self, index=None):
+        if index in self.indexed_format:
+            fformat, ffilter = self.indexed_format[index]
+            self.fformat = fformat
+            self.ffilter = ffilter
+            self._index = index
+        else:
+            pass
+        
+    def __getitem__(self,index):
+        if index in self.indexed_format:
+            return FortranFormatFileParser(*self.indexed_format[index])
+        else:
+            return None
+
+    def __contains__(self, value):
+        return index in self.indexed_format
+
+    def __call__(self, it, index=None):        
+        if index is None or index == self.index:
+            return super().__call__(it)
+        elif index in self:
+            return p(it)
+        else:
+            return None
+                        
     
 
-## \ingroup nc5data
-## \brief \ref sgridparams reader
-class GridParamFile(type):
-    """Reader of NADCON5.0 Grid Param Files
 
-    This is effectively a factory for GridBound
 
-    Based on native nadcon5.0 data, which comes packaged. 
+class InFileParser(IndexedFortranFormatFileParser):
+    IN_FILE_HEADER_FORMAT = '27x,a15,26x,a15'
+    IN_FILE_DATA_FORMAT = 'a6,1x,a2,5x,a13,1x,a14,1x,a9,3x,a13,1x,a14,1x,a9'
 
-    As such, this is a metaclass.
+    @staticmethod
+    def _line_filter(line):
+        pid, subr, oldlat, oldlon, oldht, newlat, newlon, newht = line
+        oldlat = None if oldlat.strip() == "N/A" else dmstodec(oldlat)
+        oldlon = None if oldlon.strip() == "N/A" else dmstodec(oldlon)
+        oldht = None if oldht.strip() == "N/A" else float(oldht)
+        newlat = None if newlat.strip() == "N/A" else dmstodec(newlat)
+        newlon = None if newlon.strip() == "N/A" else dmstodec(newlon)
+        newht = None if newht.strip()  == "N/A" else float(newht)
+        return [pid,subr,oldlat,oldlon,oldht,newlat,newlon,newht]
 
-    Which is just a normal(-ish) class, but we get to fiddle
-    with every GridBound that gets created. 
-    """
+    @staticmethod
+    def _header_filter(line):
+        return [ _.strip() for _ in line]
+    
+    def __init__(self, fdir=NADCON5_FILE_RESOURCES['in_dir'], ffile = None):
+        self.fdir = fdir
+        self.ffile = ffile
+        super().__init__(data=(self.IN_FILE_DATA_FORMAT, InFileParser._line_filter), header=(self.IN_FILE_HEADER_FORMAT, InFileParser._header_filter))
+        
+    def __fromfile__(self, f):        
+        header = self['header']([next(f)])[0]
+        meta={'DATUM1':header[0], 'DATUM2':header[1], 'header':header}
+        return {'meta':meta, 'data':self['data'](f)}
+    
+    def fromfile(self, ffile=None, old_datum=None, new_datum=None, subregion=None):
+        if ffile is not None:
+            res = super().fromfile(ffile)
+        elif old_datum and new_datum:
+            old_datum = old_datum.lower()
+            new_datum = new_datum.lower()
+            subregion = subregion.lower() if subregion is not None else None
+            if subregion:
+                res = super().fromfile( "NADCON5.%s.%s.%s.in"%(old_datum, new_datum, subregion))
+            else:
+                res = super().fromfile( "NADCON5.%s.%s.in"%(old_datum, new_datum ))            
+        else:
+            raise TypeError("fromfile Incorrect number of arguments")
+
+        res['meta'].update({'subregion':subregion, 'old_datum':old_datum, 'new_datum':new_datum})
+        return res
 
 
     
+
+        
+class ControlFileParser(BaseFileParser):
+    @staticmethod
+    def _parse_line(line):
+        if '.in' in line:
+            return line.strip()
+        else:
+            return None
+
+    def __init__(self, control_dir = NADCON5_FILE_RESOURCES['control_dir']):
+        super().__init__(ControlFileParser._parse_line, fdir = control_dir)
+
+    def __fromfile__(self, f):
+        header_lines = ['HEADER','REGION', 'DATUM1', 'DATUM2', 'REJMET', 'NFILES']
+        
+        data = []
+        meta = {}
+
+        for l in f:
+            if '.in' not in l:
+                
+                h,v = (l[:6], l[7:].strip(),)
+                if h in header_lines:
+                    meta[h] = v
+                else:
+                    logging.warning('Encountered Control File Header Line that is not Known')
+                
+            else:
+                data.append(ControlFileParser._parse_line(l))
+
+        return {'meta':meta, 'data':data}
+                
+    def fromfile(self, *args):
+
+        argc = len(args)
+        if argc == 1:
+            res = super().fromfile(args.pop())
+        elif argc == 3:
+            region, old_datum, new_datum = args
+            res = super().fromfile("control.%s.%s.%s"%(old_datum.lower(), new_datum.lower(),region.lower() ))
+        else:
+            raise TypeError("fromfile Incorrect number of arguments")
+
+        res['meta'].update({'region':region, 'old_datum':old_datum, 'new_datum':new_datum})
+        return res
+
+
+
+class GridParamFileParser(BaseFileParser):
     _VALID_REGIONS = (
         'conus',
         'alaska',
@@ -93,346 +294,132 @@ class GridParamFile(type):
         'stmatthew',
     )
     """ Hardcoded Valid Regions """
-    
 
-    def __call__(cls, region, *a, **kw):
-        if region not in cls._VALID_REGIONS:
-            return None
-
-        return super().__call__(region, *a, **kw)
-    
-    
-    def __init__(cls, name, bases, namespace, fpath=None, **kwargs):
-        """ GridParamFile  constructor
-        gets called when GridParam is defined 
-
-        because GridParam (the class) *is* a GridParamFile
-        """
-        
-        cls._source_name=basename(fpath)
-        
-        with open(fpath) as f:
-            print ("opened ", fpath)
-            cls.__init_read__(f)
-
-
-        super().__init__(name, bases, namespace)
-
-    def __init_read__(cls, f=None):
-        """ 
-        We pre-read the file into an array of strings
-
-        cls.raw_data
-
-        Then construct an index dictionary by region (first word in the string)
-
-        cls.indexed_data
-       
-        region1: (n,s,w,e)
-        """
-
-        cls._raw_data = tuple(f) #Split into tuples
-        cls._indexed_data = { region: tuple(map(lambda x: float(x.strip()), data)) # region:(float,float,float...)
-                              for region, *data    #grab first element as region rest in data
-                              in tuple(map(lambda x: x.split(),cls._raw_data)) #split each line into a tuples by whitespace
-                              if region in cls._VALID_REGIONS # only select lines with valid index
-        } #_indexed_data
-
-
-
-## \ingroup nc5data        
-## \brief \ref scontrolfile reader
-class ControlFile(type):
-    """Reader of NADCON5.0 Control Files
-
-    This is effectively a factory for Conversion
-
-    The control file defines all the allowed conversions (Region, Old Datum, New Datum)
-
-    This is a metaclass.
-
-    Which is just a normal(-ish) class, but we get to fiddle
-    with every Conversion that gets created. 
-    """
-
-    
-    @classmethod
-    def __prepare__(metacls, name, bases, **kargs):
-        return super().__prepare__(name, bases, **kargs)
-
-    def __new__(metacls, name, bases, namespace, **kargs):
-        return super().__new__(metacls, name, bases, namespace)
-
-    def __call__(cls, region, old_datum, new_datum, *a, **kw):
-
-        key = (region,old_datum,new_datum,)
-        
-        if not(cls.valid_conversions(*key)):
-            return None
-
-        if key not in cls._open_conversions.keys():
-            with open(join(cls._control_path, "control.%s.%s.%s"%(old_datum, new_datum,region))) as f:
-                cls.__init_read__(*key,f)
-                
-
-        
-        return super().__call__(*key, *a, **kw)
-
-    def __init_read__(cls, region, old_datum, new_datum, f):
-        """
-        Metaclass constructor function which reads the underlying \ref scontrolfile
-        Fixed Format
-        """
-        conversion_record = {'in_files':[]}
-
-        is_hdr = lambda x: ": " in x
-        split_hdr  = lambda x: x.split(': ')
-
-
-        
-        for line in f:
-            if is_hdr(line):
-                k,v = split_hdr(line)
-                conversion_record[k]=v
-            else:
-                conversion_record['in_files'].append(line.split()[0])
-                
-        cls._open_conversions[(region, old_datum, new_datum,)] = conversion_record
-        
-
-        
-    
-    def __init__(cls, name, bases, namespace, fpath=None, **kwargs):
-        """ ControlFile  construct
-        gets called when  is defined 
-
-        because GridParam (the class) *is* a GridParamFile
-        """
-
-        if fpath is not None:
-            cls._control_path = fpath
-            cls._control_files = (f_ for f_ in listdir(fpath) if "control." in f_)
-            cls.__init_conversions__()
+    def gen_parse_line(self):
+        _regions = self._VALID_REGIONS
+        def parse_line(line):
+            region, *data = line.split()
             
-
-        super().__init__(name, bases, namespace)
-
-    def __init_conversions__(cls):
-        cls._conversion_matrix = []
-        for fname in cls._control_files:
-            if exists(join(cls._control_path, fname)):
-                cls._conversion_matrix.append(tuple(fname.split('.')[1:4]))
-
-        _zipped_matrix = [_ for _ in zip(*cls._conversion_matrix)]
-        cls._regions = list(set(_zipped_matrix[2]))
-        cls._source_datums = list(set(_zipped_matrix[0]))
-        cls._target_datums = list(set(_zipped_matrix[1]))
-        cls._open_conversions = {}
-
-    @property
-    def regions(self):
-        return self._regions
-
-    @property
-    def source_datums(self):
-        return self._source_datums
-
-    @property
-    def target_datums(self):
-        return self._target_datums
-
-
-    def valid_conversions(self, region=None, source=None, target=None):
-        """ Returns a tuple of valid conversions all arguments optional to partial filtering """
-
-        return tuple([(region_, source_, target_,) for source_, target_, region_ in self._conversion_matrix if ( region == None or region_ == region) and (source==None or  source_ == source) and (target==None or target_ == target) ])
-
-        
-
-
-
-## \ingroup nc5data
-## \brief \ref sinfiles reader
-class InFile(type):
-    """Reader of NADCON5.0 In Files
-
-    This is effectively a factory for DataSet
-
-    This is a metaclass.
-
-    Which is just a normal(-ish) class, but we get to fiddle
-    with every ConverersionData that gets created. 
-    """
-
-    
-    @classmethod
-    def __prepare__(metacls, name, bases, **kargs):
-        return super().__prepare__(name, bases, **kargs)
-
-    def __new__(metacls, name, bases, namespace, **kargs):
-        return super().__new__(metacls, name, bases, namespace)
-
-    def fromfile(cls, fname, **kw):
-        if fname not in cls._in_files:
-            print (fname, " not in infile")
-            return None
-
-        print(fname)
-        old_datum, new_datum, subregion = InFile._parse_fname(fname)
-
-        return cls.__call__(subregion, old_datum, new_datum, **kw)
-    
-    def __call__(cls, subregion, old_datum, new_datum, *a, **kw):
-        key = (subregion,old_datum,new_datum,)
-        
-        if not(cls.valid_dataset(*key)):
-            return None
-
-        if key not in cls._open_inputs.keys():
-            with open(cls._key_tofname(*key)) as f:
-                cls.__init_read__(*key,f)
-                
-
-        
-        return super().__call__(*key, *a, **kw)
-    
-    def __init_read__(cls, subregion, old_datum, new_datum, f):
-        """
-        Metaclass constructor function which reads the underlying \ref scontrolfile
-        Fixed Format
-        """
-        in_data = []
-
-        split_line = lambda x: x.split()
-        is_data = lambda x: len(split_line(x))==10
-        
-        for line in f:
-            if is_data(line):
-                pid, subr, subrcode, oldlat, oldlon, oldht, _, newlat, newlon, newht = entry =  split_line(line)
-                oldlat = None if oldlat == "N/A" else dmstodec(oldlat)
-                oldlon = None if oldlon == "N/A" else dmstodec(oldlon)
-                oldht = None if oldht == "N/A" else float(oldht)
-                newlat = None if newlat == "N/A" else dmstodec(newlat)
-                newlon = None if newlon == "N/A" else dmstodec(newlon)
-                newht = None if newht == "N/A" else float(newht)
-                in_data.append(DataPoint( pid, ((oldlat, oldlon, oldht) , (newlat, newlon, newht)), region=None, subregion=subr, old_datum = old_datum, new_datum = new_datum))
+            if region.lower() in _regions:
+                return [region,]+ [ _ for _ in map (lambda x: float(x.strip()), data)]
             else:
-                print("Invalid Line ", line)
-                               
-        cls._open_inputs[(subregion, old_datum, new_datum,)] = tuple(in_data)
+                return None
 
-
+        return parse_line
         
     
-
-        
-        
-    def __init__(cls, name, bases, namespace, fpath=None, **kwargs):
-
-        if fpath is not None:
-            cls._in_path = fpath
-            cls._in_files = tuple(f_ for f_ in listdir(fpath) if ".in" in f_[-3:])
-            cls.__init_inputs__()
-        
-        super().__init__(name, bases, namespace)
-
-
-    @classmethod
-    def _parse_fname(cls,fname):
-        _ , source, target, *subr = fname.split('.')
-        subr = 'all' if subr[0] == "in" else subr[0]
-
-        return source,target,subr
-
     
-    def _key_tofname(cls, *key):
-        subr, old_datum, new_datum = key
-        key = (old_datum, new_datum, subr)
-        if subr == "all":
-            return join(cls._in_path, "NADCON5.%s.%s.in"%tuple(map(str.upper, key))[:2])
-        else:
-            return join(cls._in_path, "NADCON5.%s.%s.%s.in"%tuple(map(str.upper,key)))
+    def __init__(self, grid_file = NADCON5_FILE_RESOURCES['grid_file'], *regions):
+        if regions:
+            self._VALID_REGIONS = self._VALID_REGIONS + regions
+        super().__init__(self.gen_parse_line(), ffile=grid_file)
     
-    def __init_inputs__(cls):
-        cls._input_matrix = []
-        for fname in cls._in_files:
-            if exists(join(cls._in_path, fname)):
-                source,target,subr = InFile._parse_fname(fname)
-                cls._input_matrix.append((source, target, subr))
+    def valid_region(self, region):
+        return region in self._VALID_REGIONS
 
-        _zipped_matrix = [_ for _ in zip(*cls._input_matrix)]
-        cls._sub_regions = list(set(_zipped_matrix[2]))
-        cls._source_datums = list(set(_zipped_matrix[0]))
-        cls._target_datums = list(set(_zipped_matrix[1]))
-        cls._open_inputs = {}
-
-    @property
-    def subregions(self):
-        return self._sub_regions
-
-    @property
-    def source_datums(self):
-        return self._source_datums
-
-    @property
-    def target_datums(self):
-        return self._target_datums
-
-
-    def valid_dataset(self, sub_region=None, source=None, target=None):
-        """ Returns a tuple of valid conversions all arguments optional to partial filtering """
-
-        return tuple([(sub_region_, source_, target_,) for source_, target_, sub_region_ in self._input_matrix if ( sub_region == None or sub_region_ == sub_region) and (source==None or  source_ == source) and (target==None or target_ == target) ])
-
-        
-
-
-
-
-
-## \ingroup nc5data
-## \brief \ref sworkedits importer
-class WorkEditsFile(type):
-    """
-    """
-
-    @classmethod
-    def __prepare__(metacls, name, bases, **kargs):
-        return super().__prepare__(name, bases, **kargs)
-
-    
-    def __new__(metacls, name, bases, namespace, **kargs):
-        return super().__new__(metacls, name, bases, namespace)
-    
-
-    def __call__(cls, *a, **kw):
-        return super().__call__(*a, **kw)
-    
-    
-    def __init__(cls,name, bases, namespace, fpath, **kwargs):
-        cls._source_name=basename(fpath)
-        
-        with open(fpath) as f:
-            print ("opened ", fpath)
-            cls.__init_read__(f)
-
-        super().__init__(name, bases, namespace)
-
-    def __init_read__(cls, f):
-        """ 
+class WorkEditsFileParser(BaseFileParser):
+    @staticmethod
+    def _parse_line(line):
+        """
+        01- 10  : olddtm : lower case, left justified 
+        11  : "|"    : vertcal spacer just for ease of reading
+        12- 21  : newdtm : lower case, left justified 
+        22  : "|"    : vertcal spacer just for ease of reading
+        23- 32  : region : lower case, left justified (conus, alaska, hawaii, prvi, guamcnmi, as)
+        33  : "|"    : vertcal spacer just for ease of reading
+        34- 39  : PID    : upper case, left justified 
+        40  : "|"    : vertcal spacer just for ease of reading
+        41- 43  : rejects: Three digits (0's or 1's only) to reject lat, lon, eht, in that order.  '1' = reject, '0' = keep
+        44  : "|"    : vertcal spacer just for ease of reading
+        45-200  : reason : Upper/lower case, giving first your name then reason for the line to exist
         """
         
-        in_data = []
-
-        split_line = lambda x: tuple(map(str.strip, x.split("|")))
-        is_data = lambda x: not(x[0] == "#") and len(split_line(x))==6
+        if (len(line) < 44) or not(line[10] == line[21] == line[32] == line[39] == line[43] == '|'):
+            return None
 
         
-        for line in f:
-            if is_data(line):
-                old_datum, new_datum, region, pid, rej, comment = split_line(line)
-                pt = DataPoint(pid, old_datum=old_datum, new_datum=new_datum, region=region, rej=rej, comment=comment)
-                in_data.append(pt)
+        
+        olddtm = line[:10].strip()
+        newdtm = line[12:21].strip()
+        region = line[23:32].strip()
+        pid = line [33:39].strip()
+        rejlat = line[40] == '1'
+        rejlon = line[41] == '1'
+        rejeht = line[42] == '1'
+        reason = line[44:]
+
+        return [olddtm, newdtm, region, pid, rejlat, rejlon, rejeht, reason]
+
+    def __init__(self, ffile = NADCON5_FILE_RESOURCES['workedits_file']):
+        super().__init__(self.__class__._parse_line, ffile=ffile)
 
 
-        cls._in_data = in_data
+
+
+class FileBackedMetaBase(type):
+    @classmethod
+    def __prepare__(metacls, name, bases, **kargs):
+        """ Prepare the new class, here for completeness
+        """
+        logging.debug("Preparing Class %s"%name)
+        return super().__prepare__(name, bases, **kargs)
+
+    def __new__(metacls, name, bases, namespace, **kargs):
+        logging.debug("Creating Class %s"%name)
+        return super().__new__(metacls, name, bases, namespace)
+
+    @property
+    def parser(self):
+        return self._parser
+    
+
+    @parser.setter
+    def parser(self, parser):
+        logging.debug("Setting parser instance %s"%parser)
+        if not(issubclass(parser.__class__,BaseFileParser)):
+            raise TypeError("parser %s is not a valid BaseFileParser"%str(parser))
+
+        self._parser = parser
+
+    
+    def __init__(cls, name, bases, namespace, Parser=BaseFileParser, **kwargs):
+        """ Initialize a new FileBacked Class
+
+        This is a slot method for class creation, __init__ is called when class is defined (load time)
+
+        \param cls - reference to new type, similiar to @classmethod
+        \param name - new class name
+        \param bases - base classes
+        \param namespace - new class attributes
+        \param Parser - BaseFileParser underlying this type
+        \param **kwargs - keywords passed to Parser initialization
+        
+        """        
+        logging.debug("Creating File Backed Class %s"%name)
+
+        if Parser:
+            logging.debug("Creating Parser Instance of %s"%Parser)
+            cls.parser = Parser(**kwargs)
+            
+        cls._Parser = Parser
+        super().__init__(name, bases, namespace)
+
+
+class SingletonFileBackedMeta(FileBackedMetaBase):
+    
+    def __init__(cls, name, bases, namespace, Parser=BaseFileParser, **kwargs):
+        """
+        """        
+        cls._instance = None
+        super().__init__(name, bases, namespace, Parser, **kwargs)
+
+    def __call__(cls, *args, overwrite=False, **kwargs):
+        if cls._instance is None or overwrite:
+            logging.debug("Creating new Singleton File Backed Meta Instance %s"%cls.__name__ )
+            inst = super().__call__(*args, **kwargs)
+            cls._instance = inst
+            return inst
+        else:
+            return cls._instance
+        
+

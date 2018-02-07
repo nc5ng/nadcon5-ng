@@ -13,3 +13,5 @@ def dmstodec(x):
     s = float(x[5:])
 
     return c*(d+m/60.0 + s/3600.0)
+
+
