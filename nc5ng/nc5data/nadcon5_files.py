@@ -64,6 +64,7 @@ class BaseFileParser(object):
         return {'meta': {}, 'data':[ _ for _ in self(f) if _ is not None] }
 
     def fromfile(self, ffile=None, process=None):
+        print(ffile)
         if ffile is None and self.ffile is not None:
             ffile = self.ffile
         
@@ -340,8 +341,8 @@ class WorkEditsFileParser(BaseFileParser):
         
         
         olddtm = line[:10].strip()
-        newdtm = line[12:21].strip()
-        region = line[23:32].strip()
+        newdtm = line[11:21].strip()
+        region = line[22:32].strip()
         pid = line [33:39].strip()
         rejlat = line[40] == '1'
         rejlon = line[41] == '1'
