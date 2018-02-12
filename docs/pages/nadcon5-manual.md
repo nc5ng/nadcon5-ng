@@ -380,5 +380,9 @@ resulting in an output file format
 
 
 
+\if MANPAGE
+\page vector
+\endif
+
 
     
