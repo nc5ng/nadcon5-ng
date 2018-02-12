@@ -63,13 +63,16 @@ class BaseFileParser(object):
     def __fromfile__(self, f):
         return {'meta': {}, 'data':[ _ for _ in self(f) if _ is not None] }
 
-    def fromfile(self, ffile=None, process=None):
+    def fromfile(self, ffile=None, process=None, fdir=None):
         print(ffile)
         if ffile is None and self.ffile is not None:
             ffile = self.ffile
+
+        if fdir is None and self.fdir is not None:
+            fdir = self.fdir
         
-        if (self.fdir is not None) and (ffile is not None) and  not(isabs(ffile)):
-            ffile = join(self._fdir, ffile)
+        if (fdir is not None) and (ffile is not None) and  not(isabs(ffile)):
+            ffile = join(fdir, ffile)
 
         with open(ffile,'r') as f:
             res = self.__fromfile__(f)
@@ -197,6 +200,7 @@ class InFileParser(IndexedFortranFormatFileParser):
         newlat = None if newlat.strip() == "N/A" else dmstodec(newlat)
         newlon = None if newlon.strip() == "N/A" else dmstodec(newlon)
         newht = None if newht.strip()  == "N/A" else float(newht)
+
         return [pid,subr,oldlat,oldlon,oldht,newlat,newlon,newht]
 
     @staticmethod
@@ -356,6 +360,83 @@ class WorkEditsFileParser(BaseFileParser):
 
 
 
+
+class VectorFileParser(FortranFormatFileParser):
+    VECTOR_FILE_FORMAT = "f16.10,1x,f15.10,1x,f6.2,1x,f12.2,1x,f9.5,1x,f9.3,1x,a6"
+    
+    def __init__(self, **kwargs):
+        super().__init__(fformat=self.VECTOR_FILE_FORMAT, **kwargs)
+
+    def fromfile(self,
+                 region='conus',
+                 old_datum='ussd',
+                 new_datum='nad27',
+                 grid_spacing='900',
+                 vdir='lon',
+                 vunit='m',
+                 thinned=False,
+                 dropped=False,
+                 surface=False,
+                 gridinterp=False,
+                 doublediff=False,
+                 rms=False,
+                 **kwargs):
+
+        #"{v/s}{m/s}{a/t/d/r}{cd/gi/dd}{lat/lon/eht/hor}.{old_datum}.{new_datum}.{region}.{gs}"
+        s = ""
+        s += 'v' if not surface else 's'
+        s += 'm' if 'm' in vunit else 's'
+
+        if not(thinned ^ dropped ^ rms) and (thinned or dropped or rms):
+            raise ValueError("Only one of thinned, dropped, rms may be set")
+        if thinned:
+            s+='t'
+        elif dropped:
+            s+='d'
+        elif rms:
+            s+='r'
+        else:
+            s+='a'
+
+
+        if not (gridinterp ^ doublediff) and (gridinterp or doublediff):
+            raise ValueError("Cannot be both gridinterp and doublediff")
+        elif gridinterp:
+            s += 'gi'
+        elif doublediff:
+            s += 'dd'
+        else:
+            s += 'cd'
+
+        
+        if vdir in ['lon', 'lat', 'eht', 'hor']:
+            s+=vdir
+        else:
+            raise ValueError("vdir must be lon, lat, eht, or hor")
+
+        s += ".%s.%s.%s" %(old_datum, new_datum, region)
+        
+        if (thinned or dropped or surface or gridinterp or doublediff or rms):    
+            s += ".%s"%grid_spacing
+            
+        res = super().fromfile(ffile=s, **kwargs)
+
+        res['meta'].update({'old_datum':old_datum,
+                            'new_datum':new_datum,
+                            'region':region,
+                            'grid_spacing':grid_spacing,
+                            'thinned':thinned,
+                            'dropped':dropped,
+                            'surface':surface,
+                            'gridinterp':gridinterp,
+                            'doublediff':doublediff,
+                            'vdir':vdir,
+                            'vunit':vunit,
+                            'rms':rms})
+
+        return res
+
+        
 
 class FileBackedMetaBase(type):
     @classmethod

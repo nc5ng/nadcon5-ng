@@ -10,8 +10,8 @@ class RegionData(DataContainerMixin, MetaMixin, metaclass = SingletonFileBackedM
         
 
     class GridBound(DataPoint):
-        def __init__(self, region, n,s,w,e):
-            super().__init__(region=region,N=n, S=s, W=w, E=e)
+        def __init__(self, region, n,s,w,e, **kwargs):
+            super().__init__(region=region,N=n, S=s, W=w, E=e, **kwargs)
                         
 
     def __init_indexed_data__(self):
@@ -29,9 +29,9 @@ def _extract_subregion(in_file):
 
 class ControlData(DataContainerMixin, MetaMixin, metaclass=FileBackedMetaBase, Parser=ControlFileParser):
     class ControlDataPoint(DataPoint):
-        def __init__(self, region, old_datum, new_datum, in_file):
+        def __init__(self, region, old_datum, new_datum, in_file, **kwargs):
             
-            super().__init__( region=region, old_datum=old_datum, new_datum=new_datum, in_file = in_file, subregion=_extract_subregion(in_file))
+            super().__init__( region=region, old_datum=old_datum, new_datum=new_datum, in_file = in_file, subregion=_extract_subregion(in_file), **kwargs)
             
         
 
@@ -78,7 +78,7 @@ class InData(DataContainerMixin, MetaMixin,  metaclass=FileBackedMetaBase, Parse
             
     class InDataPoint(DataPoint):
         def __init__(self, pid, subregion, oldlat, oldlon, oldht, newlat, newlon, newht, **kwargs):
-            super().__init__(pid=pid, subregion=subregion, oldlat=oldlat, oldlon=oldht, newlat=newlat, newlon=newlon, newht=newht, **kwargs)
+            super().__init__(pid=pid, subregion=subregion, oldlat=oldlat, oldlon=oldlon, oldht=oldht, newlat=newlat, newlon=newlon, newht=newht, **kwargs)
            
 
     def __init_indexed_data__(self):
