@@ -257,8 +257,6 @@ class DataPoint(metaclass=DataPointType):
         return self.data.__bool__()
     
 
-    
-
 def _safe_meta_property(index):
     def getter(self):
         if self.meta and index in self.meta:
@@ -329,3 +327,7 @@ class DataContainerMixin(object):
     def __init__(self, *args, **kwargs):
         self._data = self.__class__.parser.fromfile(*args, **kwargs)
         self.__init_indexed_data__()
+
+    def __len__(self):
+        return len(self.data)
+    

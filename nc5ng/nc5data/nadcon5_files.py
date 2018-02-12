@@ -64,7 +64,6 @@ class BaseFileParser(object):
         return {'meta': {}, 'data':[ _ for _ in self(f) if _ is not None] }
 
     def fromfile(self, ffile=None, process=None, fdir=None):
-        print(ffile)
         if ffile is None and self.ffile is not None:
             ffile = self.ffile
 
@@ -359,6 +358,56 @@ class WorkEditsFileParser(BaseFileParser):
         super().__init__(self.__class__._parse_line, ffile=ffile)
 
 
+class CoverageFileParser(FortranFormatFileParser):
+    COVERAGE_FILE_FORMAT = "f16.10,1x,f15.10,1x,f6.2,1x,a6"
+    def __init__(self, **kwargs):
+        super().__init__(fformat=self.COVERAGE_FILE_FORMAT, **kwargs)
+
+
+    def fromfile(self,
+                 region='conus',
+                 old_datum='ussd',
+                 new_datum='nad27',
+                 grid_spacing='900',
+                 vdir='lon',
+                 thinned=False,
+                 dropped=False,
+                 **kwargs
+                 ):
+
+        #{cv}{a/t/d}{cd}{lon/lat/eht}.{old_datum}.{new_datum}.{region}.{gs}
+        s = 'cv'
+        if not (thinned ^ dropped) and (thinned or dropped):
+            raise ValueError("Only one of thinned or dropped may be set")
+        if thinned:
+            s += 't'
+        elif dropped:
+            s += 'd'
+        else:
+            s += 'a'
+
+        s += "cd"
+
+        if vdir in ['lon', 'lat', 'eht', 'hor']:
+            s+=vdir
+        else:
+            raise ValueError("vdir must be lon, lat, eht, or hor")
+
+        s += ".%s.%s.%s" %(old_datum, new_datum, region)
+        
+        if (thinned or dropped):    
+            s += ".%s"%grid_spacing
+
+        res = super().fromfile(ffile=s, **kwargs)
+
+        res['meta'].update({'old_datum':old_datum,
+                            'new_datum':new_datum,
+                            'region':region,
+                            'grid_spacing':grid_spacing,
+                            'thinned':thinned,
+                            'dropped':dropped})
+
+        return res
 
 
 class VectorFileParser(FortranFormatFileParser):
