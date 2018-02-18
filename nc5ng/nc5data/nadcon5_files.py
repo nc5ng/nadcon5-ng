@@ -4,7 +4,7 @@ from os.path import basename, exists, join, isdir, isfile, isabs
 from os import listdir
 import pkg_resources
 
-from .utils import dmstodec
+from .utils import dmstodec, output_filename
 
 import fortranformat as ff
 import logging
@@ -259,7 +259,7 @@ class ControlFileParser(BaseFileParser):
                 
                 h,v = (l[:6], l[7:].strip(),)
                 if h in header_lines:
-                    meta[h] = v
+                    meta[h.lower()] = v.lower()
                 else:
                     logging.warning('Encountered Control File Header Line that is not Known')
                 
@@ -370,45 +370,31 @@ class CoverageFileParser(FortranFormatFileParser):
                  new_datum='nad27',
                  grid_spacing='900',
                  vdir='lon',
-                 thinned=False,
-                 dropped=False,
-                 **kwargs
-                 ):
+                 vclass='a',
+                 vout='cd',
+                 **kwargs):
 
-        #{cv}{a/t/d}{cd}{lon/lat/eht}.{old_datum}.{new_datum}.{region}.{gs}
-        s = 'cv'
-        if not (thinned ^ dropped) and (thinned or dropped):
-            raise ValueError("Only one of thinned or dropped may be set")
-        if thinned:
-            s += 't'
-        elif dropped:
-            s += 'd'
-        else:
-            s += 'a'
 
-        s += "cd"
+        if 'ffile' in kwargs:
+            return super().fromfile(**kwargs)
 
-        if vdir in ['lon', 'lat', 'eht', 'hor']:
-            s+=vdir
-        else:
-            raise ValueError("vdir must be lon, lat, eht, or hor")
 
-        s += ".%s.%s.%s" %(old_datum, new_datum, region)
+        meta_dict = {'old_datum':old_datum,
+                     'new_datum':new_datum,
+                     'region':region,
+                     'grid_spacing':grid_spacing,
+                     'vclass':vclass,
+                     'vout':vout,
+                     'vdir':vdir}
+
+        ffile = output_filename(output_type = 'c', **meta_dict)
+        res = super().fromfile(ffile=ffile, **kwargs)
         
-        if (thinned or dropped):    
-            s += ".%s"%grid_spacing
-
-        res = super().fromfile(ffile=s, **kwargs)
-
-        res['meta'].update({'old_datum':old_datum,
-                            'new_datum':new_datum,
-                            'region':region,
-                            'grid_spacing':grid_spacing,
-                            'thinned':thinned,
-                            'dropped':dropped})
+        res['meta'].update(meta_dict)
 
         return res
 
+        
 
 class VectorFileParser(FortranFormatFileParser):
     VECTOR_FILE_FORMAT = "f16.10,1x,f15.10,1x,f6.2,1x,f12.2,1x,f9.5,1x,f9.3,1x,a6"
@@ -422,67 +408,30 @@ class VectorFileParser(FortranFormatFileParser):
                  new_datum='nad27',
                  grid_spacing='900',
                  vdir='lon',
+                 vclass='a',
+                 vout='cd',
                  vunit='m',
-                 thinned=False,
-                 dropped=False,
                  surface=False,
-                 gridinterp=False,
-                 doublediff=False,
-                 rms=False,
                  **kwargs):
 
-        #"{v/s}{m/s}{a/t/d/r}{cd/gi/dd}{lat/lon/eht/hor}.{old_datum}.{new_datum}.{region}.{gs}"
-        s = ""
-        s += 'v' if not surface else 's'
-        s += 'm' if 'm' in vunit else 's'
-
-        if not(thinned ^ dropped ^ rms) and (thinned or dropped or rms):
-            raise ValueError("Only one of thinned, dropped, rms may be set")
-        if thinned:
-            s+='t'
-        elif dropped:
-            s+='d'
-        elif rms:
-            s+='r'
-        else:
-            s+='a'
-
-
-        if not (gridinterp ^ doublediff) and (gridinterp or doublediff):
-            raise ValueError("Cannot be both gridinterp and doublediff")
-        elif gridinterp:
-            s += 'gi'
-        elif doublediff:
-            s += 'dd'
-        else:
-            s += 'cd'
-
-        
-        if vdir in ['lon', 'lat', 'eht', 'hor']:
-            s+=vdir
-        else:
-            raise ValueError("vdir must be lon, lat, eht, or hor")
-
-        s += ".%s.%s.%s" %(old_datum, new_datum, region)
-        
-        if (thinned or dropped or surface or gridinterp or doublediff or rms):    
-            s += ".%s"%grid_spacing
+        if 'ffile' in kwargs:
+            return super().fromfile(**kwargs)
             
-        res = super().fromfile(ffile=s, **kwargs)
+    
+        meta_dict = {'old_datum':old_datum,
+                     'new_datum':new_datum,
+                     'region':region,
+                     'grid_spacing':grid_spacing,
+                     'vunit':vunit,
+                     'vclass':vclass,
+                     'vout':vout,
+                     'vdir':vdir}
 
-        res['meta'].update({'old_datum':old_datum,
-                            'new_datum':new_datum,
-                            'region':region,
-                            'grid_spacing':grid_spacing,
-                            'thinned':thinned,
-                            'dropped':dropped,
-                            'surface':surface,
-                            'gridinterp':gridinterp,
-                            'doublediff':doublediff,
-                            'vdir':vdir,
-                            'vunit':vunit,
-                            'rms':rms})
 
+        ffile = output_filename(output_type = 'v', surface=surface, **meta_dict)
+        res = super().fromfile(ffile=ffile, **kwargs)
+
+        res['meta'].update(meta_dict)
         return res
 
         
@@ -512,6 +461,10 @@ class FileBackedMetaBase(type):
 
         self._parser = parser
 
+    @property
+    def instances(self):
+        return self._instances
+
     
     def __init__(cls, name, bases, namespace, Parser=BaseFileParser, **kwargs):
         """ Initialize a new FileBacked Class
@@ -533,8 +486,9 @@ class FileBackedMetaBase(type):
             cls.parser = Parser(**kwargs)
             
         cls._Parser = Parser
+        cls._instances = dict()
         super().__init__(name, bases, namespace)
-
+            
 
 class SingletonFileBackedMeta(FileBackedMetaBase):
     

@@ -34,9 +34,6 @@ class PointData(DataContainerMixin, MetaMixin, metaclass=FileBackedMetaBase, Par
         
 
 
-
-
-
 class GRDData(object):
     pass
 
