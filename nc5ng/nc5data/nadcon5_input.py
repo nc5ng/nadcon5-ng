@@ -43,24 +43,12 @@ class ControlData(DataContainerMixin, MetaMixin, metaclass=FileBackedMetaBase, P
         
 
     @property
-    def region(self):
-        return self._data['meta']['REGION']
-
-    @property
-    def source(self):
-        return self._data['meta']['DATUM1']
-
-    @property
-    def target(self):
-        return self._data['meta']['DATUM2']
-    
-    @property
     def rejmet(self):
-        return int(self._data['meta']['REJMET'])
+        return int(self._data['meta']['rejmet'])
 
     @property
     def n_infiles(self):
-        return int(self._data['meta']['NFILES'])
+        return int(self._data['meta']['nfiles'])
         
     @property
     def infiles(self):
@@ -68,8 +56,11 @@ class ControlData(DataContainerMixin, MetaMixin, metaclass=FileBackedMetaBase, P
 
             
 
-
-
+    def __contains__(self, point):
+        if 'region' in point and point.region == self.region:
+            return True
+        else:
+            return False
 
 
 

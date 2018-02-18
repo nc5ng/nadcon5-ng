@@ -1,4 +1,7 @@
+from os.path import basename
 import logging
+
+
 
 
 class DataPointType(type):
@@ -280,7 +283,12 @@ class MetaMixin(object):
     new_datum = _safe_meta_property('new_datum')
     region = _safe_meta_property('region')
     subregion = _safe_meta_property('subregion')
-    
+
+    @property
+    def shorthand(self):
+        if self.source:
+            return basename(self.source).split('.')[0]
+
 
 class DataContainerMixin(object):
     @property
