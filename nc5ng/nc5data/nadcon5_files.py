@@ -35,7 +35,7 @@ class BaseFileParser(object):
 
     @property
     def fdir(self):
-        return self._fdir
+        return getattr(self, '_fdir', None)
 
     @fdir.setter
     def fdir(self, value):

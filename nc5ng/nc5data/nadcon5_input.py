@@ -1,5 +1,5 @@
 from .nadcon5_files import ControlFileParser, InFileParser, FileBackedMetaBase, WorkEditsFileParser, SingletonFileBackedMeta, GridParamFileParser
-from .nadcon5_types import DataPoint, DataContainerMixin, MetaMixin
+from .nadcon5_types import DataPoint, DataContainerMixin, MetaMixin, GMTMixin
 import pkg_resources
 
 
@@ -17,6 +17,14 @@ class RegionData(DataContainerMixin, MetaMixin, metaclass = SingletonFileBackedM
     def __init_indexed_data__(self):
         self._indexed_data = { region:self.GridBound(region, *data, **self.meta) for region, *data in self.data}
 
+    @classmethod
+    def region_bounds(cls, region):
+        """ Compute Region Bounds from singleton data"""
+        s = RegionData()
+        if region in s:
+            pt = s[region]
+            return (pt.W, pt.E, pt.S, pt.N)
+        return None
 
 
 
@@ -57,7 +65,8 @@ class ControlData(DataContainerMixin, MetaMixin, metaclass=FileBackedMetaBase, P
             
 
     def __contains__(self, point):
-        if 'region' in point and point.region == self.region:
+        
+        if not(super().__contains__(point)) and 'region' in point and point.region == self.region:
             return True
         else:
             return False
@@ -65,7 +74,7 @@ class ControlData(DataContainerMixin, MetaMixin, metaclass=FileBackedMetaBase, P
 
 
 
-class InData(DataContainerMixin, MetaMixin,  metaclass=FileBackedMetaBase, Parser=InFileParser):
+class InData(DataContainerMixin, MetaMixin,GMTMixin,  metaclass=FileBackedMetaBase, Parser=InFileParser):
             
     class InDataPoint(DataPoint):
         def __init__(self, pid, subr, oldlat, oldlon, oldht, newlat, newlon, newht, **kwargs):
@@ -83,7 +92,9 @@ class InData(DataContainerMixin, MetaMixin,  metaclass=FileBackedMetaBase, Parse
         if 'meta' in self._data and 'source' in self._data['meta']:
             return self._data['meta']['source']
 
-            
+    def _mk_plot_args(self):
+        return {'data':np.array(self.data)[:,2:3].astype(float), 'style':'p','region':RegionData.region_bounds(self.region)}
+
                  
         
             

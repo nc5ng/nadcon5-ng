@@ -153,6 +153,9 @@ class DataPointType(type):
     
     
 class DataPoint(metaclass=DataPointType):
+    """ 
+    Base Data Point Type
+    """
     def __init__(self, *args, **kwargs):
         self._data = {}
 
@@ -268,7 +271,11 @@ def _safe_meta_property(index):
             return None
     return property(getter)
     
-class MetaMixin(object):    
+class MetaMixin(object):
+    """
+    Mixin base type for standard meta information
+    """
+    
     @property
     def meta(self):
         if hasattr(self, '_data'):
@@ -290,9 +297,19 @@ class MetaMixin(object):
             return basename(self.source).split('.')[0]
 
 
+
+
 class DataContainerMixin(object):
+    """
+    Mixin type for containers of DataPoints
+
+    """
+    
     @property
     def data(self):
+        """
+        Get underlying raw data 
+        """
         if hasattr(self, '_data'):
             if 'data' not in self._data:
                 self._data['data'] = None
@@ -302,6 +319,9 @@ class DataContainerMixin(object):
 
     @property
     def points(self):
+        """
+        Get indexed data points
+        """
         if hasattr(self, '_indexed_data'):
             return self._indexed_data.values()
         else:
@@ -309,6 +329,9 @@ class DataContainerMixin(object):
     
     @property
     def indices(self):
+        """
+        index values
+        """
         if hasattr(self, '_indexed_data'):
             return self._indexed_data.keys()
         else:
@@ -316,6 +339,9 @@ class DataContainerMixin(object):
 
     @property
     def index_tag(self):
+        """
+        DataPoint field used for indexing
+        """
         if hasattr(self, '_index_tag'):
             return self._index_tag
         else:
@@ -323,6 +349,9 @@ class DataContainerMixin(object):
     
 
     def __iter__(self):
+        """
+        Default Iterator
+        """
         for index in self.indices:
             yield self[index]
             
@@ -338,4 +367,37 @@ class DataContainerMixin(object):
 
     def __len__(self):
         return len(self.data)
+
+    def __contains__(self, item):
+        if item in self.indices:
+            return True
+        elif item in self.indexed_data:
+            return True
+        return False
+        
+
+
+
+
+
+
+class GMTMixin(object):
+
+    @property
+    def plot_args(self):
+        return self._mk_plot_args()
     
+    def plot(self, figure, **kwargs):
+        pkwargs = self.plot_args
+        pkwargs.update(kwargs)
+        figure.plot(**pkwargs)
+
+
+        
+        
+
+    
+        
+
+
+        
