@@ -1,0 +1,5 @@
+FROM nc5ng/jupyter
+
+ADD ../ /workspace
+
+

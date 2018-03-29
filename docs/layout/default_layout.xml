@@ -6,7 +6,7 @@
     <tab type="mainpage" visible="yes" title="About"/>
     <tab type="pages" visible="yes" title="Manual" intro=""/>
     <tab type="modules" visible="yes" title="Code Documentation" intro=""/>
-    <tab type="namespaces" visible="yes" title="">
+    <tab type="namespaces" visible="no" title="">
       <tab type="namespacelist" visible="yes" title="" intro=""/>
       <tab type="namespacemembers" visible="yes" title="" intro=""/>
     </tab>
