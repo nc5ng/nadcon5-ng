@@ -1,5 +1,5 @@
 from .nadcon5_files import ControlFileParser, InFileParser, FileBackedMetaBase, WorkEditsFileParser, SingletonFileBackedMeta, GridParamFileParser
-from .nadcon5_types import DataPoint, DataContainerMixin, MetaMixin, GMTMixin
+from .nadcon5_types import DataPoint, DataContainerMixin, MetaMixin, GMTMixin, GMTPointMixin
 import pkg_resources
 
 
@@ -12,19 +12,13 @@ class RegionData(DataContainerMixin, MetaMixin, metaclass = SingletonFileBackedM
     class GridBound(DataPoint):
         def __init__(self, region, n,s,w,e, **kwargs):
             super().__init__(region=region,N=n, S=s, W=w, E=e, **kwargs)
-                        
+        @property
+        def bounds(self):
+            return (pt.W, pt.E, pt.S, pt.N)
 
     def __init_indexed_data__(self):
         self._indexed_data = { region:self.GridBound(region, *data, **self.meta) for region, *data in self.data}
 
-    @classmethod
-    def region_bounds(cls, region):
-        """ Compute Region Bounds from singleton data"""
-        s = RegionData()
-        if region in s:
-            pt = s[region]
-            return (pt.W, pt.E, pt.S, pt.N)
-        return None
 
 
 
@@ -80,7 +74,7 @@ class InData(DataContainerMixin, MetaMixin,GMTMixin,  metaclass=FileBackedMetaBa
         def __init__(self, pid, subr, oldlat, oldlon, oldht, newlat, newlon, newht, **kwargs):
             super().__init__(pid=pid, #subregion=subregion,
                              oldlat=oldlat, oldlon=oldlon, oldht=oldht, newlat=newlat, newlon=newlon, newht=newht, **kwargs)
-           
+
 
     def __init_indexed_data__(self):
         self._index_tag = 'pid'
@@ -92,7 +86,7 @@ class InData(DataContainerMixin, MetaMixin,GMTMixin,  metaclass=FileBackedMetaBa
         if 'meta' in self._data and 'source' in self._data['meta']:
             return self._data['meta']['source']
 
-    def _mk_plot_args(self):
+    def __mk_plot_args__(self):
         return {'data':np.array(self.data)[:,2:3].astype(float), 'style':'p','region':RegionData.region_bounds(self.region)}
 
                  

@@ -90,7 +90,7 @@ class DataPointType(type):
             cls._type_shorthand = cls._type_shorthand + "_" # in case of name conflict, add underscore
 
         # Point Storage
-        cls._point_store = getattr(cls, '_point_store', set() )
+        cls._point_store = namespace.get('_point_store', set() )
         
         
         logging.debug("Registering new Data Point Type %s with shorthand %s"%(name, cls._type_shorthand))
@@ -179,6 +179,7 @@ class DataPoint(metaclass=DataPointType):
     def data(self):
         return self._data
 
+
     def __getitem__(self,name):
         if name in self._data:
             return self._data[name]
@@ -263,22 +264,27 @@ class DataPoint(metaclass=DataPointType):
         return self.data.__bool__()
     
 
-def _safe_meta_property(index):
-    def getter(self):
-        if self.meta and index in self.meta:
-            return self.meta[index]
-        else:
-            return None
-    return property(getter)
     
 class MetaMixin(object):
     """
     Mixin base type for standard meta information
-    """
+    """    
+    
+    def _safe_meta_property(index):
+        def getter(self):
+            if self.meta and index in self.meta:
+                return self.meta[index]
+            else:
+                return None
+        return property(getter)
+    
+    
     
     @property
     def meta(self):
-        if hasattr(self, '_data'):
+        if hasattr(self, '_meta'):
+            return self._meta
+        elif hasattr(self, '_data'):
             if 'meta' not in self._data:
                 self._data['meta'] = {}
             return self._data['meta']
@@ -360,9 +366,10 @@ class DataContainerMixin(object):
             return self._indexed_data[index]
         else:
             return None
-
     def __init__(self, *args, **kwargs):
-        self._data = self.__class__.parser.fromfile(*args, **kwargs)
+        if hasattr(self.__class__, 'parser'):
+            self._data = self.__class__.parser.fromfile(*args, **kwargs)
+            
         self.__init_indexed_data__()
 
     def __len__(self):
@@ -383,21 +390,58 @@ class DataContainerMixin(object):
 
 class GMTMixin(object):
 
+        
     @property
     def plot_args(self):
-        return self._mk_plot_args()
+        return self.__mk_plot_args__()
     
     def plot(self, figure, **kwargs):
         pkwargs = self.plot_args
         pkwargs.update(kwargs)
         figure.plot(**pkwargs)
 
-
-        
-        
-
     
         
 
 
         
+
+class GMTPointMixin(object):
+
+    @property
+    def gmt_data(self):
+        return self.__mk_gmt_data__()
+
+    
+    
+    
+
+
+
+
+class GMTMetaMixin(object):
+    def _safe_gmt_meta_property(index):
+        def getter(self):
+            if self.gmt_meta and index in self.gmt_meta:
+                return self.gmt_meta[index]
+            else:
+                return None
+        return property(getter)
+
+    @property
+    def gmt_meta(self):
+        if not(hasattr(self, '_gmt_meta')):
+            self._gmt_meta = {}
+        return self._gmt_meta
+
+
+
+    gmt_region = _safe_gmt_meta_property('region')
+    gmt_projection = _safe_gmt_meta_property('projection')
+    gmt_rivers= _safe_gmt_meta_property('rivers')
+    gmt_borders= _safe_gmt_meta_property('borders')
+    gmt_water= _safe_gmt_meta_property('water')
+    gmt_shorelines = _safe_gmt_meta_property('shorelines')
+    gmt_land = _safe_gmt_meta_property('land')
+    gmt_resolution = _safe_gmt_meta_property('resolution')
+    gmt_frame = _safe_gmt_meta_property('frame')

@@ -1,10 +1,11 @@
 from .nadcon5_input import RegionData, ControlData, InData, ExclusionData
 from .nadcon5_output import VectorData, PointData
+from .nadcon5_types import MetaMixin
 import logging
 import itertools
 
 
-class Conversion(object):
+class Conversion(MetaMixin):
     """ A Conversion agregates all parts of a NADCON5 Datum Conversion and serves
     as the primary user interface into the dataset
 
@@ -106,7 +107,6 @@ class Conversion(object):
     class ConversionOutput(object):
         def __init__(self, region, old_datum, new_datum, grid_spacing, load_all = False, **kwargs):
             self._output_data = {}
-            self._pid_set = set()
             vdir = ['lat', 'lon', 'eht','hor']
             vclass = ['a','t','d','r']
             vout = ['cd','dd','gi']
@@ -126,7 +126,6 @@ class Conversion(object):
                 print ("Trying to Load Coverage File args - %s"%str(c))
                 try:
                     cov = PointData(region,old_datum, new_datum, grid_spacing, *c, **local_kwargs)
-                    [self._pid_set.add( _ ) for _ in cov.indices ]
                     print ("Finished Loading Coverage File - %s"%cov.shorthand)
                 except (ValueError, FileNotFoundError) as e:
                     print ("Could not find Coverage File")
@@ -139,7 +138,6 @@ class Conversion(object):
                 print ("Trying to Load Vector File args - %s"%str(v))
                 try:
                     vec = VectorData(region, old_datum, new_datum, grid_spacing, *v, **local_kwargs)
-                    [ self._pid_set.add(_) for _ in vec.indices ]
                     print ("Finished Loading Vector File - %s"%vec.shorthand)
                 except (ValueError, FileNotFoundError) as e:
                     print ("Could not find Vector File")
@@ -186,3 +184,9 @@ class Conversion(object):
     def __init__(self, region, old_datum, new_datum, grid_spacing = '900',  **kwargs):
         self._input_data = self.ConversionInput(region, old_datum, new_datum, **kwargs)
         self._output_data = self.ConversionOutput(region, old_datum, new_datum, grid_spacing, **kwargs)
+        self._meta={'region':region,
+                    'old_datum':old_datum,
+                    'new_datum':new_datum,
+                    'grid_spacing':grid_spacing,
+                    **kwargs}
+                    
