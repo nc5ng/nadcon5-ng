@@ -20,6 +20,7 @@ def dmstodec(x):
 
 
 
+
 def output_filename(output_type='v',
                     region='conus',
                     old_datum='ussd',
@@ -29,7 +30,7 @@ def output_filename(output_type='v',
                     vclass='a',
                     vout='cd',
                     vunit='m',
-                    surface=False):
+                    surface=False, no_errors=True,*args, **kwargs):
 
 
     output_type = output_type.lower()
@@ -106,25 +107,23 @@ def output_filename(output_type='v',
     if vunit == 's'  and vdir == 'eht':
         raise ValueError("No Height Difference for vdir of arcseconds")
 
+    if not(no_errors):
+        if output_type == 'c' and vdir == 'hor':
+            raise ValueError("No Horizontal Coverage File")
+        
+        if output_type == 'c' and  vclass == 'r' and vdir == 'eht':
+            raise ValueError("No Horizontal Difference for vout of rms")
+        
+        if ( (vout == 'dd') ^ (vclass == 'r') ) and output_type =='c':
+            raise ValueError("vout=dd requires vclass=rms for coverage")
+        
+        if  vclass == 'r' and not vout == 'dd' and output_type == 'v':
+            raise ValueError("vclass=rms requires vout=dd for vector")
+        
+        if output_type == 'c' and vout == 'gi':
+            raise ValueError("No (g)rid(i)nterp vout for output_type = (c)overage")                
     
-    if output_type == 'c' and vdir == 'hor':
-        raise ValueError("No Horizontal Coverage File")
-    
-    if output_type == 'c' and  vclass == 'r' and vdir == 'eht':
-        raise ValueError("No Horizontal Difference for vout of rms")
 
-    
-    if ( (vout == 'dd') ^ (vclass == 'r') ) and output_type =='c':
-        raise ValueError("vout=dd requires vclass=rms for coverage")
-
-    if  vclass == 'r' and not vout == 'dd' and output_type == 'v':
-        raise ValueError("vclass=rms requires vout=dd for vector")
-
-
-    if output_type == 'c' and vout == 'gi':
-        raise ValueError("No (g)rid(i)nterp vout for output_type = (c)overage")                
-
-    
     if output_type == 'c':
         if  vclass in ['r','d','t']:
             ffile = "{prefix}{vclass}{vout}{vdir}.{old_datum}.{new_datum}.{region}.{grid_spacing}"

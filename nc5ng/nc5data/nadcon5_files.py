@@ -388,6 +388,9 @@ class CoverageFileParser(FortranFormatFileParser):
                      'vdir':vdir}
 
         ffile = output_filename(output_type = 'c', **meta_dict)
+
+        meta_dict['basename'] = ffile.split('.')[0]
+        
         res = super().fromfile(ffile=ffile, **kwargs)
         
         res['meta'].update(meta_dict)
@@ -429,6 +432,9 @@ class VectorFileParser(FortranFormatFileParser):
 
 
         ffile = output_filename(output_type = 'v', surface=surface, **meta_dict)
+
+        meta_dict['basename'] = ffile.split('.')[0]
+
         res = super().fromfile(ffile=ffile, **kwargs)
 
         res['meta'].update(meta_dict)
