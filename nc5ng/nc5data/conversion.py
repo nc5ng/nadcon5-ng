@@ -1,11 +1,12 @@
 from .nadcon5_input import RegionData, ControlData, InData, ExclusionData
 from .nadcon5_output import VectorData, PointData
-from .nadcon5_types import MetaMixin
+from .nadcon5_types import MetaMixin, GMTMetaMixin
+from .services import region_bounds
 import logging
 import itertools
 
 
-class Conversion(MetaMixin):
+class Conversion(MetaMixin, GMTMetaMixin):
     """ A Conversion agregates all parts of a NADCON5 Datum Conversion and serves
     as the primary user interface into the dataset
 
@@ -189,4 +190,13 @@ class Conversion(MetaMixin):
                     'new_datum':new_datum,
                     'grid_spacing':grid_spacing,
                     **kwargs}
-                    
+
+
+        self._gmt_meta={
+            'region':region_bounds(region)
+        }
+
+        
+            
+        if 'gmt' in kwargs:
+            self._gmt_meta.update(kwargs['gmt'])

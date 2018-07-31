@@ -501,6 +501,7 @@ gmtbat06: $(BAT_FILE_6)
 ##############################################################################
 
 
+
 ##
 ## pybuild
 ##
@@ -532,7 +533,6 @@ pyundevelop:
 ##
 pyinstall:
 	./setup.py install
-
 
 .PHONY: pybuild pydevelop pyinstall
 
