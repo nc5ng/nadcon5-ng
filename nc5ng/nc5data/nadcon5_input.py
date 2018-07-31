@@ -14,7 +14,7 @@ class RegionData(DataContainerMixin, MetaMixin, metaclass = SingletonFileBackedM
             super().__init__(region=region,N=n, S=s, W=w, E=e, **kwargs)
         @property
         def bounds(self):
-            return (pt.W, pt.E, pt.S, pt.N)
+            return (self.W, self.E, self.S, self.N)
 
     def __init_indexed_data__(self):
         self._indexed_data = { region:self.GridBound(region, *data, **self.meta) for region, *data in self.data}

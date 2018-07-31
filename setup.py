@@ -1,8 +1,9 @@
 #! /usr/bin/env python
-from numpy.distutils.core import Extension, setup
+from setuptools import setup
+from numpy.distutils.core import Extension
 from distutils.command.build   import build as DistutilsBuild
 from distutils.command.install import install as DistutilsInstall
-from os import listdir, path, environ
+from os import listdir, path, environ, walk
 from datetime import datetime
 import subprocess
 
@@ -24,6 +25,8 @@ def log (level, *msg):
         print(*msg)
 
 if not VERSION:
+    VERSION="0.0.3"
+    """
     now = datetime.now()
     VERSION="%s%s%s+%s%s"%(now.year, now.month, now.day, now.hour, now.minute)
 
@@ -33,7 +36,7 @@ if not VERSION:
         git_hash = subprocess.check_output(cmd).decode().strip()
         VERSION = "%s.%s"%(git_hash, VERSION)
 
-
+    """
 
     
                
@@ -52,6 +55,9 @@ For Documentation See: https://docs.nc5ng.org/latest
     'author_email':"akshmakov@gmail.com",
     'url':"https://nc5ng.org",
     'download_url':"https://github.com/nc5ng/nadcon5-ng",
+    'install_requires':[
+        'fortranformat',
+        ],
 }
 
 ## Selectively disable modules from processing
@@ -142,10 +148,17 @@ def mk_fortran_extension_kwargs(src_file, pkg, sig_dir = None):
                        , f2py_opts)
 
 
+def package_files(directory):
+    paths = []
+    for (pth, directories, filenames) in walk(directory):
+        for filename in filenames:
+            paths.append(path.join( pth, filename))
+    return paths
+
 ## Setup Constants for our packages
 ROOT_PKG = 'nc5ng'
     
-CORE_PKG = 'nc5ng.nc5core'
+CORE_PKG = 'nc5ng.core'
 CORE_SRC_DIR = 'src/Subs'
 CORE_PKG_DIR = 'nc5ng/nc5core'
 CORE_PROGRAMS = [mk_fortran_extension_kwargs(path.join(CORE_SRC_DIR, f),
@@ -156,13 +169,16 @@ CORE_PROGRAMS = [mk_fortran_extension_kwargs(path.join(CORE_SRC_DIR, f),
 
 DATA_PKG = 'nc5ng.nc5data'
 DATA_PKG_DIR = 'nc5ng/nc5data'
+DATA_PKG_DATA_DIR = "data"
+DATA_PKG_DATA_FILES = package_files(DATA_PKG_DATA_DIR)
+print (DATA_PKG_DATA_FILES)
 
 
 BUILD_PKG = 'nc5ng.nc5build'
 BUILD_PKG_DIR = 'nc5ng/nc5build'
 
 
-PACKAGES = [ROOT_PKG, CORE_PKG, DATA_PKG, BUILD_PKG]
+PACKAGES = [ROOT_PKG, CORE_PKG, DATA_PKG]#, BUILD_PKG]
 
 
 ## Run Setup 
@@ -176,6 +192,8 @@ if __name__ == '__main__':
     
     setup(name = 'nc5ng-core',
           packages = PACKAGES,
+          package_dir={'nc5ng.nc5data': 'nc5ng/nc5data'},
+          package_data={'nc5ng.nc5data': DATA_PKG_DATA_FILES},
           ext_modules = fortran_extensions,
           **PKG_INFO
           )
