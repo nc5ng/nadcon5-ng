@@ -1,4 +1,4 @@
-FROM nc5ng/jupyter
+FROM nc5ng/gmt:jupyter
 
 ADD ../ /workspace
 

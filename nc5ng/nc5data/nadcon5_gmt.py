@@ -1,17 +1,20 @@
 from .nadcon5_output import VectorData, PointData
 from .services import region_bounds
+from numpy import array
 
 _pointstore = PointData.PointDataPoint.point_store
 _vectorstore = VectorData.VectorDataPoint.point_store
 
 DEFAULT_PROJECTION = 'M10.0i'
 DEFAULT_REGION = [240,190,30,80]
-DEFAULT_RESOLUTION='f'
+DEFAULT_SHORELINES = 1
+DEFAULT_RESOLUTION='c'
 DEFAULT_THRESH=None
 DEFAULT_FRAME=True
 DEFAULT_INSERT=None
 DEFAULT_BORDER=None
 DEFAULT_SCALE=None
+DEFAULT_OFFSET=None
 DEFAULT_DIR_ROSE=None
 DEFAULT_MAG_ROSE=None
 DEFAULT_LOGO=False
@@ -25,10 +28,11 @@ DEFAULT_CPT = None
 DEFAULT_ERRORS = None
 DEFAULT_COLOR = None
 DEFAULT_STYLE = None
+DEFAULT_PEN = None
 
 ARG_MAP = {
     'basemap':{
-        'projection':'J'.
+        'projection':'J',
         'region':'R',
         'frame':'B',
         'insert':'D',
@@ -59,8 +63,72 @@ ARG_MAP = {
 }
 
 
+
+def mk_arg_prop(FILTER_LIST):
+    def prop_get(self):
+        _r = {}
+        for k,v in self.items():
+            if k not in FILTER_LIST or v is None:
+                continue
+            if k in GMTOptions.ALIAS:
+                k = GMTOptions.ALIAS[k]
+            if k in _r:
+                _r[k] = [_r[k],v]
+            else:
+                _r[k] = v
+        
+        return _r
+
+    return prop_get
+
 class GMTOptions(dict):
 
+    ALIAS={
+        'frame':'B',
+        'projection':'J',
+        'region':'R',
+        'border':'F',
+        'insert':'D',
+        'scale':'L',
+        'dir_rose':'Td',
+        'mag_rose':'Tm',
+        'logo':'U',
+        'area_thresh':'A',
+        'lakes':'C',
+        'resolution':'D',
+        'land':'G',
+        'rivers':'I',
+        'borders':'N',
+        'water':'S',
+        'shorelines':'W',
+        'linear_lines':'A',
+        'cpt':'C',
+        'offset':'D',
+        'error':'E',
+        'color':'G',
+        'symbol':'S',
+        'pen':'W',
+    }
+
+    BASEMAP_FILTER = ['frame', 'projection', 'region', 'border', 'insert', 'scale', 'dir_rose', 'mag_rose', 'logo']
+    COAST_FILTER = ['area_thresh', 'frame', 'lakes','insert', 'resolution', 'land', 'rivers', 'projection', 'borders', 'region', 'water', 'shorelines', 'logo']
+    PLOT_FILTER = ['projection', 'region', 'linear_lines', 'cpt', 'offset', 'error', 'color', 'symbol', 'pen', 'logo']
+    FILTERS = {
+        'basemap': BASEMAP_FILTER,
+        'coast':COAST_FILTER,
+        'plot':PLOT_FILTER,
+    }
+    
+    
+    BASEMAP_FILTER_OUT = ['B', 'J', 'R', 'F', 'D', 'L', 'Td', 'Tm', 'U']
+    COAST_FILTER_OUT = ['A','B','C','D','G','I','J','N','R','S','W', 'U']
+    PLOT_FILTER_OUT = ['J','R','A','B','C','D','E','G','S','W','U']
+    OUT_FILTERS = {
+        'basemap':BASEMAP_FILTER_OUT,
+        'coast' :COAST_FILTER_OUT,
+        'plot' : PLOT_FILTER_OUT,
+    }
+    
     def __init__(self,
                  projection = DEFAULT_PROJECTION,
                  region = DEFAULT_REGION,
@@ -87,73 +155,52 @@ class GMTOptions(dict):
                  style = DEFAULT_STYLE,
                  pen = DEFAULT_PEN,
                  basemap = None,
-                 coast = None
+                 coast = None,
                  plot = None,
                  **kwargs):
         super().__init__(**locals())
-    
-        self.__init_basemap__()
-        self.__init_coast__()
-        self.__init_plot__()
 
+    basemap = property(mk_arg_prop(BASEMAP_FILTER))
+    coast = property(mk_arg_prop(COAST_FILTER))
+    plot = property(mk_arg_prop(PLOT_FILTER))
 
-    def __init_basemap__(self):
-        pass
+    def __call__(self, *args, **kwargs):
+        a = GMTOptions()
+        a.update(**self)
+        a.update(**kwargs)
+        return a
 
-    def __init_coast__(self):
-        pass
-
-    def __init_plot__(self):
-        pass
-        
-                 
-            
-
-    @property
-    def basemap(self):
-        
-
-    @property
-    def coast(self):
-        return self.get('coast',None)
-
-    @property
-    def plot(self):
-        return self.get('plot',None)
-
-
-    
-
-    
 PLOT_OPTS = {
-    'default': {
+    
+    'default': GMTOptions(**{
         'projection':"M10.0i",
         'frame':True,
         'resolution':'fine',
         'water':"lightblue",
         'borders':["1", "2"],
         'area_thresh':1200,
-    },
-
-    'vector':{
+    }),
+    
+    'vector':GMTOptions(**{
         'style':"V0.0001i/0.02i/0.02i"
-    },
-    'point':{
+    }),
+    'point':GMTOptions(**{
         'style':"P0.01i"
-    },
-
-    'red':{
+    }),
+    
+    'red':GMTOptions(**{
         'color':'red'
-    },
-    'black':{
+    }),
+    'black':GMTOptions(**{
         'color':'black'
-    },
-
-    'blue':{
+    }),
+    
+    'blue':GMTOptions(**{
         'color':'blue'
-    },
-
+    }),
+    
 }
+    
     
     
 
@@ -180,10 +227,10 @@ class GMTPlotter(object):
     def figure(self):
         return getattr(self, '_figure', None)
 
-    def __init__(self, conversion, base_plot_optons=PLOT_OPTS['default']):
+    def __init__(self, base_plot_options=PLOT_OPTS['default']):
         import gmt
-        self._conversion = conversion
         self._figure = gmt.Figure()
+        self.gmt_meta = base_plot_options
 
     def plot(self, *args, **kwargs):
         self.figure.plot(*args, **kwargs)
@@ -207,77 +254,67 @@ class GMTPlotter(object):
             for c in coverage:
                 cpoints.append(conversion.output_data[c])
 
-
         if (vector == 'all'):
             vpoints = [_vectorstore,]
         elif not(vector):
             vpoints = []
-        elif vector[0] == 'c' and vector in conversion.output_data:
+        elif vector[0] == 'v' and vector in conversion.output_data:
             vpoints = [conversion.output_data[vector],]
         else:
             vpoints = []
             for c in vector:
                 vpoints.append(conversion.output_data[c])
-
-        plotter.__plot_base__(conversion, **kwargs)
-        plotter.__plot_coast__(conversion, **kwargs)
-        plotter.__plot_coverage__(conversion, *cpoints, **kwargs)
-        plotter.__plot_vector__(conversion, *vpoints, **kwargs)
-
-
-    def __plot_base__(self, conversion, frame=True, projection=None, region=None, **kwargs):
         
-        _BASEMAP_ARGS = ['D','F','L','Td', 'Tm', 'U']
-        _filter_base_kwargs =  { x:y for x,y in kwargs.items() if x in _BASEMAP_ARGS}
-        for _arg in conversion.gmt_meta:
-            if _arg in _BASEMAP_ARGS and _arg not in _filter_base_kwargs:
-                _filter_base_kwargs[_arg] = conversion.gmt_meta[_arg]
 
+        plotter.__base__(conversion, **kwargs)
+        plotter.__coast__(conversion, **kwargs)
+        plotter.__plot__(conversion, *cpoints, **kwargs)
+        plotter.__plot__(conversion, *vpoints, **kwargs)
+        plotter.show()
+        return plotter
+
+
+    def __base__(self, conversion, **kwargs):
+        # Apply conversion options onto base options with any explicit keywords
+        opts = self.gmt_meta(**conversion.gmt_meta)(**kwargs).basemap
+
+        # passthrough shorthand we assume people know what they are doing
+        _filter_base_kwargs =  { x:y for x,y in kwargs.items() if x in GMTOptions.BASEMAP_FILTER_OUT}
+        opts.update(_filter_base_kwargs)
         
-        if region is None and conversion.gmt_region is None:
-            region = region_bounds(conversion.region)
-        elif region is None and conversion.gmt_region is not None:
-            region = conversion.gmt_region
-        elif region is None:
-            region = DEFAULT_REGION
+        print (_filter_base_kwargs, opts, conversion.gmt_meta)
+                 
+        #execute the command
+        self.figure.basemap(**opts)
 
+    def __coast__(self, conversion, **kwargs):
+        # Apply conversion options onto base options with any explicit keywords
+        opts = self.gmt_meta(**conversion.gmt_meta)(**kwargs).coast
 
-        if projection is None and conversion.gmt_projection is None:
-            projection = DEFAULT_PROJECTION
-        elif projection is None:
-            projection = conversion.gmt_projection
-
-        frame = frame or conversion.gmt_frame # differentiate from None
-                   
-        self.figure.basemap( region=region, projection=projection, frame=frame, **_filter_base_kwargs)
-    def __plot_coast__(self, conversion,  **kwargs):
-
-        _COAST_ARGS = ['A','C', 'D', 'G','I', 'N', 'S', 'W']
-        _COAST_ARGS_ALT = ['area_thresh', 'lakes','resolution', 'land', 'rivers', 'borders',  'water', 'shorelines']
-        _COAST_DICT = dict(zip(_COAST_ARGS_ALT, _COAST_ARGS))
-        _filter_base_kwargs =  { x:y for x,y in kwargs.items() if x in _COAST_ARGS}
-        for _arg in conversion.gmt_meta:
-            if _arg in _COAST_DICT and _COAST_DICT[_arg] not in _filter_base_kwargs:
-                _filter_base_kwargs[ _COAST_DICT[_arg] ] = conversion.gmt_meta[_arg]
-
-
-        print (_filter_base_kwargs)
-        self.figure.coast(**_filter_base_kwargs)
+        # passthrough shorthand we assume people know what they are doing
+        _filter_base_kwargs =  { x:y for x,y in kwargs.items() if x in GMTOptions.COAST_FILTER_OUT}
+        opts.update(_filter_base_kwargs)
         
-                
-    def __plot_coverage__(self, conversion, *cpoints, **kwargs):
-        def _filter_plot_pars(**pars):
-            
-
+        print (_filter_base_kwargs, opts, conversion.gmt_meta)
+                 
+        #execute the command
+        self.figure.coast(**opts)
         
-        for cpoint in cpoints:
-            if hasattr(cpoints,'gmt_meta')
+
+    def __plot__(self, conversion, *points,**kwargs):
+                # Apply conversion options onto base options with any explicit keywords
         
-        pass
+        opts = self.gmt_meta(**conversion.gmt_meta)(**kwargs).plot
 
-    def __plot_vector__(self, conversion, *args, **kwargs):
-        pass
-
+        # passthrough shorthand we assume people know what they are doing
+        _filter_base_kwargs =  { x:y for x,y in kwargs.items() if x in GMTOptions.PLOT_FILTER_OUT}
+        opts.update(_filter_base_kwargs)
+        
+        print (_filter_base_kwargs, opts, conversion.gmt_meta)
+                 
+        #execute the command
+        for point_set in points:
+            self.figure.plot(data = point_set.plot_data, **opts)
 
             
             

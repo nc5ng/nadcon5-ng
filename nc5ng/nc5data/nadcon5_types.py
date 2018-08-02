@@ -389,7 +389,6 @@ class DataContainerMixin(object):
 
 
 class GMTMixin(object):
-
         
     @property
     def plot_args(self):

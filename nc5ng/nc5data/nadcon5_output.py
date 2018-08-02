@@ -23,8 +23,11 @@ class VectorData(DataContainerMixin, MetaMixin, GMTMixin, metaclass = FileBacked
         self._indexed_data = { data[-1]:self.VectorDataPoint(*data, **self.meta) for data in self.data}
 
 
+    @property
+    def plot_data(self):
+        return np.array(self.data)[:,:4].astype(float)
     def __mk_plot_args__(self):
-        return {'data':np.array(self.data)[:,:4].astype(float),  'region':region_bounds(self.region), style:'V'}
+        return {'data':np.array(self.data)[:,:4].astype(float),  'region':region_bounds(self.region), 'symbol':'V'}
 
 
 
@@ -41,10 +44,12 @@ class PointData(DataContainerMixin, MetaMixin, GMTMixin, metaclass=FileBackedMet
     def __init_indexed_data__(self):
         self._indexed_data = { data[-1]:self.PointDataPoint(*data, **self.meta) for data in self.data}
 
-
     def __mk_plot_args__(self):
-        return {'data':np.array(self.data)[:,:3].astype(float), 'region':region_bounds(self.region), style:'P'}
+        return {'data':np.array(self.data)[:,:3].astype(float), 'region':region_bounds(self.region), 'symbol':'P'}
         
+    @property
+    def plot_data(self):
+        return np.array(self.data)[:,:3].astype(float)
 
 
 class GRDData(object):
