@@ -13,8 +13,9 @@ The intent of this fork is to adapt the existing tool to be accessible to more u
 
 > **NOTE**: This project is a personal project that is not in any way affiliated with the US Government, NOAA, or the National Geodetic Survey
 
-**Derivative Work:** Additions and Modifications to NADCON5 code, Documentationfiles, the `nc5ng-core` python package  are released explicitly under Public Domain where applicable, with no rights reserved in perpetuity. However, certain published outputs associated with this project, e.g. builds and compiled documentation is released with CC-BY 4.0 License  Please see: [Licensing](#s-license)
+**Derivative Work:** Additions and Modifications to NADCON5 code, documentation source files, and the source code of `nc5ng-core` python package  are released explicitly under Public Domain where applicable, with no rights reserved in perpetuity. However, certain published outputs associated with this project, e.g. builds and compiled documentation may be release under other licenses, Please see Licensing Section below.
 
+[![Creative Commons License](https://licensebuttons.net/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)
 
 
 ## Project Status
@@ -163,7 +164,7 @@ Are released explicitly into the public domain in the United States and internat
 [![Creative Commons License](https://licensebuttons.net/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)
 
 
- However, in those jurisdictions where public domain is not recognized, or where the US Government asserts license rights or collects royalties from the source material, the fallback MIT License should be used instead. A copy is provided in the file [LICENSE-MIT](LICENSE-MIT)
+ However, in those jurisdictions where public domain is not recognized, where copyright cannot be surrendered, or where the US Government asserts license rights or collects royalties from the source material: The fallback MIT License should be used instead. A copy is provided in the file [LICENSE-MIT](LICENSE-MIT)
 
 
 Compiled assets are occasionally released in association with this source code, including:
@@ -175,4 +176,6 @@ Compiled assets are occasionally released in association with this source code, 
   - Any other websites or project pages related to this project hosted by `nc5ng.org` or its contributors
   - Any logos, brandings, or trademarks that may be applied to or distributed with compiled assets or public services hosting these files.
 
-All Compiled  assets are provided with rights reserved under a Creative Commons Attribution 4.0 International License, unless a different license is provided in the work itself [![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
+All Compiled  assets are provided with rights reserved under a Creative Commons Attribution 4.0 International License, unless a different license is provided in the work itself
+
+[![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
