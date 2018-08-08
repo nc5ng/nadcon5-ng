@@ -1,6 +1,6 @@
 # NADCON5-ng
 
-Tweaks and Updates to US National Geodetic Survey `NADCON5` Tool. Used to convert Geodetic Data between various US Datums, including: US Standard Datum (`USSD`) used  prior to `NAD27`, North American Datum of 1927 (`NAD27`), and various realizations of the North American Datum of 1983 `NAD83`
+Tweaks and Updates to US National Geodetic Survey `NADCON5` Tool. Used to calculate transformation between various US Datums, including: US Standard Datum (`USSD`) used  prior to `NAD27`, North American Datum of 1927 (`NAD27`), and various realizations of the North American Datum of 1983 `NAD83`
 
 Build the dataset with one command
 
@@ -9,11 +9,13 @@ Build the dataset with one command
 
 [Link To Doxygen Documentation Website](http://docs.nc5ng.org/latest)
 
-The intent of this fork is to adapt the existing tool to be accessible to more users, developers, and data scientists.Through the implementation of additional interfaces and workflows on top of existing NADCON5 Code Base. 
+## Introduction
 
-> **NOTE**: This project is a personal project that is not in any way affiliated with the US Government, NOAA, or the National Geodetic Survey
+The intent of this project is to adapt the existing tool to be accessible to more users, through the implementation of additional interfaces and workflows on top of the existing NADCON5 Code Base and Data 
 
-**Derivative Work:** Additions and Modifications to NADCON5 code, documentation source files, and the source code of `nc5ng-core` python package  are released explicitly under Public Domain where applicable, with no rights reserved in perpetuity. However, certain published outputs associated with this project, e.g. builds and compiled documentation may be release under other licenses, Please see Licensing Section below.
+> **NOTE**: This project is a private project that is not in any way affiliated with the US Government, NOAA, or the National Geodetic Survey
+
+**Derivative Work:** Additions and Modifications to NADCON5 code, documentation source files, and the source code of `nc5ng-core` python package  are released explicitly into Public Domain where applicable, with no rights reserved in perpetuity. However, certain published outputs associated with this project, e.g. builds and compiled documentation may be release under other licenses, Please see Licensing Section below.
 
 [![Creative Commons License](https://licensebuttons.net/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)
 
@@ -22,24 +24,29 @@ The intent of this fork is to adapt the existing tool to be accessible to more u
 
 This project is new, feature requests and development will be driven through issues filed in github.
 
-At the time of this README was update, the following was true
+At the time of this README was updated, the following was true
 
-1. The existing processing pipeline has been offloaded to GNU Make to eliminate in-source builds
-2. Doxygen was strapped on top of the project to create documentation , source files were modified, superficially, to export documentation in doxygen 
-3. Documentation and website live, hosted on `github-pages`, at url: https://docs.nc5ng.org/latest
-4. Initial Framework for a python glue library, with several functioning submodules and functions
-  - install with `pip install nc5ng`
+1. **GNU Make Pipeline:** The existing processing pipeline has been offloaded to GNU Make to eliminate in-source builds
+2. **Documentation:** Documentation generation via Doxygen is functioning
+  - Doxygen was bootstrapped on top of the NADCON5 code to create compiled documentation
+  - Fortran source files were modified, superficially, to export documentation in a doxygen format
+  - hosted online at url: https://docs.nc5ng.org/latest
+3. Python package: Initial Framework for a python glue library
+  - Functioning f2py submodules and functions
+  - Data Inspection library and bundled source data
+  - install with `pip install nc5ng-core` (Requirements: `gfortran`)
+  - Rudimentary GMT/Python integration
+  - Plotting NADCON5 input and output data directly through python wrapper
+  
 
 
 On the Immediate Roadmap
 
-1. Remove dependence on proprietary Oracle Fortran `f95`
+1. Remove build dependence on proprietary Oracle Fortran `f95`
   - Requires mapping build options to `gfortran` and correcting where necessary
   - Biggest issue is compiler specific handling of I/O and certain convenience extensions, not the math
-2. Take over the "batch generator" programs (e.g. makework() , makeplotfiles01 , etc.) so that individual conversions can be done as needed, through Make or otherwise
-3. Create an `install` target - install existing fortran programs onto system as a distribution
-  - Some tweaks to programs to make this doable (path dependencies) 
-  - Pruning of applications to core install package
+  - `n5ng-core` already uses gfortran for `f2py`
+2. Take over the "batch" programs (e.g. makework() , makeplotfiles01 , etc.) so that individual conversions can be done as needed, through Make or `nc5ng-core`
 
 
 ---
@@ -149,33 +156,41 @@ Delete all compiled output (deletes build directory)
 
 ## Licensing {#s-license}
 
-As a work of the US Government, the original NADCON5 Source Code and Data is considered in the public domain within the United States of America. Elsewhere, the US Government reserves the right to copyright and license this material. The license status internationally is not clear to the authors of `NADCON5-ng` and the authors cannot offer advise in this regard.
+A work of the US Government, the original NADCON5 Source Code and Data is considered in the public domain within the United States of America. Elsewhere, the US Government may reserve copyright and license this material. The licensing status of the `NADCON5.0` source material outside of the US  is not clear to the authors of `NADCON5-ng` . The authors and contributors cannot offer advice in this regard.
 
-For new contributions, including:
 
- - Modifications to National Geodetic Survey  `NADCON5.0` source code and data by `nc5ng` contributors
+The licenses governing the derivative works provided by `nc5ng.org` and its contributors are enumerated below.
+
+### Public Domain
+
+New contributions, including:
+
+ - Any modifications to National Geodetic Survey  `NADCON5.0` source code or data by `nc5ng` contributors
  - Makefile and build system
- - Documentation files and documentation embedded in source files
- - `nc5ng-core` python packages `nc5ng.core` and `nc5ng.nc5data`
- - Any auxiliary files produced by `nc5ng` contributors
+ - Documentation files and new documentation embedded in source files
+ - Source code for python packages `nc5ng.core` and `nc5ng.nc5data`
 
 Are released explicitly into the public domain in the United States and internationally as much as is allowed by law. The license file [LICENSE](LICENSE) states the terms of the Creative-Commons CC0 public domain disclaimer.
 
 [![Creative Commons License](https://licensebuttons.net/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)
 
+### Fallback License
 
- However, in those jurisdictions where public domain is not recognized, where copyright cannot be surrendered, or where the US Government asserts license rights or collects royalties from the source material: The fallback MIT License should be used instead. A copy is provided in the file [LICENSE-MIT](LICENSE-MIT)
+In those jurisdictions where public domain is not recognized, where copyright cannot be surrendered, where the US Government asserts copyright or collects royalties from the specifc  source material used in this project: The fallback MIT License should be used instead. A copy is provided in the file [LICENSE-MIT](LICENSE-MIT)
 
+### Compiled Assets generated by nc5ng.org and contributors
 
-Compiled assets are occasionally released in association with this source code, including:
+Compiled assets are published works generated using `NADCON5-ng` or in association with the project and usually published seperately from the public domain source code. For example, to promote the project or support the user base.
 
-  - HTML and PDF documentation and webpages
+Compiled works are occasionally released in association with this project, This includes:
+
+  - Pre-compiled HTML and PDF documentation and live webpages
   - Printed documentation provided by `nc5ng.org` 
-  - Packaged redistributable releases hosted by `nc5ng.org`
-  - Compiled output data, grids, and images associated with this project
-  - Any other websites or project pages related to this project hosted by `nc5ng.org` or its contributors
-  - Any logos, brandings, or trademarks that may be applied to or distributed with compiled assets or public services hosting these files.
-
-All Compiled  assets are provided with rights reserved under a Creative Commons Attribution 4.0 International License, unless a different license is provided in the work itself
+  - Pre-compiled and pre-processed  output data provided by `nc5ng.org`
+  - Websites, bug reports, project planning pages, and related project pages.
+  
+Compiled  assets published by `nc5ng.org` are provided with rights reserved and will default to a Creative Commons Attribution 4.0 International License, unless a different license is specified in the work.
 
 [![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
+
+
