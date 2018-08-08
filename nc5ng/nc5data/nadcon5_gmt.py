@@ -27,7 +27,7 @@ DEFAULT_LINEAR = False
 DEFAULT_CPT = None
 DEFAULT_ERRORS = None
 DEFAULT_COLOR = None
-DEFAULT_STYLE = None
+DEFAULT_SYMBOL = None
 DEFAULT_PEN = None
 
 ARG_MAP = {
@@ -152,7 +152,7 @@ class GMTOptions(dict):
                  offset = DEFAULT_OFFSET,
                  errors = DEFAULT_ERRORS,
                  color = DEFAULT_COLOR,
-                 style = DEFAULT_STYLE,
+                 symbol = DEFAULT_SYMBOL,
                  pen = DEFAULT_PEN,
                  basemap = None,
                  coast = None,
@@ -268,8 +268,8 @@ class GMTPlotter(object):
 
         plotter.__base__(conversion, **kwargs)
         plotter.__coast__(conversion, **kwargs)
-        plotter.__plot__(conversion, *cpoints, **kwargs)
-        plotter.__plot__(conversion, *vpoints, **kwargs)
+        plotter.__plot__(conversion, *cpoints, symbol="p4p",**kwargs)
+        plotter.__plot__(conversion, *vpoints, symbol="v", **kwargs)
         plotter.show()
         return plotter
 

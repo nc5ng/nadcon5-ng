@@ -170,6 +170,7 @@ CORE_PROGRAMS = [mk_fortran_extension_kwargs(path.join(CORE_SRC_DIR, f),
 DATA_PKG = 'nc5ng.nc5data'
 DATA_PKG_DIR = 'nc5ng/nc5data'
 DATA_PKG_DATA_DIR = "data"
+## This Doesn't work for some pip install, we use globs instead
 DATA_PKG_DATA_FILES = package_files(DATA_PKG_DATA_DIR)
 print (DATA_PKG_DATA_FILES)
 
@@ -193,7 +194,7 @@ if __name__ == '__main__':
     setup(name = 'nc5ng-core',
           packages = PACKAGES,
           package_dir={'nc5ng.nc5data': 'nc5ng/nc5data'},
-          package_data={'nc5ng.nc5data': DATA_PKG_DATA_FILES},
+          package_data={'nc5ng.nc5data':['data/*', 'data/**/*']},
           ext_modules = fortran_extensions,
           **PKG_INFO
           )
