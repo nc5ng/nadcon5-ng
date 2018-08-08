@@ -2,19 +2,19 @@
 
 Tweaks and Updates to US National Geodetic Survey `NADCON5` Tool. Used to convert Geodetic Data between various US Datums, including: US Standard Datum (`USSD`) used  prior to `NAD27`, North American Datum of 1927 (`NAD27`), and various realizations of the North American Datum of 1983 `NAD83`
 
+Build the dataset with one command
+
+    make
+
+
 [Link To Doxygen Documentation Website](http://docs.nc5ng.org/latest)
 
 The intent of this fork is to adapt the existing tool to be accessible to more users, developers, and data scientists.Through the implementation of additional interfaces and workflows on top of existing NADCON5 Code Base. 
 
 > **NOTE**: This project is a personal project that is not in any way affiliated with the US Government, NOAA, or the National Geodetic Survey
 
-**Derivative Work:** Additions and Modifications to this software are released explicitly under Public Domain. 
+**Derivative Work:** Additions and Modifications to NADCON5 code, Documentationfiles, the `nc5ng-core` python package  are released explicitly under Public Domain where applicable, with no rights reserved in perpetuity. However, certain published outputs associated with this project, e.g. builds and compiled documentation is released with CC-BY 4.0 License  Please see: [Licensing](#s-license)
 
-As a product of the United States Government NADCON5 Source Code is considered a work under public domain.
-
-Build the daset with one command
-
-    make
 
 
 ## Project Status
@@ -146,3 +146,33 @@ Delete all compiled output (deletes build directory)
 
 
 
+## Licensing {#s-license}
+
+As a work of the US Government, the original NADCON5 Source Code and Data is considered in the public domain within the United States of America. Elsewhere, the US Government reserves the right to copyright and license this material. The license status internationally is not clear to the authors of `NADCON5-ng` and the authors cannot offer advise in this regard.
+
+For new contributions, including:
+
+ - Modifications to National Geodetic Survey  `NADCON5.0` source code and data by `nc5ng` contributors
+ - Makefile and build system
+ - Documentation files and documentation embedded in source files
+ - `nc5ng-core` python packages `nc5ng.core` and `nc5ng.nc5data`
+ - Any auxiliary files produced by `nc5ng` contributors
+
+Are released explicitly into the public domain in the United States and internationally as much as is allowed by law. The license file [LICENSE](LICENSE) states the terms of the Creative-Commons CC0 public domain disclaimer.
+
+[![Creative Commons License](https://licensebuttons.net/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)
+
+
+ However, in those jurisdictions where public domain is not recognized, or where the US Government asserts license rights or collects royalties from the source material, the fallback MIT License should be used instead. A copy is provided in the file [LICENSE-MIT](LICENSE-MIT)
+
+
+Compiled assets are occasionally released in association with this source code, including:
+
+  - HTML and PDF documentation and webpages
+  - Printed documentation provided by `nc5ng.org` 
+  - Packaged redistributable releases hosted by `nc5ng.org`
+  - Compiled output data, grids, and images associated with this project
+  - Any other websites or project pages related to this project hosted by `nc5ng.org` or its contributors
+  - Any logos, brandings, or trademarks that may be applied to or distributed with compiled assets or public services hosting these files.
+
+All Compiled  assets are provided with rights reserved under a Creative Commons Attribution 4.0 International License, unless a different license is provided in the work itself [![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)

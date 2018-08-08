@@ -17,3 +17,5 @@ dist/
 .gmtdefaults4
 
 nc5ng-core-*/
+
+.ipynb_*

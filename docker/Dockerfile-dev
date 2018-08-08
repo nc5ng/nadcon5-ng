@@ -1,5 +1,0 @@
-FROM nc5ng/gmt:jupyter
-
-ADD ../ /workspace
-
-
