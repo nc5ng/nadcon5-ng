@@ -8,6 +8,7 @@ Build the dataset with one command
 
 
 [Link To Doxygen Documentation Website](http://docs.nc5ng.org/latest)
+[Link To the Python Library Documentation](https://py.docs.nc5ng.org/latest)
 
 ## Introduction
 
