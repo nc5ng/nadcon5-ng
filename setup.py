@@ -4,6 +4,7 @@ from numpy.distutils.core import Extension
 from distutils.command.build   import build as DistutilsBuild
 from distutils.command.install import install as DistutilsInstall
 from os import listdir, path, environ, walk
+import shutil
 from datetime import datetime
 import subprocess
 
@@ -187,9 +188,10 @@ if __name__ == '__main__':
     fortran_extensions = []
 
     ## Run Through All Extensions
-    for kwargs in CORE_PROGRAMS:
-        if kwargs is not None:
-            fortran_extensions.append(Extension(**kwargs))
+    if shutil.which('f77'):
+        for kwargs in CORE_PROGRAMS:
+            if kwargs is not None:
+                fortran_extensions.append(Extension(**kwargs))
     
     setup(name = 'nc5ng-core',
           packages = PACKAGES,
