@@ -1,3 +1,14 @@
+"""
+Static NADCON Data  Services
+============================
+
+Services to access certain static nadcon input data
+e.g. Grid Bound points
+
+
+.. autofunc: nc5ng.nc5data.region_bounds
+"""
+
 from .nadcon5_input import RegionData
 
 

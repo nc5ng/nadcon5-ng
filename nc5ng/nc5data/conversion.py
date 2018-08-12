@@ -1,3 +1,13 @@
+"""
+Conversions
+-----------
+Conversions are used to aggregate the ``NADCON5.0`` source and output data
+
+.. autoclass:: nc5ng.nc5data.Conversion
+  :members:
+
+"""
+
 from .nadcon5_input import RegionData, ControlData, InData, ExclusionData
 from .nadcon5_output import VectorData, PointData
 from .nadcon5_types import MetaMixin, GMTMetaMixin
@@ -16,28 +26,35 @@ class Conversion(MetaMixin, GMTMetaMixin):
     Conversions maintain a large set of data in memory (when loaded) and have accessors for data
 
     Creating a conversion is simple
-
-        c = Conversion('conus', 'ussd', 'nad27')
+    ::
+      
+      c = Conversion('conus', 'ussd', 'nad27')``
 
     The output data of a conversion can be accessed directly by output prefix
-
-       v1 = c.output_data['vmacdlat']
-       v2 = c.output_data['vmacdlon']
+    ::
+      
+      v1 = c.output_data['vmacdlat']
+      v2 = c.output_data['vmacdlon']
 
     Output data is indexed by PID, to extract all PID's with lat and lon conversions in this data set
+    ::
+      
+      shared_pids = [ i for i in v1 if i in v2 ] 
 
-       shared_pids = [ i for i in v1 if i in v2 ] 
-
-    
     All point data for a single point can be examined directly, including its source data
-
-       point = v[shared_pids[0]]
-       point.source 
-
-
+    ::
+      
+      point = v[shared_pids[0]]
+      point.source 
+    
     """
 
     class ConversionInput(object):
+        """ConversionInput holds all input data associated with a conversion
+        
+        On construction attempts to load all source data for a given conversion set"""
+        
+
 
         @property
         def region_data(self):
@@ -106,6 +123,16 @@ class Conversion(MetaMixin, GMTMetaMixin):
             self._pruned_points = {_p for _p in self._input_point_set if not _p.pid in self._exclusion_pid_set}
 
     class ConversionOutput(object):
+        """
+        ConversionOutput holds all output data associated with a conversion
+        
+        On construction attempts to load all known valid output files by iterating through known combinations of output types
+
+        :par region: The ``RegionData`` index to plot (e.g. ``'conus'``)
+        :par old_datum: The source datum for conversion (e.g. ``'ussd'``)
+        :par new_datum: The target datum for conversion (e.g. ``'nad27'``)
+        :par grid_spacing: The conversion grid spacing (e.g. ``900``)
+        """
         def __init__(self, region, old_datum, new_datum, grid_spacing, load_all = False, **kwargs):
             self._output_data = {}
             vdir = ['lat', 'lon', 'eht','hor']
