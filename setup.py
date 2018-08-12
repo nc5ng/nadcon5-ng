@@ -58,6 +58,7 @@ For Documentation See: https://docs.nc5ng.org/latest
     'download_url':"https://github.com/nc5ng/nadcon5-ng",
     'install_requires':[
         'fortranformat',
+        'nc5ng-common',
         ],
 }
 
