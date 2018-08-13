@@ -26,7 +26,7 @@ def log (level, *msg):
         print(*msg)
 
 if not VERSION:
-    VERSION="0.0.4"
+    VERSION="0.1.0"
     """
     now = datetime.now()
     VERSION="%s%s%s+%s%s"%(now.year, now.month, now.day, now.hour, now.minute)

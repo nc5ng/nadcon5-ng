@@ -7,10 +7,10 @@ Conversions are used to aggregate the ``NADCON5.0`` source and output data
   :members:
 
 """
+from nc5ng.types.mixins import MetaMixin, GMTMetaMixin
 
 from .nadcon5_input import RegionData, ControlData, InData, ExclusionData
 from .nadcon5_output import VectorData, PointData
-from .nadcon5_types import MetaMixin, GMTMetaMixin
 from .services import region_bounds
 import logging
 import itertools

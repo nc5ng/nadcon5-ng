@@ -1,5 +1,9 @@
-from .nadcon5_files import ControlFileParser, InFileParser, FileBackedMetaBase, WorkEditsFileParser, SingletonFileBackedMeta, GridParamFileParser
-from .nadcon5_types import DataPoint, DataContainerMixin, MetaMixin, GMTMixin, GMTPointMixin
+from nc5ng.types.meta import FileBackedMetaBase, SingletonFileBackedMeta
+from nc5ng.types import DataPoint
+from nc5ng.types.mixins import DataContainerMixin, MetaMixin, GMTMixin, GMTPointMixin
+
+from ._parsers import ControlFileParser, InFileParser, WorkEditsFileParser, GridParamFileParser
+
 import pkg_resources
 
 

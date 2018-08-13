@@ -1,6 +1,18 @@
-from .nadcon5_files import VectorFileParser, FileBackedMetaBase, CoverageFileParser
+"""
+
+NADCON5 Output Data Wrappers
+
+.. autoclass:: VectorData
+.. autoclass:: PointData
+
+"""
+from nc5ng.types.meta import FileBackedMetaBase
+from nc5ng.types import DataPoint
+from nc5ng.types.mixins import DataContainerMixin, MetaMixin, GMTMixin, GMTPointMixin
+
+from ._parsers import VectorFileParser,  CoverageFileParser
 from .services import region_bounds
-from .nadcon5_types import DataPoint, DataContainerMixin, MetaMixin, GMTMixin, GMTPointMixin
+
 import numpy as np
 import pkg_resources
 
